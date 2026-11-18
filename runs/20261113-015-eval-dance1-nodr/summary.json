@@ -1,0 +1,53 @@
+{
+  "motion_file": "data/processed/lafan_dance1_subject1.npz",
+  "checkpoint": "scratch/model_49999.pt",
+  "ignore_terminations": true,
+  "frames_total": 6574,
+  "steps_run": 1500,
+  "seconds_run": 30.0,
+  "reset_count": 0,
+  "reset_steps": [],
+  "reset_terms": [],
+  "motion_frame_furthest": 1501,
+  "track_completion": 0.2283,
+  "seed": 0,
+  "fall_detected": false,
+  "fall_step": null,
+  "segments": [
+    {
+      "start_step": 0,
+      "end_step": 1499,
+      "seconds": 30.0,
+      "root_err_mean_cm": 7.69,
+      "root_err_last_cm": 6.04,
+      "drift_rate_cm_s": 0.07
+    }
+  ],
+  "longest_segment": {
+    "start_step": 0,
+    "end_step": 1499,
+    "seconds": 30.0,
+    "root_err_mean_cm": 7.69,
+    "root_err_last_cm": 6.04,
+    "drift_rate_cm_s": 0.07
+  },
+  "mpkpe_mean_cm": 8.325,
+  "mpkpe_p95_cm": 17.1,
+  "mpkpe_max_cm": 26.185,
+  "r_mpkpe_mean_cm": 3.143,
+  "r_mpkpe_p95_cm": 4.412,
+  "root_err_mean_cm": 7.693,
+  "root_err_p95_cm": 17.472,
+  "yaw_err_absmean_deg": 3.135,
+  "joint_rmse_mean_rad": 0.1023,
+  "joint_rmse_p95_rad": 0.1397,
+  "joint_vel_rmse_mean": 0.5635,
+  "pelvis_z_min": 0.6245,
+  "pelvis_z_mean": 0.7611,
+  "tilt_deg_max": 33.993,
+  "tilt_deg_p95": 18.833,
+  "ref_tilt_deg_max": 36.251,
+  "tilt_err_mean_deg": 2.072,
+  "slip_left_total_cm": 70.111,
+  "slip_right_total_cm": 101.406
+}

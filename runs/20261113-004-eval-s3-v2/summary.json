@@ -1,0 +1,91 @@
+{
+  "motion_file": "data/processed/fight1_s3_000s_20s.npz",
+  "checkpoint": "scratch/model_49999.pt",
+  "ignore_terminations": false,
+  "frames_total": 999,
+  "steps_run": 999,
+  "seconds_run": 19.98,
+  "reset_count": 3,
+  "reset_steps": [
+    528,
+    583,
+    966
+  ],
+  "reset_terms": [
+    [
+      "ee_body_pos"
+    ],
+    [
+      "ee_body_pos"
+    ],
+    [
+      "ee_body_pos"
+    ]
+  ],
+  "motion_frame_furthest": 529,
+  "track_completion": 0.5295,
+  "seed": 0,
+  "fall_detected": false,
+  "fall_step": null,
+  "segments": [
+    {
+      "start_step": 0,
+      "end_step": 528,
+      "seconds": 10.58,
+      "root_err_mean_cm": 88.73,
+      "root_err_last_cm": 0.0,
+      "drift_rate_cm_s": 14.31
+    },
+    {
+      "start_step": 529,
+      "end_step": 583,
+      "seconds": 1.1,
+      "root_err_mean_cm": 16.54,
+      "root_err_last_cm": 0.0,
+      "drift_rate_cm_s": 37.09
+    },
+    {
+      "start_step": 584,
+      "end_step": 966,
+      "seconds": 7.66,
+      "root_err_mean_cm": 121.0,
+      "root_err_last_cm": 0.0,
+      "drift_rate_cm_s": 30.25
+    },
+    {
+      "start_step": 967,
+      "end_step": 998,
+      "seconds": 0.64,
+      "root_err_mean_cm": 4.11,
+      "root_err_last_cm": 8.45,
+      "drift_rate_cm_s": 12.98
+    }
+  ],
+  "longest_segment": {
+    "start_step": 0,
+    "end_step": 528,
+    "seconds": 10.58,
+    "root_err_mean_cm": 88.73,
+    "root_err_last_cm": 0.0,
+    "drift_rate_cm_s": 14.31
+  },
+  "mpkpe_mean_cm": 95.266,
+  "mpkpe_p95_cm": 240.076,
+  "mpkpe_max_cm": 359.609,
+  "r_mpkpe_mean_cm": 9.735,
+  "r_mpkpe_p95_cm": 16.272,
+  "root_err_mean_cm": 94.419,
+  "root_err_p95_cm": 241.116,
+  "yaw_err_absmean_deg": 37.261,
+  "joint_rmse_mean_rad": 0.2358,
+  "joint_rmse_p95_rad": 0.3276,
+  "joint_vel_rmse_mean": 1.6259,
+  "pelvis_z_min": 0.5984,
+  "pelvis_z_mean": 0.7383,
+  "tilt_deg_max": 57.569,
+  "tilt_deg_p95": 26.695,
+  "ref_tilt_deg_max": 20.494,
+  "tilt_err_mean_deg": 5.538,
+  "slip_left_total_cm": 187.348,
+  "slip_right_total_cm": 259.5
+}
