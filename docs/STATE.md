@@ -338,3 +338,12 @@
 - 关键口径：本次 20 格 `fall_detected` 全为 False，终止由 `anchor_pos`（j30 seed101 @8.64 s）/ `ee_body_pos`（j60 seed101 @8.48 s）触发，**不是倒地检测**；与 `runs/20261114-001…005` 的官方策略真倒地（`fall_detected=True`）不同类，不可混写（D20）。
 - 脚本：`scripts/m5_perturb.sh` 支持任意 `j<N>` 档位（`M5_TIERS`）；`scripts/m5_report.py` 加 `--tiers/--dirs`；新增 `scripts/m5_combined_plot.py` 合并粗扫+细化出图（`outputs/figures/m5_perturbation.png` 已重画）。
 - 下一步：−x/−y 补 j40/j45 收窄“≥2 倍”；终止格抽 2–3 个回视频确认是否真倒地；抗扰结论若要可比较需训练期扰动。
+
+## M5 终止格视频核对（2026-11-18）
+
+- run：`runs/20261118-002-m5-video-check`。给 `scripts/replay_policy.py` 加 `--perturb-body/--perturb-force/--perturb-start-s/--perturb-duration-s`，按同一 ckpt（`model_52998`）、seed、力争重放 4 例（3 终止 + 1 存活）。
+- 复现一致性：录像 reset 时刻与评估差 ≤1 帧——`py_j30_s101` 8.64 vs 8.62（`anchor_pos`）、`py_j60_s101` 8.48 vs 8.48（`ee_body_pos`）、`py_j27_s103` 10.48 vs 10.46（`ee_body_pos`）。
+- 观察：3 个终止格在终止前 0.04–0.09 s 已跪坐/坐倒/手撑地；存活对照 `py_j27_s101` 蹲到 0.506 m、倾角 31°、踉跄后站回。
+- 数值：4 例 `pelvis_z` 最低 0.425/0.546/0.524/0.506 m ≫ `FALL_HEIGHT=0.15`（`scripts/eval_tracking.py:41-42`）→ `fall_detected` 全 False。
+- 结论：**终止 ≈ 跪坐倒地**；`fall_detected` 只识别平躺，不能当“是否摔倒”的判据（D20 修订）。
+- 证据：`outputs/figures/evidence/m5_fall_check_{py_j30_s101,py_j60_s101,py_j27_s103,py_j27_s101}.jpg`。

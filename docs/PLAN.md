@@ -82,7 +82,7 @@
 - [x] **LAB07 权重扫描**（2026-11-16 完成，`runs/20261116-006-lab07-eval`）：root 41.52 / 30.86 / 25.72 / 22.95 cm（w0.5/1.0/1.5/2.5），相对上一档 -25.7% / -16.7% / -10.8%（单调下降、边际递减）；R-MPKPE 6.25 / 5.98 / 6.10 / 6.45（1.0 触底、2.5 出界）；四臂 0/5 摔。M4 定为 weight 1.5（D16）。
        - [x] **M4 规模训练**（2026-11-17 完成，`runs/20261117-001-m4-w15-finetune` + `runs/20261117-002-m4-eval`）：300 → 3000 iter 把 root xy 25.72 → 3.90 cm（−84.8%）、R-MPKPE 6.10 → 3.66、0/5 摔；H1 成立。**但泛化探针（`runs/20261117-003-generalization-probe`）显示换片段 0.3–2 s 即终止，属特化（D17）**
        - [x] **LAB09 泛化探针**（2026-11-17 完成，`runs/20261117-004-lab09-generalization`）：m4 train 0.999/3.88 cm vs held-out 0.101（2.02 s）vs S2 0.025；官方 train 0.333/82.83 cm、held-out 0.016 —— 3.90 cm 确认为 in-distribution 特化（D17）；终止开/关口径见 D18
-       - [x] **M5 受控扰动**（2026-11-18 完成，`runs/20261117-005-m5-perturb`）：+y ≤0.90 m/s 崩、−x/−y 0.90–1.80、+x 1.80–3.60；未终止格后 0–1 s 13.2–54.4 cm（基线 3.88）；口径见 D19。2026-11-18 细化 +y（`runs/20261118-001-m5-threshold-refine`）：0.75 m/s 崩、0.90 m/s 终止，口径见 D20
+       - [x] **M5 受控扰动**（2026-11-18 完成，`runs/20261117-005-m5-perturb`）：+y ≤0.90 m/s 崩、−x/−y 0.90–1.80、+x 1.80–3.60；未终止格后 0–1 s 13.2–54.4 cm（基线 3.88）；口径见 D19。2026-11-18 细化 +y（`runs/20261118-001-m5-threshold-refine`）：0.75 m/s 崩、0.90 m/s 终止，口径见 D20；2026-11-18 视频核对 4 例（`runs/20261118-002-m5-video-check`）确认终止格=跪坐倒地，`fall_detected` 只认平躺（D20 修订）
        - [x] **M6 报告与提交**（2026-11-18 完成）：`docs/REPORT.md`、`configs/perturb_protocol_v1.json`、`outputs/figures/`、README 结果表与结果图、`LICENSE` + `THIRD_PARTY_NOTICES.md`、8 次提交并已 push 到 Overlume/g1-motion-tracking（2026-11-18）
        - [ ] **下一步：上传**（用户提供 GitHub 仓库地址 + 作者信息 → `git remote add origin ...` + `git push -u origin master`）
 - 完整交接：`docs/handoffs/20261114-1520-handoff.md`

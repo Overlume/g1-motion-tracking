@@ -102,3 +102,5 @@
 - LICENSE — 纯 MIT；THIRD_PARTY_NOTICES.md — 第三方组件与数据许可
 - runs/20261118-001-m5-threshold-refine/ — M5 阈值细化（+y × 4 档 × 5 种子，m5.md/json、README.md）
 - scripts/m5_combined_plot.py — 合并多 run 的扰动结果出图
+- runs/20261118-002-m5-video-check/ — M5 终止格视频核对（4 例，含复现一致性表与结论）
+- outputs/figures/evidence/m5_fall_check_*.jpg — 跪坐倒地（3 例）与存活对照（1 例）的抽帧拼图

@@ -93,6 +93,10 @@ def main() -> None:
                   help="保留 startup 域随机化（默认关闭，保证同一 seed 可复现）")
   ap.add_argument("--ignore-terminations", action="store_true",
                   help="禁用 terminations（episode 不会中途 reset），用于观察连续行为")
+  ap.add_argument("--perturb-body", default="", help="施加外力的 body 名（如 torso_link）；空=不施加")
+  ap.add_argument("--perturb-force", default="", help="世界系力向量 N，如 0,150,0")
+  ap.add_argument("--perturb-start-s", type=float, default=8.0)
+  ap.add_argument("--perturb-duration-s", type=float, default=0.2)
   ap.add_argument("--camera", choices=("follow", "fit", "auto"), default="follow",
                   help="follow=跟着所有机器人的中心并自适应距离（默认）；fit=静态装下网格；auto=mjlab 跟随相机")
   ap.add_argument("--camera-margin", type=float, default=1.3,
@@ -158,6 +162,21 @@ def main() -> None:
     tm.compute = lambda: torch.zeros(raw_env.num_envs, dtype=torch.bool, device=raw_env.device)
     print("!! terminations disabled")
 
+  perturb = None
+  robot = None
+  if args.perturb_body:
+    robot = raw_env.scene["robot"]
+    ids, names = robot.find_bodies(args.perturb_body)
+    if not ids:
+      raise SystemExit("--perturb-body %s 未匹配；可选: %s" % (args.perturb_body, ", ".join(robot.body_names)))
+    vec = [float(x) for x in args.perturb_force.split(",")] if args.perturb_force else [0.0, 0.0, 0.0]
+    if len(vec) != 3:
+      raise SystemExit("--perturb-force 需要 3 个数，如 0,150,0")
+    f = torch.tensor(vec, dtype=torch.float32, device=device).reshape(1, 1, 3).repeat(raw_env.num_envs, len(ids), 1)
+    perturb = dict(ids=list(ids), names=list(names), force=f, zero=torch.zeros_like(f),
+                   start=args.perturb_start_s, end=args.perturb_start_s + args.perturb_duration_s)
+    print("perturb: bodies=%s force=%s N window=[%s, %s) s" % (names, vec, perturb["start"], perturb["end"]))
+
   env = VideoRecorder(
     raw_env,
     video_folder=str(out_dir),
@@ -177,6 +196,13 @@ def main() -> None:
   steps = 0
   with torch.no_grad():
     while steps <= args.video_length:
+      if perturb is not None:
+        active = perturb["start"] <= steps * 0.02 < perturb["end"]
+        robot.write_external_wrench_to_sim(
+          forces=perturb["force"] if active else perturb["zero"],
+          torques=perturb["zero"],
+          body_ids=perturb["ids"],
+        )
       actions = policy(obs)
       obs, _, dones, _ = env.step(actions)
       steps += 1
@@ -202,6 +228,7 @@ def main() -> None:
     video_length=args.video_length,
     camera=cam_log,
     ignore_terminations=bool(args.ignore_terminations),
+    perturb=(None if perturb is None else dict(body=perturb["names"], force_n=[float(x) for x in vec], start_s=perturb["start"], end_s=perturb["end"])),
     seed=args.seed,
     keep_startup_dr=bool(args.keep_dr),
     motion_frames=int(n),
