@@ -18,6 +18,7 @@ cd "$ROOT"
 RUNS_BASE="$(echo "${M5_RUNS_DIR:-runs}")"
 SEEDS="$(echo "${M5_SEEDS:-101 102 103 104 105}")"
 FILTER="$(echo "${M5_COMBOS:-}")"
+TIERS="$(echo "${M5_TIERS:-j30 j60 j120}")"
 DURATION="0.2"
 START_S="8.0"
 M4_RUN_GLOB="runs/*-m4-w15-finetune"
@@ -36,13 +37,10 @@ m4_ckpt() {
 }
 
 force_vec() { # dir tier -> "fx,fy,fz"
-  local dir="$1" imp="$2" f
-  case "$imp" in
-    j30)  f=150 ;;
-    j60)  f=300 ;;
-    j120) f=600 ;;
-    *) die "未知档位 $imp（可选 j30 / j60 / j120）" ;;
-  esac
+  local dir="$1" imp="$2" n f
+  n="${imp#j}"
+  [[ "$n" =~ ^[0-9]+$ ]] || die "未知档位 $imp（格式 j<N>，N = 冲量 N·s，如 j30 / j15）"
+  f=$(( n * 5 ))   # 窗口 0.2 s：F = J / dt
   case "$dir" in
     px) echo "$f,0,0" ;;
     nx) echo "-$f,0,0" ;;
@@ -77,7 +75,7 @@ run_stage() {
     echo "- 对象：特化策略 \`${ck}\`（sha $(sha256sum "$ck" | cut -d' ' -f1)）"
     echo "- 动作：data/processed/fight1_s3_000s_20s.npz"
     echo "- 施加点：torso_link，世界系恒力，窗口 ${START_S}–$(awk -v a="$START_S" -v b="$DURATION" 'BEGIN{printf "%.2f", a+b}') s"
-    echo "- 档位：j30=F150N/0.2s=30 N·s(dv 0.90 m/s)、j60=F300N=60 N·s(1.80)、j120=F600N=120 N·s(3.60)"
+    echo "- 档位：j<N> = N N·s 冲量（F = N/0.2 s，dv = N/33.34 m/s）；本次组合：${FILTER:-j30 j60 j120}"
     echo "- 整机质量：33.34 kg（g1.xml 30 body 求和），dv = J / m"
     echo "- 评估：scripts/eval_tracking.py，终止检测开、启动 DR 关、999 步；种子 ${SEEDS}"
     echo "- 起始：$(date -Is)"
@@ -86,7 +84,7 @@ run_stage() {
   local up0 up1
   up0=$(cut -d' ' -f1 /proc/uptime)
   for dir in px nx py ny; do
-    for imp in j30 j60 j120; do
+    for imp in ${M5_TIERS:-j30 j60 j120}; do
       local combo="${dir}_${imp}"
       if [ -n "$FILTER" ] && ! echo " $FILTER " | grep -q " $combo "; then continue; fi
       local vec; vec="$(force_vec "$dir" "$imp")"

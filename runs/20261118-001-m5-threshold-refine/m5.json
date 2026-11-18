@@ -1,0 +1,301 @@
+{
+  "run": "runs/20261118-001-m5-threshold-refine",
+  "mass_kg": 33.34,
+  "baseline": {
+    "n": 5,
+    "completion": {
+      "median": 0.999,
+      "min": 0.999,
+      "max": 0.999,
+      "n": 5
+    },
+    "root_err_cm": {
+      "median": 3.881,
+      "min": 3.69,
+      "max": 4.119,
+      "n": 5
+    },
+    "r_mpkpe_cm": {
+      "median": 3.663,
+      "min": 3.654,
+      "max": 3.673,
+      "n": 5
+    },
+    "resets": {
+      "median": 1,
+      "min": 1,
+      "max": 1,
+      "n": 5
+    }
+  },
+  "rows": [
+    {
+      "combo": "py_j15",
+      "dir": "py",
+      "dir_label": "+y",
+      "tier": "j15",
+      "impulse_ns": 15.0,
+      "dv_ms": 0.45,
+      "n": 5,
+      "completion": {
+        "median": 0.999,
+        "min": 0.999,
+        "max": 0.999,
+        "n": 5
+      },
+      "resets": {
+        "median": 1,
+        "min": 1,
+        "max": 1,
+        "n": 5
+      },
+      "first_reset_after_s": {
+        "median": 19.94,
+        "min": 19.94,
+        "max": 19.94,
+        "n": 5
+      },
+      "terminated_after_push": false,
+      "root_pre_cm": {
+        "median": 8.942,
+        "min": 8.251,
+        "max": 9.689,
+        "n": 5
+      },
+      "root_during_cm": {
+        "median": 9.593,
+        "min": 8.895,
+        "max": 11.276,
+        "n": 5
+      },
+      "root_post01_cm": {
+        "median": 13.477,
+        "min": 12.399,
+        "max": 13.918,
+        "n": 5
+      },
+      "root_post12_cm": {
+        "median": 6.934,
+        "min": 6.594,
+        "max": 7.085,
+        "n": 5
+      },
+      "root_mean_cm": {
+        "median": 4.652,
+        "min": 4.295,
+        "max": 4.76,
+        "n": 5
+      },
+      "r_mpkpe_cm": {
+        "median": 3.727,
+        "min": 3.705,
+        "max": 3.75,
+        "n": 5
+      },
+      "falls": 0,
+      "n_term": 0,
+      "grade": "未终止但恢复慢"
+    },
+    {
+      "combo": "py_j20",
+      "dir": "py",
+      "dir_label": "+y",
+      "tier": "j20",
+      "impulse_ns": 20.0,
+      "dv_ms": 0.6,
+      "n": 5,
+      "completion": {
+        "median": 0.999,
+        "min": 0.999,
+        "max": 0.999,
+        "n": 5
+      },
+      "resets": {
+        "median": 1,
+        "min": 1,
+        "max": 1,
+        "n": 5
+      },
+      "first_reset_after_s": {
+        "median": 19.94,
+        "min": 19.94,
+        "max": 19.94,
+        "n": 5
+      },
+      "terminated_after_push": false,
+      "root_pre_cm": {
+        "median": 8.942,
+        "min": 8.251,
+        "max": 9.689,
+        "n": 5
+      },
+      "root_during_cm": {
+        "median": 10.013,
+        "min": 9.4,
+        "max": 11.794,
+        "n": 5
+      },
+      "root_post01_cm": {
+        "median": 17.771,
+        "min": 17.486,
+        "max": 19.746,
+        "n": 5
+      },
+      "root_post12_cm": {
+        "median": 9.789,
+        "min": 9.068,
+        "max": 10.754,
+        "n": 5
+      },
+      "root_mean_cm": {
+        "median": 4.973,
+        "min": 4.72,
+        "max": 5.389,
+        "n": 5
+      },
+      "r_mpkpe_cm": {
+        "median": 3.79,
+        "min": 3.773,
+        "max": 3.816,
+        "n": 5
+      },
+      "falls": 0,
+      "n_term": 0,
+      "grade": "未终止但恢复慢"
+    },
+    {
+      "combo": "py_j25",
+      "dir": "py",
+      "dir_label": "+y",
+      "tier": "j25",
+      "impulse_ns": 25.0,
+      "dv_ms": 0.75,
+      "n": 5,
+      "completion": {
+        "median": 0.999,
+        "min": 0.999,
+        "max": 0.999,
+        "n": 5
+      },
+      "resets": {
+        "median": 1,
+        "min": 1,
+        "max": 1,
+        "n": 5
+      },
+      "first_reset_after_s": {
+        "median": 19.94,
+        "min": 19.94,
+        "max": 19.94,
+        "n": 5
+      },
+      "terminated_after_push": false,
+      "root_pre_cm": {
+        "median": 8.942,
+        "min": 8.251,
+        "max": 9.689,
+        "n": 5
+      },
+      "root_during_cm": {
+        "median": 10.536,
+        "min": 9.936,
+        "max": 12.341,
+        "n": 5
+      },
+      "root_post01_cm": {
+        "median": 43.048,
+        "min": 41.28,
+        "max": 45.687,
+        "n": 5
+      },
+      "root_post12_cm": {
+        "median": 74.426,
+        "min": 66.334,
+        "max": 77.089,
+        "n": 5
+      },
+      "root_mean_cm": {
+        "median": 10.021,
+        "min": 9.374,
+        "max": 10.799,
+        "n": 5
+      },
+      "r_mpkpe_cm": {
+        "median": 4.221,
+        "min": 4.176,
+        "max": 4.291,
+        "n": 5
+      },
+      "falls": 0,
+      "n_term": 0,
+      "grade": "未终止但恢复慢"
+    },
+    {
+      "combo": "py_j27",
+      "dir": "py",
+      "dir_label": "+y",
+      "tier": "j27",
+      "impulse_ns": 27.0,
+      "dv_ms": 0.81,
+      "n": 5,
+      "completion": {
+        "median": 0.999,
+        "min": 0.5245,
+        "max": 0.999,
+        "n": 5
+      },
+      "resets": {
+        "median": 1,
+        "min": 1,
+        "max": 1,
+        "n": 5
+      },
+      "first_reset_after_s": {
+        "median": 19.94,
+        "min": 10.46,
+        "max": 19.94,
+        "n": 5
+      },
+      "terminated_after_push": false,
+      "root_pre_cm": {
+        "median": 8.942,
+        "min": 8.251,
+        "max": 9.689,
+        "n": 5
+      },
+      "root_during_cm": {
+        "median": 10.746,
+        "min": 10.11,
+        "max": 12.577,
+        "n": 5
+      },
+      "root_post01_cm": {
+        "median": 53.531,
+        "min": 49.746,
+        "max": 58.137,
+        "n": 5
+      },
+      "root_post12_cm": {
+        "median": 104.37,
+        "min": 86.726,
+        "max": 125.808,
+        "n": 5
+      },
+      "root_mean_cm": {
+        "median": 13.805,
+        "min": 11.252,
+        "max": 17.567,
+        "n": 5
+      },
+      "r_mpkpe_cm": {
+        "median": 4.434,
+        "min": 4.277,
+        "max": 4.692,
+        "n": 5
+      },
+      "falls": 0,
+      "n_term": 1,
+      "grade": "未终止但恢复慢"
+    }
+  ]
+}

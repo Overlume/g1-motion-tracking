@@ -39,3 +39,5 @@
 ## 工具问题记录（已修）
 
 首轮 −x 三组为空：脚本用 `--perturb-force -150,0,0` 传参，argparse 把负号开头的值当选项，报 `expected one argument`。改为 `--perturb-force="$vec"`，新增 `M5_RUN_DIR` 以追加进已有 run；补齐后 `report` 重生成 `m5.md` 与 `m5.png`。
+
+> 补充（2026-11-18）：+y 阈值已在 `runs/20261118-001-m5-threshold-refine` 细化到 0.45/0.60/0.75/0.81 m/s，结论见 `docs/STATE.md` 的「M5 阈值细化结果」节与 D20。

@@ -329,3 +329,12 @@
 - 入库自检：140 个文件、`.git` 4.8 MB、无 `*.pt/*.npz/*.onnx/*.mp4`、无 metrics.csv、无 `/home/<user>`（runs 内绝对路径已改相对；文档内改为 `<workspace>`）。
 - 已推送：https://github.com/Overlume/g1-motion-tracking （2026-11-18，git push --force-with-lease origin main；远端原有 GitHub 自动生成的 LICENSE 单独一次 initial commit，已由本项目 8 次提交整体替换）。提交作者 Overlume <overlume@qq.com>，历史用 git rebase --root -x "git commit --amend --no-edit --reset-author --date=<原日期>" 重写，保留原 author date。WSL 内无 git 凭据，push 时借用 Windows Git Credential Manager（credential.helper=!"/mnt/c/Program Files/Git/mingw64/bin/git-credential-manager.exe"）。
 - 下一步：可选补 M5 阈值细化（+y 方向 0.45/0.60/0.75 m/s）或训练期 DR；报告与仓库已公开。
+
+## M5 阈值细化结果（2026-11-18）
+
+- run：`runs/20261118-001-m5-threshold-refine`（+y × {j15,j20,j25,j27} × 5 种子 = 20 次评估，墙钟 800 s，≈40 s/次）。
+- 结果：0.45 m/s 0–1 s 13.48 cm、0.60 → 17.77、**0.75 → 43.05（峰值 74）**、0.81 → 53.53（峰值 105，1/5 在 10.46 s 终止）、0.90 → 5/5 终止 @8.62 s。
+- 两级阈值：**0.75 m/s 跟踪崩（不终止）**，**0.81–0.90 之间开始终止**；0.81→0.90 之间是断崖，不是斜坡。
+- 关键口径：本次 20 格 `fall_detected` 全为 False，终止由 `anchor_pos`（j30 seed101 @8.64 s）/ `ee_body_pos`（j60 seed101 @8.48 s）触发，**不是倒地检测**；与 `runs/20261114-001…005` 的官方策略真倒地（`fall_detected=True`）不同类，不可混写（D20）。
+- 脚本：`scripts/m5_perturb.sh` 支持任意 `j<N>` 档位（`M5_TIERS`）；`scripts/m5_report.py` 加 `--tiers/--dirs`；新增 `scripts/m5_combined_plot.py` 合并粗扫+细化出图（`outputs/figures/m5_perturbation.png` 已重画）。
+- 下一步：−x/−y 补 j40/j45 收窄“≥2 倍”；终止格抽 2–3 个回视频确认是否真倒地；抗扰结论若要可比较需训练期扰动。

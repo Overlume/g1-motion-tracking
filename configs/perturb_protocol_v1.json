@@ -71,5 +71,60 @@
   "baseline": "runs/20261117-004-lab09-generalization/m4_train (no push, 5 seeds)",
   "policy": "runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17_m4-w15/model_52998.pt",
   "results": "runs/20261117-005-m5-perturb/m5.md",
-  "impl": "Entity.write_external_wrench_to_sim -> MuJoCo xfrc_applied (world frame), re-written every control step, zeroed outside the window"
+  "impl": "Entity.write_external_wrench_to_sim -> MuJoCo xfrc_applied (world frame), re-written every control step, zeroed outside the window",
+  "threshold_refinement": {
+    "date": "2026-11-18",
+    "run": "runs/20261118-001-m5-threshold-refine",
+    "direction": "+y",
+    "impulses_ns": [
+      15,
+      20,
+      25,
+      27
+    ],
+    "equivalent_dv_ms": [
+      0.45,
+      0.6,
+      0.75,
+      0.81
+    ],
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "result": {
+      "j15": {
+        "survived": 5,
+        "root_post_0_1s_cm_median": 13.48
+      },
+      "j20": {
+        "survived": 5,
+        "root_post_0_1s_cm_median": 17.77
+      },
+      "j25": {
+        "survived": 5,
+        "root_post_0_1s_cm_median": 43.05,
+        "note": "tracking collapsed, no termination"
+      },
+      "j27": {
+        "survived": 4,
+        "root_post_0_1s_cm_median": 53.53,
+        "note": "one seed terminated at 10.46 s"
+      }
+    },
+    "two_level_threshold": {
+      "tracking_collapse_ms": 0.75,
+      "first_termination_ms": 0.81,
+      "all_terminate_ms": 0.9
+    },
+    "termination_terms_observed": [
+      "anchor_pos",
+      "ee_body_pos"
+    ],
+    "fall_detected": false,
+    "note": "termination terms are tracking errors, not a fall detector; see docs/DECISIONS.md D20"
+  }
 }

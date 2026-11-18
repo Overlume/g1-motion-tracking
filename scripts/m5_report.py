@@ -10,7 +10,16 @@ import math
 import statistics as st
 from pathlib import Path
 
-TIERS = {"j30": 30.0, "j60": 60.0, "j120": 120.0}   # N*s
+DEFAULT_TIERS = ["j30", "j60", "j120"]
+
+
+def tier_ns(tier):
+    """j<N> -> N (impulse in N*s)."""
+    n = tier[1:] if tier[:1] == "j" else ""
+    try:
+        return float(n)
+    except ValueError:
+        return None
 DIR_LABEL = {"px": "+x", "nx": "-x", "py": "+y", "ny": "-y"}
 MASS_KG = 33.34
 BASE_ROOT_CM = 3.88   # LAB09 m4_train 中位；仅用于“恢复慢”判定
@@ -45,6 +54,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", required=True)
     ap.add_argument("--baseline", default="")
+    ap.add_argument("--tiers", default=" ".join(DEFAULT_TIERS))
+    ap.add_argument("--dirs", default="px nx py ny")
     args = ap.parse_args()
     run = Path(args.run)
 
@@ -75,8 +86,8 @@ def main():
             "dir": direction,
             "dir_label": DIR_LABEL.get(direction, direction),
             "tier": tier,
-            "impulse_ns": TIERS.get(tier),
-            "dv_ms": round(TIERS.get(tier, 0.0) / MASS_KG, 2),
+            "impulse_ns": tier_ns(tier),
+            "dv_ms": round((tier_ns(tier) or 0.0) / MASS_KG, 2),
             "n": len(sums),
             "completion": agg([s["track_completion"] for s in sums]),
             "resets": agg([s["reset_count"] for s in sums]),
@@ -89,6 +100,7 @@ def main():
             "root_mean_cm": agg([s["root_err_mean_cm"] for s in sums]),
             "r_mpkpe_cm": agg([s["r_mpkpe_mean_cm"] for s in sums]),
             "falls": sum(1 for s in sums if s.get("fall_detected")),
+            "n_term": sum(1 for s in sums if (s.get("perturb") or {}).get("first_reset_after_s") is not None and (s["perturb"]["first_reset_after_s"] < TERM_S)),
         })
     rows.sort(key=lambda r: (r["dir"], r["impulse_ns"] or 0))
     for r in rows:
@@ -98,11 +110,11 @@ def main():
         json.dumps({"run": str(run), "mass_kg": MASS_KG, "baseline": base, "rows": rows},
                    ensure_ascii=False, indent=2), encoding="utf-8")
 
-    missing = [d for d in ("px_j30", "px_j60", "px_j120", "nx_j30", "nx_j60", "nx_j120",
-                           "py_j30", "py_j60", "py_j120", "ny_j30", "ny_j60", "ny_j120")
-               if not (run / d / "seed101" / "summary.json").exists()]
+    tier_list = args.tiers.split()
+    missing = [f"{d}_{tr}" for d in args.dirs.split() for tr in tier_list
+               if not (run / f"{d}_{tr}" / "seed101" / "summary.json").exists()]
 
-    lines = ["# M5 受控外力扰动：torso_link，世界系 ±x/±y，3 档冲量 × 5 种子", ""]
+    lines = ["# M5 受控外力扰动：torso_link，世界系 ±x/±y，档位 %s × 5 种子" % " / ".join(args.tiers.split()), ""]
     lines.append("对象：特化策略 model_52998（M4，3000 iter）。")
     lines.append("施加：torso_link 上世界系恒力，窗口 8.00-8.20 s（0.2 s）；整机 33.34 kg，dv = J / m。")
     lines.append("")
@@ -113,13 +125,14 @@ def main():
     if missing:
         lines.append("**缺组合（未计入本表）**：%s —— 见 README 的补齐命令。" % ", ".join(missing))
         lines.append("")
-    lines.append("| 方向 | 冲量 N*s | 等效 dv m/s | 判定 | 扰动后首个 reset s | 完成度 | 扰动中 root cm | 后 0-1 s root cm | 后 1-2 s root cm | R-MPKPE cm |")
-    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
+    lines.append("| 方向 | 冲量 N*s | 等效 dv m/s | 终止种子数 | 判定 | 扰动后首个 reset s | 完成度 | 扰动中 root cm | 后 0-1 s root cm | 后 1-2 s root cm | R-MPKPE cm |")
+    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     for r in rows:
         fr = r["first_reset_after_s"]
         invalid_post = bool(fr) and fr["median"] <= 9.5
         mk = "*" if invalid_post else ""
-        lines.append("| {d} | {j:.0f} | {dv:.2f} | {g} | {fr} | {comp} | {dur} | {p01}{mk} | {p12}{mk} | {rmp} |".format(
+        lines.append("| {d} | {j:.0f} | {dv:.2f} | {nt}/{n} | {g} | {fr} | {comp} | {dur} | {p01}{mk} | {p12}{mk} | {rmp} |".format(
+            nt=r["n_term"], n=r["n"],
             d=r["dir_label"], j=r["impulse_ns"] or 0, dv=r["dv_ms"], g=r["grade"],
             fr=fmt(fr, 2), comp=fmt(r["completion"], 3), dur=fmt(r["root_during_cm"], 2),
             p01=fmt(r["root_post01_cm"], 2), p12=fmt(r["root_post12_cm"], 2), mk=mk,
