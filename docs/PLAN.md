@@ -1,0 +1,88 @@
+# PLAN
+
+按阶段推进；每个里程碑有明确验收标准，未达成不进入下一步。
+
+## M0 阶段 0：核验与环境基线（完成 2026-11-11）
+
+- [x] 硬件/WSL/GPU/软件只读核查
+- [x] SuperMimic 身份、仓库、代码完整度、数据与许可核验
+- [x] mjlab 基线能力与 G1 任务核验
+- [x] 项目内隔离环境可 import mjlab / torch 可见 GPU
+- [x] 最小 GPU 冒烟：环境创建 + 若干步 step，记录显存与耗时（runs/20261111-001-smoke）
+- [x] 路线决定（用户授权智能体代选：mjlab 基线优先）
+验收：`docs/STATE.md` 中"已完成"小节全部有证据；冒烟日志在 `runs/`。
+
+## M1 阶段 1：G1 仿真与现成策略回放（完成 2026-11-12）
+
+- [x] 跑通 `mjlab demo`（或等价 play）看到 G1 动作
+- [x] 记录：显存峰值、num_envs、帧率、是否 CUDA graph 生效（runs/20261112-003-train-scale）
+- [x] 明确区分：MuJoCo 运动学播放 vs 策略闭环驱动（回放走 checkpoint + 物理闭环；ghost 才参考姿态）
+- [x] 量化评估脚本与 seed=0 基线（runs/20261112-001-eval：MPKPE 10.74 cm、R-MPKPE 3.42 cm、无跌倒）
+验收：视频/截图 + `runs/` 记录 + 显存实测数字。
+
+## M2 阶段 2：参考动作与转换
+
+- [x] 选定动作来源：LAFAN1（先 dance1），后续 GMR 重定向；不用 BONES-SEED（D4）
+- [x] LAFAN1 BVH -> GMR -> CSV -> mjlab npz 流水线打通（2026-11-13，`scripts/gmr_bvh_to_csv.py` + `scripts/csv_to_npz_local.py`）
+- [x] 首个自制动作 `data/processed/fight1_s2_134s_20s.npz` 回放 + 量化评估（runs/20261113-001；2026-11-13 16:20 更正：runs/20261113-002 的 11.7 cm 作废，当时脚本忽略 dones，测的是 0.24 s 循环）
+- [x] 跨 subject 一致性（LAB02：fight1_subject3；v2 重测见 runs/20261113-004，termination 开时 3 次 reset、10.58 s 之后的段不可用）
+- [x] 评估协议 v2：1 env + 逐帧 done/reset 记录 + 分段 drift_rate + --ignore-terminations（runs/20261113-004~009）
+- [ ] 校验补充项：脚底接触/穿地、重定向物理可行性
+验收：转换前后对比图 + 转换日志 + 关节名逐项核对表。
+
+## M3 阶段 3：训练理解与最小训练
+
+- [x] 冒烟训练：512 env × 100 iter（runs/20261114-006，用户亲手，稳态中位 0.89 s、首次 11.84 s、显存峰值 505 MiB）
+- [x] 证明参数确实更新（loss/策略变化）、检查点可回放（model_0→model_99 的 actor MLP 权重 mean|dw|≈7.3e-3；ckpt 已被 replay_policy 读回）
+- [x] 用户亲手改一个有明确意义的参数，先预测后对比：2026-11-15 完成 LAB05（A/B 各 300 iter + 5 种子评估，`runs/20261115-002-m3b-eval`），三道预测命中 1/3；结论见该 run 的 README 与 D13
+验收：训练曲线 + 检查点 + 用户练习记录（`docs/learning/`）。
+
+## M4 阶段 4：武术类动作跟踪
+
+- [ ] 选一个双足支撑、慢速、幅度适中的动作（如冲拳/太极起势）
+- [ ] 训练到可完成，记录完成率/跟踪误差/摔倒率
+验收：对比视频 + 指标表。
+
+## M5 阶段 5：受控扰动
+
+- [ ] 定义扰动协议（对象、坐标系、方向、大小、持续时间、动作阶段）
+- [ ] 实现扰动注入（力/冲量，先小后大）
+- [ ] 基线 vs 改进策略同条件对比，记录恢复时间与摔倒率
+验收：协议文档 + 可重复脚本 + 表格。
+
+## M6 阶段 6：复现总结
+
+- [ ] 汇总所有 `runs/`，写复现报告与局限
+
+
+### M3 训练侧改动清单（2026-11-13 拟定，每条都要同一套验收）
+
+- [ ] 微调基线：从 scratch/model_49999.pt 出发，用 fight npz 做数百次迭代，记录 4096 env 的耗时/显存（已有 1.76-1.90 s/iter、1871 MiB）。
+- [ ] 全局项：motion_global_root_pos 权重 0.5 -> 1.0、std 0.3 -> 0.15；对照 run 只改这一项。
+- [ ] 观测补全局：把根相对世界的水平位置/朝向（或根速度）加入 policy 观测，解决看不见自己漂移的问题。
+- [ ] 终止项补水平漂移：在 anchor_pos 系列里加水平分量，避免训练时静默漂移。
+- [ ] 验收：同一片段（S3 + dance1）、同一 seed、同一评估脚本，对比 root_err_mean、drift_rate、R-MPKPE、摔倒次数。
+
+
+### 取景与种子分布补充（2026-11-14）
+
+- [x] 4 env 取景修复（`scripts/camera_fit.py` + `--camera fit`）：实测 4 台全部入镜（`outputs/videos/model_49999/960x540/cam_fit_final`）
+- [x] S3 摔倒分布 N=5（`runs/20261114-001~005`）：5/5 摔倒，中位 11.66 s，范围 5.54–18.56 s
+- [ ] 用户按原命令复验取景
+- [x] LAB04：用户亲手起一次训练（512 env × 100 iter），先预测再实测 —— 2026-11-14 完成，runs/20261114-006（LAB04 文档与脚本已就绪：docs/learning/LAB04-smoke-train.md、scripts/lab04_smoke_train.sh；2026-11-14 用 64 env × 2 iter 自测脚本通过）
+- [x] M3-b 微调对照（LAB05）：从 `scratch/model_49999.pt` 续训，单参数改动（global root pos 权重 0.5 -> 1.0、std 0.3 -> 0.15），同动作 S3、同 seed 0、各 300 iter，再各 5 种子评估。讲义 docs/learning/LAB05-ab-finetune.md，脚本 scripts/lab05_ab_finetune.sh（2026-11-14 就绪，自测通过）。**2026-11-15 完成**：两组 5/5 不摔、完成度 0.999，但 B root_err 43.34 -> 52.72 cm 更差
+
+
+### 交接状态（2026-11-14 15:20）
+
+- [x] 相机视角定稿（用户 15:19 确认"可用，不要再去改动"）：默认 follow / margin 1.3 / elevation -16 / azimuth 45 / min-distance 5.2
+- [x] S3 五种子摔倒分布（5/5 摔倒，中位 11.66 s）
+- [x] **已过**：LAB04 冒烟训练（2026-11-14，`runs/20261114-006`）→ M3-b 单参数对照（2026-11-15，`runs/20261115-002`）
+- [x] **LAB06 只改 weight 的对照**（2026-11-16 完成，`runs/20261116-003`）：w1.5/std0.3 相对 w0.5/std0.3 的 root 误差 41.52 -> 25.72 cm（-38.1%，5 种子分布不重叠），R-MPKPE -2.4%、joint_rmse +0.5%，两组 0/5 摔；H1 成立、H2/H3 不成立（D15）。
+- [x] **LAB07 权重扫描**（2026-11-16 完成，`runs/20261116-006-lab07-eval`）：root 41.52 / 30.86 / 25.72 / 22.95 cm（w0.5/1.0/1.5/2.5），相对上一档 -25.7% / -16.7% / -10.8%（单调下降、边际递减）；R-MPKPE 6.25 / 5.98 / 6.10 / 6.45（1.0 触底、2.5 出界）；四臂 0/5 摔。M4 定为 weight 1.5（D16）。
+       - [x] **M4 规模训练**（2026-11-17 完成，`runs/20261117-001-m4-w15-finetune` + `runs/20261117-002-m4-eval`）：300 → 3000 iter 把 root xy 25.72 → 3.90 cm（−84.8%）、R-MPKPE 6.10 → 3.66、0/5 摔；H1 成立。**但泛化探针（`runs/20261117-003-generalization-probe`）显示换片段 0.3–2 s 即终止，属特化（D17）**
+       - [x] **LAB09 泛化探针**（2026-11-17 完成，`runs/20261117-004-lab09-generalization`）：m4 train 0.999/3.88 cm vs held-out 0.101（2.02 s）vs S2 0.025；官方 train 0.333/82.83 cm、held-out 0.016 —— 3.90 cm 确认为 in-distribution 特化（D17）；终止开/关口径见 D18
+       - [x] **M5 受控扰动**（2026-11-18 完成，`runs/20261117-005-m5-perturb`）：+y ≤0.90 m/s 崩、−x/−y 0.90–1.80、+x 1.80–3.60；未终止格后 0–1 s 13.2–54.4 cm（基线 3.88）；口径见 D19
+       - [x] **M6 报告与提交**（2026-11-18 完成）：`docs/REPORT.md`、`configs/perturb_protocol_v1.json`、`outputs/figures/`、README 结果表、`LICENSE`、8 次本地提交（无 remote）；待用户 push
+       - [ ] **下一步：上传**（用户提供 GitHub 仓库地址 + 作者信息 → `git remote add origin ...` + `git push -u origin master`）
+- 完整交接：`docs/handoffs/20261114-1520-handoff.md`

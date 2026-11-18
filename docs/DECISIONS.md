@@ -1,0 +1,166 @@
+# DECISIONS
+
+记录"决定了什么、为什么、证据在哪、何时可能推翻"。
+
+## D1 2026-11-11：先核验，不预设"复刻"
+
+SuperMimic 名称不足以确定实现。已核验：官方论文/项目页/仓库均真实存在，Apache-2.0，明确面向 Unitree G1。证据：`docs/SOURCES.md`。
+
+## D2 2026-11-11：决定"mjlab 基线优先，SuperMimic 作进阶对比"（已定）
+
+理由：
+1. SuperMimic 仓库 2026-11-10/11 才公开，只有 `src`，无配置样例、无检查点、无数据、无文档；新手直接上手失败面太大。
+2. 默认训练 4096 envs、actor 宽 2048，论文用 H100 3 小时；本机 6GB 显存不可能按默认配置跑。
+3. SuperMimic 的核心收益是"一个世界模型摊销 12.9 万条动作"；本项目只需要 1 个武术动作 + 扰动评估，用不上该摊销。
+4. mjlab 提供同一条 G1 跟踪任务（`Mjlab-Tracking-Flat-Unitree-G1`）、纯 Python、MuJoCo Warp、文档与评估/终止/扰动事件齐全，是更合适的"最小可复现"载体。
+5. SuperMimic 复用 mjlab 的 env 与 RL cfg（`BASE_TASK_ID = "Mjlab-Tracking-Flat-Unitree-G1"`），先掌握 mjlab 不会浪费——之后切 SuperMimic 的世界模型训练循环是增量工作。
+用户决定：用户 2026-11-11 表示对两条路线还不了解，授权由智能体选最合适的；本决定据此生效。
+推翻条件：若用户在 mjlab 上无法在 6GB 内完成有效训练，且 SuperMimic 的 W&B 运动数据公开可下载、有小配置可跑，则重新评估。
+
+## D3 2026-11-11：项目内隔离环境（uv + venv）
+
+不装系统级包：uv 放 `environment/bin/uv`，`UV_CACHE_DIR`、`UV_PYTHON_INSTALL_DIR` 都指向 `environment/`。理由：用户要求目录外安装需授权；可整体删除重建。
+
+## D4 2026-11-11：BONES-SEED 不使用；动作来源走 LAFAN1 系
+
+许可为专有：仅 Academic User（非营利学术、成果公开）或 Qualifying Startup。用户是个人学习用途，未确认符合该条款，因此不申请、不下载 23.5GB 的 g1.tar.gz，避免许可风险。
+替代：先用 mjlab GCS 已公开的 LAFAN1 dance1 动作（lafan_dance1_subject1.npz，已转成 v1.6.0 格式）打通阶段 1-2；后续需要更多动作时，用 LAFAN1 原始 BVH（Ubisoft La Forge，研究用途）+ GMR（MIT）重定向，或自制/CC 授权动作。每个来源使用前逐项记录许可。
+
+## D5 2026-11-11：动作格式以 v1.6.0 MotionLoader 为准
+
+`MotionLoader` 要求 `root_pos_w/root_quat_w(wxyz)/root_lin_vel_w/root_ang_vel_w/joint_pos/joint_vel/joint_names`；GCS demo npz 是旧格式（`body_pos_w`），需要重建 `root_*` 字段或改用新格式动作。证据：`repos/mjlab_research/src/mjlab/tasks/tracking/mdp/commands.py:52-110`。
+
+## D6 2026-11-11：不追求 SuperMimic 的跨动作摊销卖点
+
+SuperMimic 的核心收益是一个可微世界模型摊销 12.9 万条动作的训练成本；本项目只需要 1 个武术动作 + 扰动评估，用不上该摊销，且默认 4096 envs、H100 3h 的量级与本机 6GB 显存差距过大。SuperMimic 定位为"读懂 + 可选小规模对比"，不作为主线。
+
+## D7 阶段 4 的武术参考先用 LAFAN1 现成片段（2026-11-12，用户确认）
+
+- 用户 2026-11-12：暂无指定武术参考，先用 LAFAN1 里现成的武术/打斗片段。
+- M2 的重定向目标从 LAFAN1 fight/punch 类片段起步；具体文件名在 M2 开始时核实，不凭记忆写。
+
+## D8 2026-11-13：M2 动作流水线 = LAFAN1 BVH -> GMR -> CSV -> mjlab npz
+
+- 选择：LAFAN1 原始 BVH（30 fps）经 GMR（MIT）重定向到 Unitree G1（29 DoF），导出 CSV（root 位置 + 四元数 xyzw + 29 关节角），再用 mjlab 的 MotionLoader（repos/mjlab_research/src/mjlab/scripts/csv_to_npz.py:79-190）插值到 50 fps 存成本地 npz。
+- 理由：
+  1. mjlab 官方 csv_to_npz 强制上传 W&B registry，本项目不引入账号依赖，故复用其 MotionLoader 但本地 np.savez（scripts/csv_to_npz_local.py）。
+  2. GMR 的 G1 模型 g1_mocap_29dof.xml 关节顺序与 mjlab G1_XML 完全一致（脚本比对 order match True），无需重排关节。
+  3. GMR 输出动作通过关节限位检查（scratch/check_limits.py：0 个越界样本）。
+- 许可注意：LAFAN1 为 CC BY-NC-ND 4.0。个人本地实验可以，但重定向后的动作数据不公开发布；若将来需要公开演示，改用自录/CC-BY 动作源。
+- 脚本：scripts/gmr_bvh_to_csv.py（GMR venv）、scripts/csv_to_npz_local.py（mjlab venv）。
+
+
+## D9 2026-11-13：评估协议 v2（1 env + 逐帧 done 记录 + 分段），覆盖旧协议
+
+- 任何 replay/eval 都必须逐帧记录 done 与触发的终止项；reset 次数、reset 步、motion_frame_furthest 必须进摘要。
+- 跟踪完成率只按 motion_frame_furthest / frames_total 计；被 reset 打断的段不能与完整跟踪混在一起平均。
+- 结论只允许用分段指标（每段 drift_rate_cm_s）与 R-MPKPE / root_err 分列，不再报告被污染的单一个 MPKPE 均值。
+- 想观察不打断时的真实行为必须显式传 --ignore-terminations，并在摘要里标注 ignore_terminations: true。
+
+## D10 2026-11-13：官方预训练策略的实测适用边界（M2 基线以此为准）
+
+- 实测：参考平均速度 0.60 m/s 的 dance1 全程 131 s 不摔（root_err 9.78 cm、completion 0.9998）；0.90 m/s 的 fight1_subject3 段内漂移 14.31 cm/s、13.92 s 摔倒；1.72 m/s（峰值 5.79）的 fight1_subject2 4.28 s 摔倒。
+- 因此 M2 的预训练基线用 dance1 类中低速度动作；fight 类动作作为 M3 微调的目标，而不是用预训练权重硬评。
+- LAFAN1 是 CC BY-NC-ND 4.0：重定向产物（npz/csv/video）只可本地研究，不得公开发布或再分发。
+
+
+## D11 2026-11-14：fight 类片段不可复现，评估按分布报（推翻“单次精确数字”的用法）
+
+实测：同一命令、同 seed=0，dance1 跑两次 root_err 7.730 vs 7.693 cm（差 0.5%），脚滑差 0.8% —— 模拟本身不是位级可复现；S3 片段把这个差异放大成不同结局（摔倒步 380 / 424 / 652 / 695 / 781，外加一次完全不摔；依次来自 runs/20261113-013、012、用户的 lab3-eval-s3、005、011、010）。
+
+决定：
+
+- 平稳动作（dance1 类）可报单次精确数字，但要注明 0.5% 量级的数值抖动。
+- 高动态片段（fight 类）只报区间与分布：N≥5 个种子，报中位数、最小/最大值与“摔/不摔”次数；不得引用单次 fall_step 作为结论。
+- 脚本必须显式记录 seed 与 keep_startup_dr（默认关闭启动域随机化）；比较两个配置时，除被改项外其余全部固定。
+
+
+## D12 取景：渲染数量上限 + 自由相机自适应（2026-11-14）
+
+- **决定**：回放默认 `--camera fit`——`viewer.max_extra_envs = num_envs - 1`，并改用 `WORLD` 自由相机，由 `scripts/camera_fit.py` 按网格跨度算 distance/lookat；`--camera auto` 保留 mjlab 原始行为。
+- **理由**：`offscreen_renderer.py:186-217` + `viewer_config.py:38` 决定了最多只渲染 3 个 env，与分辨率无关，所以"4 台只有 3 台"不是出画而是没提交渲染；`AUTO` 相机是 tracking 模式，`cfg.lookat` 被忽略、跟不住散开的 env。
+- **代价**：fit 模式不跟随单台机器人；长时间漂移仍可能把个别机器人推出画面（t=6 s 实测有 1 台贴边）。需要时用 `--camera-margin` 加大或 `--camera auto`。
+- **推翻条件**：mjlab 把 `max_extra_envs` 默认改为全部渲染，或提供官方"自动框住所有 env"选项。
+
+
+### D12 补充（2026-11-14 15:10）：默认改为 follow
+
+- 静态 fit 虽然保证"起始帧四台都在"，但用户要看的动作过程里机器人会漂移出画（S3 尤其）。改为 **follow**：lookat=四台根位置质心，距离按实际散布自适应并平滑；fit 保留为可选。
+- 关键实现细节：必须用 `entity.data.root_link_pos_w`（世界系），不能用 `sim.data.qpos`（每个 world 的相对坐标），否则质心恒为网格中心、跟随无效。
+- 代价：相机在动，画面尺度会随散布变化（平滑后不突兀）；机器人摔向镜头时仍可能被下缘切掉，用 `--camera-min-distance` 换安全余量。
+
+
+## D13 2026-11-16：奖励核的 std 不要往小改；M3-b 结论与后续
+
+- 事实：weight 0.5 -> 1.0 且 std 0.3 -> 0.15（`runs/20261115-001-m3b-b-finetune`）在 S3 上使 root_err 从 43.34 变 52.72 cm、R-MPKPE 从 5.707 变 6.016 cm；训练侧 error_anchor_pos 0.386 -> 0.508 m。5 种子分布不重叠。
+- 原因：`exp(-d^2/std^2)` 的梯度幅值 ≈ `(2d/std^2) * exp(-d^2/std^2)`。误差已到 0.45 m 时，std 0.15 的核值与梯度都塌到 1e-4 量级，权重加倍无效。
+- 决定 1：后续调奖励先保住核的“作用域”——std 与期望误差同量级（当前 0.3 m），只动 weight。理由：核宽决定“信号有没有”，权重决定“信号多强”。
+- 决定 2：LAB05 同时改了 weight 和 std，严格上分不开两者贡献；要归因需补只改 weight 的对照（LAB06 计划，2026-11-16 提出）。
+- 决定 3：报结果必须同时给“摔倒次数/完成度”和“root 误差/MPKPE”。300 iter 尺度上 0/5 摔倒但 root 误差 43 cm，只报前者即失真。
+
+## D14 2026-11-16：本机 WSL2 实时钟在跳，耗时只做同机相对比较
+
+- 现象：训练日志出现负的 `Iteration time`（LAB04 约 -1.65 s，LAB06 约 -6 s，各 300 iter 里 10–12 次）。
+- 证据 1（代码）：`environment/.venv/lib/python3.13/site-packages/rsl_rl/runners/on_policy_runner.py:81` 用 `time.time()` 取 start，第 101–103 行算 collect、第 111–112 行算 learn —— 全是墙上时钟差值，时钟被回拨就出负值。
+- 证据 2（实测，2026-11-16 17:01，空闲状态）：15.07 s 的 monotonic 窗口内 `time.time()` 只走了 13.55 s；期间 6 次跳变，幅度 **+7.43 / -7.94 s**，周期约 5.5 s；`journalctl` 中 systemd-resolved 持续打印 "Clock change detected. Flushing caches."（不训练时也打印）。
+- 证据 3（对照）：同窗口 `/proc/uptime` 走 10.030 s、`perf_counter` 走 10.033 s —— 单调时钟正常，只有 CLOCK_REALTIME 在跳。
+- 影响：Iteration time / Time elapsed / ETA / 脚本用 `date` 记的墙钟都偏小约 10%（LAB06 记的 638/650 s 实际约 710 s）。**训练数学、ckpt、评估指标不受影响。**
+- 决定：
+  1. 训练/评估耗时只在同一台机器、同一时段内做相对比较；跨天不比绝对值（另见 D10 关于温度/内存的说明）。
+  2. 报告脚本对迭代耗时剔除非正值并列出负值样本数（`scripts/lab05_ab_report.py`）；文档里出现负值按本决定解释，不当作训练异常。
+  3. 需要墙钟时以 `perf_counter` / `/proc/uptime` 为准，能改脚本的场合就用它。
+  4. 机器层面可由用户修复（需 sudo 密码，智能体无权执行）：`sudo hwclock -s` 对齐，再 `sudo timedatectl set-ntp false` 关掉 guest NTP，让 Windows 主机管时间（WSL2 官方建议）。修好之前本决定一直有效。
+
+## D15 2026-11-16：奖励核要加"权重"，不要收窄 std（D13 由猜想升为结论）
+
+- 事实（`runs/20261116-003-lab06-eval`，5 种子 101–105）：只把 `motion_global_root_pos` 权重 0.5 -> 1.5、std 保持 0.3，root 误差 41.52 -> 25.72 cm（**-38.1%**，两组分布不重叠），MPKPE 42.65 -> 26.86，yaw 误差 24.28 -> 17.48 deg；R-MPKPE -2.4%、joint_rmse +0.5%（噪声内），代价是 tilt 误差 +14.2%、左脚滑移 +24.8%。
+- 对照：同配置重跑（LAB05-A 43.34 / LAB06-A 41.52）差 -4.2%，即评估噪声底 ≈4%；-38.1% 与 LAB05 的 +21.6% 都远大于它。
+- 机制：核 `exp(-d^2/std^2)` 的梯度幅值 `(2d/std^2)exp(-d^2/std^2)`；d=0.45 m 时 w1.5/std0.3 为 1.57，而 w1.0/std0.15 只有 4.9e-3 —— 收窄 std 等于在需要拉回的区间里删掉信号。
+- 决定：
+  1. std 固定在 0.3（与期望误差同量级）；要增强根位置跟踪只加 weight。
+  2. 任何 std 改动都必须单变量重测才能进配置（LAB05 的教训）。
+  3. 300 iter 尺度上权重最优点未知（只测了 0.5 与 1.5）；M4 用 weight 1.5 上 3000 iter 作锚点，不假设排序可外推。
+  4. 报结果同时给"摔 / 准 / 姿态"三组数：本 run 位置大幅变好，但 tilt 与滑移确有代价，不能只写"全面变好"。
+
+## D16 2026-11-16：M4 用 weight 1.5（位置收益与姿态代价的平衡点）
+
+- 事实（`runs/20261116-006-lab07-eval`，四臂 300 iter、std 固定 0.3、5 种子）：root xy 误差 41.52 / 30.86 / 25.72 / 22.95 cm（w0.5 / 1.0 / 1.5 / 2.5），相对上一档改善 −25.7% / −16.7% / −10.8%（每翻倍约减半）；R-MPKPE 6.25 / **5.98** / 6.10 / 6.45（1.0 触底），joint_vel_rmse 1.22 / 1.24 / 1.28 / 1.33，左脚滑移 111.9 / 99.6 / 139.7 / 159.5；tilt 误差在 2.5 反而最低（4.04）；四臂全部 0/5 摔倒、完成度 0.999。
+- 判读：root 单调下降但边际递减、外推地板 ~20 cm；姿态从 1.0 之后开始付钱，2.5 时 R-MPKPE +7.9%、滑移 +60%、joint_rmse/joint_vel 全表最差——这是“动作变形”而非“站不稳”（tilt 反而改善、训练回合反而变短）。
+- 决定：
+  1. **M4 用 weight 1.5**：位置收益仍在噪声之上（−16.7%），姿态代价仍在噪声之内（+2.0%）。
+  2. 不做 3.5 档：每翻倍收益减半、姿态代价单调上升，趋势已定，再花 35 min 只是延长同一条曲线。
+  3. tilt 误差**不作为**代价探针（它在强位置奖励下会改善）；探针用 R-MPKPE、joint_vel_rmse、左脚滑移三项。
+  4. 本表数值只对 300 iter、S3、seed 0 成立；M4 结果要与本表并读，不得据此宣称 1.5 全局最优。
+
+## D17 2026-11-17：M4 结论 = “预算买到特化而非泛化”，报价必须带口径
+
+- 事实（`runs/20261117-002-m4-eval`，300 vs 3000 iter、weight 1.5、std 0.3、S3 片段、5 种子）：root xy 25.72 → **3.90 cm（−84.8%）**，root p95 76.11 → 9.19，R-MPKPE 6.10 → 3.66，MPKPE 26.86 → 5.64，joint_rmse 0.1677 → 0.1168，joint_vel 1.28 → 1.07，yaw 17.48 → 11.36，滑移 139.7 → 91.3；tilt 4.84 → 4.69（噪声内）；两臂均 0/5 摔、完成度 0.999。分布完全不重叠。
+- 假设：H1（预算不足）成立，H2（配置到顶）否，H3（位置换姿态）否。
+- 但泛化探针（`runs/20261117-003-generalization-probe`，n=1）：同 ckpt 换到同片段未见窗口 120–140 s，完成度 0.101、24 次 `ee_body_pos` reset、最长段 2.02 s；换未见片段 S2，完成度 0.024、最长段 0.48 s；官方 ckpt 在未见窗口上更差（0.016、0.32 s）。
+- 判读：单片段 × 295 M env-steps（该 20 s 片段被重复约 29 万遍）买到的是**回放特化**。3.90 cm 是 in-distribution 指标。
+- 决定：
+  1. 引用任何“规模/权重带来的提升”时，**必须同时标注评估片段是否参与过训练**（in-distribution / held-out）。
+  2. 泛化探针使用专用 held-out 片段：`data/processed/fight1_s3_120s_20s.npz`（同片段 120–140 s，窗口未经训练）与 `data/processed/fight1_s2_134s_20s.npz`（未见片段）。二者由冻结流水线生成，参数见 `runs/20261117-003-generalization-probe/README.md`。
+  3. 换片段评估时 **reset 频繁的 rollout 不得用 root 误差排序**（如官方那行 3.06 cm 是“几乎没走出片头”的假象）；此时只看完成度、最长段、终止原因。
+  4. M5 扰动实验必须写成“对特化策略的扰动”，不得据此宣称通用抗扰能力；若要谈通用性，先做多片段训练（扩展项，不进主计划）。
+  5. 项目主结论仍用 in-distribution 数字，但报告必须并列 held-out 数字。
+
+## D18 2026-11-17：终止检测开/关是两种口径，引用必须写清
+
+- 事实：同一官方 ckpt、同一 S3 片段、同一批种子（101–105）：
+  - `--ignore-terminations`（2026-11-14，`runs/20261114-001…005`）：5/5 摔倒，fall_step 583–928（11.66–18.56 s），root 124.8–149.5 cm。
+  - 终止检测开（2026-11-17，`runs/20261117-004-lab09-generalization/official_train`）：0/5 摔倒但完成度 0.333、root 82.83 cm、最长段 6.66 s——摔倒前先被 `ee_body_pos` 重置。
+- 判读：两者是同一失败的先后阶段（偏离四肢参考 → 再倒），不是结论冲突。
+- 决定：
+  1. 任何“摔倒 N/M”必须同时标注终止检测是否开启；未标注者视为口径不明。
+  2. 报告主表用“终止检测开”（贴近真实部署，一次失败即中断）；“摔倒率”与摔倒时间用 `--ignore-terminations` 单独一节给出。
+  3. 完成度低（< 0.5）或 reset 中位 > 5 的 rollout，不得用 root / pose 误差排序（承 D17 规则 3）。
+
+## D19 2026-11-18：扰动实验的报告口径
+
+- 事实（M5，`runs/20261117-005-m5-perturb`）：+y 在 30 N·s（0.90 m/s）即终止；−x/−y 在 60 N·s 终止；+x 到 120 N·s 才终止；+x j60 扰动后 1 s root 28.1 cm（基线 3.88），−y j30 后 1 s 54.4 cm、2 s 仍 34.7 cm。
+- 决定：
+  1. 抗扰结论必须同时报“终止阈值”与“恢复质量（后 0–1 s / 1–2 s root 误差）”，不能只报是否摔倒。
+  2. 终止格子里的完成度（0.57–0.59）是预算伪影，不得当作跟踪质量；一律用“终止时刻”描述失稳。
+  3. 结论限定为“特化策略 model_52998 在 S3 训练片段 8.0 s 处的受控扰动”，不得外推为机器人本体抗扰能力（承 D17 规则 4）。
+  4. 方向差异只给排序与区间（落在哪两档之间），不给点估计；单施加时刻不足以分离 COM 分布与步态相位的影响。

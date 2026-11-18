@@ -1,0 +1,49 @@
+# ---- 大体积 / 第三方 / 环境 ----
+environment/*
+!environment/requirements.txt
+repos/
+scratch/
+tools/
+data/raw/
+data/processed/
+outputs/videos/
+
+# ---- 二进制与权重 ----
+*.pt
+*.pth
+*.onnx
+*.npz
+*.npy
+*.tar.gz
+*.zip
+*.pdf
+
+# ---- runs：只放行文字结果 ----
+runs/*
+!runs/*/
+runs/*/*
+!runs/*/*.md
+!runs/*/*.json
+!runs/*/*.csv
+!runs/*/*.png
+!runs/*/*/summary.json
+**/logs/
+runs/**/metrics.csv
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- 密钥（永不提交） ----
+.env
+*.key
+wandb/
