@@ -1,0 +1,150 @@
+{
+  "motion": "data/processed/fight1_s3_000s_20s.npz",
+  "seeds": [
+    101,
+    102,
+    103,
+    104,
+    105
+  ],
+  "arms": [
+    {
+      "label": "300",
+      "weight": 300.0,
+      "dir": "runs/20261116-003-lab06-eval/B",
+      "metrics": {
+        "root_err_mean_cm": {
+          "n": 5,
+          "median": 25.72,
+          "min": 24.633,
+          "max": 26.472
+        },
+        "root_err_p95_cm": {
+          "n": 5,
+          "median": 76.108,
+          "min": 75.792,
+          "max": 79.126
+        },
+        "mpkpe_mean_cm": {
+          "n": 5,
+          "median": 26.862,
+          "min": 25.754,
+          "max": 27.589
+        },
+        "r_mpkpe_mean_cm": {
+          "n": 5,
+          "median": 6.103,
+          "min": 6.034,
+          "max": 6.144
+        },
+        "joint_rmse_mean_rad": {
+          "n": 5,
+          "median": 0.1677,
+          "min": 0.1672,
+          "max": 0.1684
+        },
+        "joint_vel_rmse_mean": {
+          "n": 5,
+          "median": 1.2832,
+          "min": 1.2669,
+          "max": 1.2933
+        },
+        "yaw_err_absmean_deg": {
+          "n": 5,
+          "median": 17.481,
+          "min": 16.922,
+          "max": 20.142
+        },
+        "tilt_err_mean_deg": {
+          "n": 5,
+          "median": 4.839,
+          "min": 4.744,
+          "max": 4.946
+        },
+        "slip_left_total_cm": {
+          "n": 5,
+          "median": 139.694,
+          "min": 126.754,
+          "max": 148.031
+        },
+        "track_completion": {
+          "n": 5,
+          "median": 0.999,
+          "min": 0.999,
+          "max": 0.999
+        }
+      },
+      "falls": 0,
+      "n": 5
+    },
+    {
+      "label": "3000",
+      "weight": 3000.0,
+      "dir": "runs/20261117-002-m4-eval/final",
+      "metrics": {
+        "root_err_mean_cm": {
+          "n": 5,
+          "median": 3.902,
+          "min": 3.789,
+          "max": 4.119
+        },
+        "root_err_p95_cm": {
+          "n": 5,
+          "median": 9.194,
+          "min": 8.542,
+          "max": 9.257
+        },
+        "mpkpe_mean_cm": {
+          "n": 5,
+          "median": 5.643,
+          "min": 5.588,
+          "max": 5.778
+        },
+        "r_mpkpe_mean_cm": {
+          "n": 5,
+          "median": 3.658,
+          "min": 3.654,
+          "max": 3.678
+        },
+        "joint_rmse_mean_rad": {
+          "n": 5,
+          "median": 0.1168,
+          "min": 0.1167,
+          "max": 0.117
+        },
+        "joint_vel_rmse_mean": {
+          "n": 5,
+          "median": 1.0715,
+          "min": 1.0681,
+          "max": 1.0812
+        },
+        "yaw_err_absmean_deg": {
+          "n": 5,
+          "median": 11.36,
+          "min": 11.094,
+          "max": 12.498
+        },
+        "tilt_err_mean_deg": {
+          "n": 5,
+          "median": 4.693,
+          "min": 4.581,
+          "max": 4.736
+        },
+        "slip_left_total_cm": {
+          "n": 5,
+          "median": 91.304,
+          "min": 88.91,
+          "max": 97.681
+        },
+        "track_completion": {
+          "n": 5,
+          "median": 0.999,
+          "min": 0.999,
+          "max": 0.999
+        }
+      },
+      "falls": 0,
+      "n": 5
+    }
+  ]
+}
