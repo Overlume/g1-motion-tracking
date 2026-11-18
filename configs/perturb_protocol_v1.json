@@ -1,0 +1,75 @@
+{
+  "protocol": "m5_perturb_v1",
+  "robot": "unitree_g1_29dof (mjlab asset_zoo/robots/unitree_g1)",
+  "asset_total_mass_kg": 33.34,
+  "note_mass": "sum of 30 body masses in g1.xml; torso_link = 3.81 kg",
+  "applied_body": "torso_link",
+  "frame": "world",
+  "window_s": {
+    "start": 8.0,
+    "end": 8.2,
+    "duration": 0.2
+  },
+  "why_window": "clip midpoint; avoids startup reset transient and motion_end",
+  "tiers": [
+    {
+      "name": "j30",
+      "impulse_ns": 30,
+      "force_n": 150,
+      "dv_ms": 0.9
+    },
+    {
+      "name": "j60",
+      "impulse_ns": 60,
+      "force_n": 300,
+      "dv_ms": 1.8
+    },
+    {
+      "name": "j120",
+      "impulse_ns": 120,
+      "force_n": 600,
+      "dv_ms": 3.6
+    }
+  ],
+  "directions": {
+    "px": [
+      1,
+      0,
+      0
+    ],
+    "nx": [
+      -1,
+      0,
+      0
+    ],
+    "py": [
+      0,
+      1,
+      0
+    ],
+    "ny": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "seeds": [
+    101,
+    102,
+    103,
+    104,
+    105
+  ],
+  "eval": {
+    "script": "scripts/eval_tracking.py",
+    "steps": 999,
+    "control_hz": 50,
+    "terminations": "on",
+    "startup_dr": "off",
+    "num_envs": 1
+  },
+  "baseline": "runs/20261117-004-lab09-generalization/m4_train (no push, 5 seeds)",
+  "policy": "runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17_m4-w15/model_52998.pt",
+  "results": "runs/20261117-005-m5-perturb/m5.md",
+  "impl": "Entity.write_external_wrench_to_sim -> MuJoCo xfrc_applied (world frame), re-written every control step, zeroed outside the window"
+}
