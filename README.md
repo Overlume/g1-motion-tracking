@@ -2,6 +2,8 @@
 
 目标：在本地 WSL + RTX 3060 6GB 上，从零复现"人形机器人全身动作模仿"的最小可用闭环，并加入受控外力扰动实验。最终产出一个可解释、可重复、可交接的工程目录，而不是一次性 demo。
 
+> 公开仓库：https://github.com/Overlume/g1-motion-tracking （代码 + 文档 + 小幅结果文件；不含权重与动作数据）
+>
 > 项目指令来源：`<外部 brief 文档>`（用户 brief，2026-11-11 读入）。
 > 第一轮核验结论见 `docs/DECISIONS.md` 与 `docs/STATE.md`。
 

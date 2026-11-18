@@ -325,7 +325,7 @@
 - `README.md`：新增一屏结果表（基线 / 调参 / 规模 / 泛化 / 扰动）+ 结论一句话。
 - `LICENSE`（MIT）+ 第三方声明（LAFAN1 CC BY-NC-ND 不分发、mjlab Apache-2.0、GMR MIT）。
 - `.gitignore`：`environment/*` 只放行 requirements.txt；`runs/*` 白名单放行 md/json/csv/png（不含 metrics.csv、logs、ckpt）；`outputs/videos/` 整体排除。
-- 8 次提交（master，无 remote）：`283d7fa` chore → `f4a880b` feat(eval) → `b150df9` feat(retarget) → `0760514` docs(lab) → `cc47173` feat(train) → `7a19f3a` feat(m4) → `9ab14b4` feat(m5) → `b0381dd` docs(report)。
+- 8 次提交（分支 main，已推送 origin）：60f2d86 chore → b26960b feat(eval) → 8e5c6c2 feat(retarget) → 3c1ee54 docs(lab) → 4e9fe32 feat(train) → 4e19846 feat(m4) → fd38cbe feat(m5) → 9fa1f3c docs(report)。
 - 入库自检：140 个文件、`.git` 4.8 MB、无 `*.pt/*.npz/*.onnx/*.mp4`、无 metrics.csv、无 `/home/<user>`（runs 内绝对路径已改相对；文档内改为 `<workspace>`）。
-- 未做：`git remote add` 与 push（需要用户 GitHub 账号与仓库地址）；提交作者先用占位 `supermimic-dsh <dev@localhost>`，可用 `git rebase --root -x "git commit --amend --no-edit --reset-author"` 重写。
-- 下一步：用户填写 remote 并 push；之后按需补 M5 阈值细化或训练期 DR。
+- 已推送：https://github.com/Overlume/g1-motion-tracking （2026-11-18，git push --force-with-lease origin main；远端原有 GitHub 自动生成的 LICENSE 单独一次 initial commit，已由本项目 8 次提交整体替换）。提交作者 Overlume <overlume@qq.com>，历史用 git rebase --root -x "git commit --amend --no-edit --reset-author --date=<原日期>" 重写，保留原 author date。WSL 内无 git 凭据，push 时借用 Windows Git Credential Manager（credential.helper=!"/mnt/c/Program Files/Git/mingw64/bin/git-credential-manager.exe"）。
+- 下一步：可选补 M5 阈值细化（+y 方向 0.45/0.60/0.75 m/s）或训练期 DR；报告与仓库已公开。
