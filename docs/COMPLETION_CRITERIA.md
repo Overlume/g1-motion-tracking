@@ -85,7 +85,7 @@
 - [ ] `outputs/figures/`：≥2 张图（跟踪误差曲线、扰动恢复对比）
 - [ ] `configs/`：扰动协议 JSON、训练配置快照
 - [ ] GitHub 仓库 public，`git clone` 后按 README 能跑通回放
-- [ ] `docs/handoffs/`：最后一篇交接记录
+- [x] 交接记录：以 `docs/STATE.md` + `docs/PLAN.md` 为准（`docs/handoffs/` 已于 2026-11-18 移出公开仓库）
 
 ---
 

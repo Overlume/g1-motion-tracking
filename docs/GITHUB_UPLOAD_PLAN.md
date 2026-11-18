@@ -31,7 +31,7 @@
 | `README.md` | 一页结论 + 快速开始 + 结果表 | <20 KB |
 | `AGENTS.md` | 长期规则（可选，展示工程规范） | <10 KB |
 | `.gitignore` | 见第 3 节 | <2 KB |
-| `docs/` | PROJECT_BRIEF、STATE、PLAN、DECISIONS、SOURCES、ARTIFACT_INDEX、REPORT、COMPLETION_CRITERIA、GITHUB_UPLOAD_PLAN、`learning/*.md`、`handoffs/*.md` | <1 MB |
+| `docs/` | PROJECT_BRIEF、STATE、PLAN、DECISIONS、SOURCES、ARTIFACT_INDEX、REPORT、COMPLETION_CRITERIA、GITHUB_UPLOAD_PLAN、`learning/*.md` | <1 MB |
 | `scripts/` | 全部 .py/.sh（回放、评估、重定向、取景、统计） | <200 KB |
 | `configs/` | 扰动协议 JSON、训练配置快照 | <100 KB |
 | `runs/*/README.md`、`runs/*/summary.json` | 每次运行的命令 + 指标（**不含** metrics.csv 全量、不含 ckpt） | <2 MB |
@@ -129,7 +129,6 @@ supermimic-dsh/
 │   ├── SOURCES.md  ARTIFACT_INDEX.md  REPORT.md
 │   ├── COMPLETION_CRITERIA.md  GITHUB_UPLOAD_PLAN.md
 │   ├── learning/   LAB01..LAB05
-│   └── handoffs/   20261114-xxxx.md
 ├── scripts/
 │   ├── setup_env.sh
 │   ├── replay_policy.py  eval_tracking.py  camera_fit.py  motion_stats.py
