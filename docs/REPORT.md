@@ -1,0 +1,167 @@
+# 报告：Unitree G1 动作模仿与受控外力扰动（纯仿真）
+
+版本 v1.0 · 2026-11-18 · 作者：用户（实验执行）+ 智能体（设计与分析）
+环境：WSL2 Ubuntu 22.04 / Python 3.13.18 / torch 2.15.0+cu132 / mujoco 3.16.0 / mujoco-warp 3.16.0 / RTX 3060 Laptop 6 GB
+
+---
+
+## 0. 一句话结论
+
+在 6 GB 笔记本 GPU 上跑通了 G1（29 DoF）在 mjlab 上的动作模仿闭环：官方预训练策略在舞蹈动作上完成度 1.00（MPKPE 10.74 cm），但在格斗动作上 5/5 摔倒；把根位置奖励权重从 0.5 提到 1.5、在目标片段上微调 3000 iter 后，root 误差从 25.72 cm 降到 **3.90 cm（−84.8%）**，R-MPKPE 6.10 → 3.66 cm；**但该策略只对这个 20 s 窗口成立**——换到同片段的另一个窗口，完成度从 0.999 掉到 **0.101**；受控推力实验显示它在 **0.90 m/s 的侧向（+y）冲量下就失稳**，而制动方向（+x）可扛到 1.80 m/s。
+
+## 1. 设置
+
+| 项 | 值 |
+| --- | --- |
+| 机器人 | Unitree G1，29 DoF 双足（mjlab asset_zoo/robots/unitree_g1，整机 33.34 kg） |
+| 仿真栈 | mjlab v1.6.0（MuJoCo Warp），控制 50 Hz，dt 0.02 s |
+| 训练 | PPO（rsl_rl），4096 env × 24 步/iter，GPU 显存中位 1967 MiB |
+| 数据 | LAFAN1（CC BY-NC-ND 4.0）→ GMR 重定向 → 30 fps CSV → 50 fps npz（本仓库只放生成脚本，不放数据） |
+| 动作 | `fight1_s3_000s_20s.npz`（训练/主评估）、`fight1_s3_120s_20s.npz`（held-out 窗口）、`fight1_s2_134s_20s.npz`（未见片段）、`lafan_dance1_subject1.npz`（官方基线） |
+| 权重 | 官方 `model_49999.pt`（sha256 f1bc404f…22319）；自己训练 `model_52998.pt`（M4） |
+
+### 1.1 评估口径（协议 v2，`scripts/eval_tracking.py`）
+
+- 单 env、确定性（不采样动作噪声）、启动 DR 关闭、999 步（19.98 s）、种子 101–105、终止检测开。
+- 指标：`root_err_cm`（世界系根 xy 误差）、`MPKPE`（全身关键点误差）、`R-MPKPE`（根相对关键点误差，剔除位移后看姿态）、`joint_rmse`、`yaw_err`、`tilt_err`、左脚滑移、`track_completion`、每个 reset 的时刻与终止项。
+- **口径陷阱**（详见 D17/D18/D19）：
+  1. 训练侧 `error_anchor_pos` 是 3D 范数、随机抽帧、含 reset 瞬态；评估侧 `root_err_cm` 是 xy、单回合、从第 0 帧起。两者不可互校（M4 里差约 3 倍）。
+  2. `reset` 中位 > 5 的 rollout 不能用 root/姿态误差排序——机器人被反复丢回片头，误差天然小。
+  3. 终止检测开/关是两种口径：开=贴近部署（一次失败即中断），关=看“最终会不会摔”。
+
+## 2. 结果
+
+### 2.1 官方预训练策略的基线
+
+| 动作 | 完成度 | MPKPE cm | R-MPKPE cm | 摔倒 | 说明 |
+| --- | --- | --- | --- | --- | --- |
+| dance1（平稳舞蹈） | 1.00 | 10.74 | 3.42 | 0/N | 官方策略可用基线 |
+| fight1 S3（格斗） | 0.9309 | — | — | **5/5**（终止关，fall 时间中位 11.66 s，范围 5.54–18.56） | 与舞蹈相比是分布外 |
+| fight1 S3（终止开） | 0.333 | — | 8.63 | 0/5 | 摔倒前先被 `ee_body_pos` 重置，root 漂到 82.83 cm |
+
+结论：官方策略不是“通用的”——它在舞蹈上完成度满分，在格斗片段上平均 11.7 s 内摔倒。这为后续微调提供了明确的失败场景。
+
+### 2.2 单参数扫描：根位置奖励权重（std 固定 0.3）
+
+每个臂 = 300 iter 独立微调（4096 env、seed 0、从官方 ckpt 续训），唯一变量是 `motion_global_root_pos` 的 weight（`repos/mjlab_research/src/mjlab/tasks/tracking/tracking_env_cfg.py:210-214`）。
+
+| weight | root xy cm | root p95 | MPKPE cm | R-MPKPE cm | joint_rmse rad | 左脚滑移 cm | 摔倒 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.5 | 41.52 (39.82–42.59) | 100.63 | 42.65 | **6.25** | 0.1668 | 111.94 | 0/5 |
+| 1.0 | 30.86 (29.89–31.36) | 85.04 | 32.03 | **5.98** | 0.1724 | 99.61 | 0/5 |
+| 1.5 | 25.72 (24.63–26.47) | 76.11 | 26.86 | 6.10 | 0.1677 | 139.69 | 0/5 |
+| 2.5 | 22.95 (22.90–24.30) | 66.52 | 24.81 | 6.45 | 0.1849 | 159.47 | 0/5 |
+
+- root 误差随 weight 单调下降（0.5→2.5 共 −44.7%），但**收益递减**：−25.7% / −16.7% / −10.8%。
+- 姿态（R-MPKPE）是 **U 形**：1.0 最好（5.98），2.5 变差（6.45）；滑移从 111.9 涨到 159.5 cm（+42.5%）。
+- 噪声底：同一配置（w0.5）两次独立训练，root 41.52 vs 43.34（−4.2%）；因此 < 4% 的差异一律判“不可分辨”。
+
+**反例（LAB05）**：同时把 weight 0.5→1.0、std 0.3→0.15 时，root 反而从 43.34 恶化到 52.72（+21.7%）。原因是奖励核 exp(−d²/std²) 的梯度 ∝ (2d/std²)exp(−d²/std²)，std 收窄后该项在 0.3–0.5 m 处几乎失去梯度（d=0.45 m 时梯度幅值 1.05 → 4.9e-3，差 200 倍），权重加倍补不回来。→ 决定 D13：**只动 weight，std 保 0.3**。
+
+### 2.3 训练规模：300 → 3000 iter（weight 1.5）
+
+| 指标 | 300 iter | 3000 iter | 变化 |
+| --- | --- | --- | --- |
+| root xy cm | 25.72 (24.63–26.47) | **3.90 (3.79–4.12)** | −84.8% |
+| root p95 cm | 76.11 | 9.19 | −87.9% |
+| MPKPE cm | 26.86 | 5.64 | −79.0% |
+| R-MPKPE cm | 6.10 | **3.66** | −40.0% |
+| joint_rmse rad | 0.1677 | 0.1168 | −30.4% |
+| yaw err deg | 17.48 | 11.36 | −35.0% |
+| 左脚滑移 cm | 139.69 | 91.30 | −34.6% |
+| 完成度 | 0.999 | 0.999 | 持平 |
+| 摔倒 | 0/5 | 0/5 | 持平 |
+
+分布完全不重叠（300 iter 最好 24.63 cm vs 3000 iter 最差 4.12 cm）。训练开销：4096 env × 3000 iter = 29.5 M env-steps，墙钟 6412 s（1.78 h），迭代中位 1.99 s，显存中位 1967 MiB，GPU 温度中位 86 °C / 峰值 88 °C，利用率中位 75%。
+
+### 2.4 泛化：同一个 checkpoint 换窗口就崩
+
+| 策略 | 片段 | 完成度 | reset 中位 | 最长存活段 | root cm |
+| --- | --- | --- | --- | --- | --- |
+| M4 | S3 000–20 s（训练） | **0.999** | 1 | 19.96 s | **3.90** |
+| M4 | S3 120–140 s（held-out） | **0.101** | 23 | 2.02 s | n/a† |
+| M4 | S2 134 s（未见） | 0.025 | 49 | 0.50 s | n/a† |
+| 官方 | S3 000–20 s | 0.333 | 3 | 6.66 s | 82.83 |
+| 官方 | S3 120–140 s | 0.016 | 69 | 0.32 s | n/a† |
+| 官方 | S2 134 s | 0.013 | 81 | 0.26 s | n/a† |
+
+† reset 中位 > 5，误差指标作废。
+
+两点必须一起说：**（a）** 3.90 cm 是 in-distribution 成绩，换窗口完成度只剩 0.101（−90%），不能写成“学会了格斗动作模仿”；**（b）** 在训练片段上它比官方策略好一个数量级（0.999 vs 0.333，3.90 vs 82.83 cm），这个对比本身是有意义的——“特化策略 vs 通用策略”的取舍在这里非常直观。
+
+### 2.5 受控外力扰动（M5）
+
+口径：`torso_link` 上施加世界系恒力 0.2 s（8.00–8.20 s），整机 33.34 kg，Δv = J/m；4 方向 × 3 档 × 5 种子。协议见 `configs/perturb_protocol_v1.json`。
+
+| 方向 | j30（30 N·s，0.90 m/s） | j60（60 N·s，1.80 m/s） | j120（120 N·s，3.60 m/s） |
+| --- | --- | --- | --- |
+| +x | 未终止，后 0–1 s 13.2 cm → 1–2 s 5.3 | 未终止，28.1 → 9.5 | **终止 @8.38 s** |
+| −x | 未终止但慢，38.3 → 25.3 | **终止 @8.50 s** | **终止 @8.24 s** |
+| +y | **终止 @8.62 s** | **终止 @8.44 s** | **终止 @8.18 s** |
+| −y | 未终止但最慢，54.4 → 34.7 | **终止 @8.24 s** | **终止 @8.16 s** |
+
+1. **阈值排序 +y ≪ −x ≈ −y ≪ +x**，至少差 2 倍：+y 在 0.90 m/s 就崩，+x 要到 1.80–3.60 m/s 之间才崩。
+2. **“没终止”不等于“没事”**：+x j60 扰动后 1 s 的 root 误差是基线的 7 倍；−y j30 时 1 s 54.4 cm、2 s 仍 34.7 cm。终止阈值与恢复质量是两个独立维度。
+3. **失败极快**：所有终止都发生在推力窗口结束后 0–0.4 s（≤20 控制步），没有“踉跄后站稳”。这与 §2.4 的“换窗口即崩”同源：状态一旦出分布，策略就无从恢复。
+
+![扰动结果](outputs/figures/m5_perturbation.png)
+
+## 3. 关键发现
+
+1. **瓶颈不是显存**：4096 env 只用 1967 MiB / 6144 MiB；真正限制是 CPU/内存（available 1.8 GiB、swap 已用 1.5 GiB）与散热（86 °C，接近 87 °C 降频线，利用率只有 75%）。
+2. **根位置奖励权重是有效的单参数杠杆**，但收益递减且与姿态项互相付钱（滑移 +42.5%、R-MPKPE U 形）。
+3. **预算比调参更有效**：300→3000 iter 带来 −84.8% root 误差，远大于权重 0.5→2.5 的 −44.7%。
+4. **in-distribution 与 held-out 必须并列**：否则会把“记住这个窗口”写成“学会动作”。
+5. **失稳是阈值型且方向强相关**（≥2 倍），表现为 0.2 s 内的一次性事件，而非渐进退化。
+6. **工程陷阱会伪造指标**：WSL2 实时钟跳变会让 `Iteration time` 出现负值（D14）；训练侧 3D 误差与评估侧 xy 误差相差 3 倍（§1.1）。
+
+## 4. 局限（诚实清单）
+
+1. 每个策略只有 **1 个训练 seed**；评估侧 5 种子，训练侧方差未量化。
+2. 只在 **1 个动作片段**（S3 000–20 s）上训/测；held-out 仅 1 个窗口 + 1 个未见片段。
+3. 扰动只测了 **1 个施加时刻**（8.0 s），未扫描与步态相位的耦合。
+4. 未做 **训练期 DR**（域随机化）；评估时恒为 DR 关。
+5. 未与 SuperMimic 等其它方法对比，也未做 sim2real。
+6. 阈值分辨率只有 3 档，只能报“落在哪两档之间”，不给点估计。
+
+## 5. 复现
+
+```bash
+# 环境（项目内隔离，不污染全局）
+bash scripts/setup_env.sh
+
+# 动作（需要自备 LAFAN1 BVH，见 docs/SOURCES.md；本仓库不分发数据）
+environment/gmr-venv/bin/python scripts/gmr_bvh_to_csv.py --bvh <bvh> --start-frame 0 --max-frames 600 \
+  --out-pkl data/processed/gmr/s3.pkl --out-csv data/processed/gmr/s3.csv
+environment/.venv/bin/python scripts/csv_to_npz_local.py --input-fps 30 --output-fps 50
+
+# 训练（M4：4096 env × 3000 iter，从官方 ckpt 续训）
+environment/.venv/bin/train Mjlab-Tracking-Flat-Unitree-G1 \
+  --env.commands.motion.motion-file data/processed/fight1_s3_000s_20s.npz \
+  --env.scene.num-envs 4096 --agent.seed 0 --agent.max-iterations 3000 \
+  --agent.num-steps-per-env 24 --agent.save-interval 500 --agent.logger tensorboard \
+  --agent.resume True --agent.load-run pretrained --agent.load-checkpoint model_49999.pt
+
+# 评估（5 种子）
+MUJOCO_GL=egl environment/.venv/bin/python scripts/eval_tracking.py \
+  --checkpoint-file <ckpt> --motion-file data/processed/fight1_s3_000s_20s.npz \
+  --seed 101 --out runs/YYYYMMDD-001-eval
+
+# 扰动（M5：4 方向 × 3 档 × 5 种子）
+bash scripts/m5_perturb.sh run && bash scripts/m5_perturb.sh report
+```
+
+## 6. 许可与合规
+
+- **LAFAN1**（Ubisoft）为 CC BY-NC-ND 4.0：原始 BVH 与重定向产物**均不分发**，本仓库只提供生成脚本与校验和。
+- **mjlab**（Apache-2.0）、**GMR**（MIT）以依赖形式使用，不复制进仓库；版本/commit 见 `docs/SOURCES.md`。
+- **BONES-SEED** 未使用（专有学术许可，D4）。
+- 本仓库自己的代码与文档：MIT（见 `LICENSE`）。
+
+## 7. 未来工作
+
+1. 训练期 DR（摩擦、质心、编码器偏置）并评估 held-out 完成度是否上升。
+2. 把世界系根位置/速度显式加入 policy 观测，缓解“窗口专家”问题。
+3. 多动作联合训练（S3 + S2 + dance1），用 held-out 窗口选模型。
+4. 扰动细化：+y 方向补 0.45/0.60/0.75 m/s，找出真实阈值；并扫描施加时刻 × 步态相位。
+5. 与 SuperMimic / 官方策略在同一协议下对比泛化。
