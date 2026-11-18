@@ -349,3 +349,13 @@
 - 证据：`outputs/figures/evidence/m5_fall_check_{py_j30_s101,py_j60_s101,py_j27_s103,py_j27_s101}.jpg`。
 
 - 交接记录 `docs/handoffs/` 仅保留在本地，不入公开仓库（`.gitignore` 第 52 行；2026-11-18 用户决定）。
+
+
+## M5 姿态审计：终止分三类（2026-11-18）
+
+- `runs/20261118-003-posture-audit`（零 GPU）：80 次 rollout（12 格粗扫 60 + +y 细化 20），只读 `metrics.csv`。
+- 结果：`survived` 39 / `collapse` 10 / `upright_trip` 31。`collapse` 只出现在 +y：27 N·s 1/5（seed103）、30 N·s 4/5、60 N·s 5/5。
+- `upright_trip` 覆盖 +x 120、−x 60、−x 120、+y 120、−y 60、−y 120 各 5/5；复位都在推后 0.14–0.30 s，末段姿态仍在参考附近。
+- 影响：REPORT/README 的“高推力全部失稳”已改为“高推力全部被误差判罚，只有 +y 的终止是真倒地”（D21）。
+- 产物：`scripts/m5_posture_audit.py`（含 4 例视频自检）、`docs/learning/LAB11-posture-audit.md`、run README。
+- 下一步：6 个 `upright_trip` 格用 `--ignore-terminations` 跑推后 3 s 恢复段（LAB12，待写）。

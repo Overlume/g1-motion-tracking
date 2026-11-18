@@ -104,3 +104,6 @@
 - scripts/m5_combined_plot.py — 合并多 run 的扰动结果出图
 - runs/20261118-002-m5-video-check/ — M5 终止格视频核对（4 例，含复现一致性表与结论）
 - outputs/figures/evidence/m5_fall_check_*.jpg — 跪坐倒地（3 例）与存活对照（1 例）的抽帧拼图
+- runs/20261118-003-posture-audit/ — 零 GPU 姿态审计：80 次 rollout 三分法（39/10/31）、posture_audit.csv 逐次明细
+- scripts/m5_posture_audit.py — 姿态审计脚本（复位前 0.4 s 判据 + 4 例视频自检）
+- docs/learning/LAB11-posture-audit.md — LAB11 讲义（终止 ≠ 倒地，零 GPU 统计）
