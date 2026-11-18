@@ -1,0 +1,288 @@
+{
+  "motion": "data/processed/fight1_s3_000s_20s.npz",
+  "seeds": [
+    101,
+    102,
+    103,
+    104,
+    105
+  ],
+  "arms": [
+    {
+      "label": "w0.5",
+      "weight": 0.5,
+      "dir": "runs/20261116-003-lab06-eval/A",
+      "metrics": {
+        "root_err_mean_cm": {
+          "n": 5,
+          "median": 41.521,
+          "min": 39.819,
+          "max": 42.59
+        },
+        "root_err_p95_cm": {
+          "n": 5,
+          "median": 100.626,
+          "min": 97.48,
+          "max": 103.419
+        },
+        "mpkpe_mean_cm": {
+          "n": 5,
+          "median": 42.65,
+          "min": 40.908,
+          "max": 43.655
+        },
+        "r_mpkpe_mean_cm": {
+          "n": 5,
+          "median": 6.25,
+          "min": 6.199,
+          "max": 6.378
+        },
+        "joint_rmse_mean_rad": {
+          "n": 5,
+          "median": 0.1668,
+          "min": 0.1663,
+          "max": 0.1675
+        },
+        "joint_vel_rmse_mean": {
+          "n": 5,
+          "median": 1.2215,
+          "min": 1.2127,
+          "max": 1.2299
+        },
+        "yaw_err_absmean_deg": {
+          "n": 5,
+          "median": 24.278,
+          "min": 20.716,
+          "max": 26.735
+        },
+        "tilt_err_mean_deg": {
+          "n": 5,
+          "median": 4.236,
+          "min": 4.163,
+          "max": 4.27
+        },
+        "slip_left_total_cm": {
+          "n": 5,
+          "median": 111.942,
+          "min": 108.621,
+          "max": 114.769
+        },
+        "track_completion": {
+          "n": 5,
+          "median": 0.999,
+          "min": 0.999,
+          "max": 0.999
+        }
+      },
+      "falls": 0,
+      "n": 5
+    },
+    {
+      "label": "w1.0",
+      "weight": 1.0,
+      "dir": "runs/20261116-006-lab07-eval/w10",
+      "metrics": {
+        "root_err_mean_cm": {
+          "n": 5,
+          "median": 30.86,
+          "min": 29.894,
+          "max": 31.359
+        },
+        "root_err_p95_cm": {
+          "n": 5,
+          "median": 85.041,
+          "min": 81.542,
+          "max": 86.619
+        },
+        "mpkpe_mean_cm": {
+          "n": 5,
+          "median": 32.033,
+          "min": 31.191,
+          "max": 32.617
+        },
+        "r_mpkpe_mean_cm": {
+          "n": 5,
+          "median": 5.98,
+          "min": 5.938,
+          "max": 6.011
+        },
+        "joint_rmse_mean_rad": {
+          "n": 5,
+          "median": 0.1724,
+          "min": 0.171,
+          "max": 0.1727
+        },
+        "joint_vel_rmse_mean": {
+          "n": 5,
+          "median": 1.2362,
+          "min": 1.2224,
+          "max": 1.2484
+        },
+        "yaw_err_absmean_deg": {
+          "n": 5,
+          "median": 17.991,
+          "min": 16.694,
+          "max": 18.607
+        },
+        "tilt_err_mean_deg": {
+          "n": 5,
+          "median": 4.808,
+          "min": 4.766,
+          "max": 4.973
+        },
+        "slip_left_total_cm": {
+          "n": 5,
+          "median": 99.605,
+          "min": 93.402,
+          "max": 110.274
+        },
+        "track_completion": {
+          "n": 5,
+          "median": 0.999,
+          "min": 0.999,
+          "max": 0.999
+        }
+      },
+      "falls": 0,
+      "n": 5
+    },
+    {
+      "label": "w1.5",
+      "weight": 1.5,
+      "dir": "runs/20261116-003-lab06-eval/B",
+      "metrics": {
+        "root_err_mean_cm": {
+          "n": 5,
+          "median": 25.72,
+          "min": 24.633,
+          "max": 26.472
+        },
+        "root_err_p95_cm": {
+          "n": 5,
+          "median": 76.108,
+          "min": 75.792,
+          "max": 79.126
+        },
+        "mpkpe_mean_cm": {
+          "n": 5,
+          "median": 26.862,
+          "min": 25.754,
+          "max": 27.589
+        },
+        "r_mpkpe_mean_cm": {
+          "n": 5,
+          "median": 6.103,
+          "min": 6.034,
+          "max": 6.144
+        },
+        "joint_rmse_mean_rad": {
+          "n": 5,
+          "median": 0.1677,
+          "min": 0.1672,
+          "max": 0.1684
+        },
+        "joint_vel_rmse_mean": {
+          "n": 5,
+          "median": 1.2832,
+          "min": 1.2669,
+          "max": 1.2933
+        },
+        "yaw_err_absmean_deg": {
+          "n": 5,
+          "median": 17.481,
+          "min": 16.922,
+          "max": 20.142
+        },
+        "tilt_err_mean_deg": {
+          "n": 5,
+          "median": 4.839,
+          "min": 4.744,
+          "max": 4.946
+        },
+        "slip_left_total_cm": {
+          "n": 5,
+          "median": 139.694,
+          "min": 126.754,
+          "max": 148.031
+        },
+        "track_completion": {
+          "n": 5,
+          "median": 0.999,
+          "min": 0.999,
+          "max": 0.999
+        }
+      },
+      "falls": 0,
+      "n": 5
+    },
+    {
+      "label": "w2.5",
+      "weight": 2.5,
+      "dir": "runs/20261116-006-lab07-eval/w25",
+      "metrics": {
+        "root_err_mean_cm": {
+          "n": 5,
+          "median": 22.954,
+          "min": 22.896,
+          "max": 24.3
+        },
+        "root_err_p95_cm": {
+          "n": 5,
+          "median": 66.52,
+          "min": 65.083,
+          "max": 70.665
+        },
+        "mpkpe_mean_cm": {
+          "n": 5,
+          "median": 24.812,
+          "min": 24.648,
+          "max": 26.138
+        },
+        "r_mpkpe_mean_cm": {
+          "n": 5,
+          "median": 6.451,
+          "min": 6.41,
+          "max": 6.518
+        },
+        "joint_rmse_mean_rad": {
+          "n": 5,
+          "median": 0.1849,
+          "min": 0.1843,
+          "max": 0.1866
+        },
+        "joint_vel_rmse_mean": {
+          "n": 5,
+          "median": 1.3323,
+          "min": 1.3126,
+          "max": 1.3574
+        },
+        "yaw_err_absmean_deg": {
+          "n": 5,
+          "median": 19.881,
+          "min": 19.307,
+          "max": 21.28
+        },
+        "tilt_err_mean_deg": {
+          "n": 5,
+          "median": 4.043,
+          "min": 3.938,
+          "max": 4.071
+        },
+        "slip_left_total_cm": {
+          "n": 5,
+          "median": 159.465,
+          "min": 154.007,
+          "max": 162.611
+        },
+        "track_completion": {
+          "n": 5,
+          "median": 0.999,
+          "min": 0.999,
+          "max": 0.999
+        }
+      },
+      "falls": 0,
+      "n": 5
+    }
+  ]
+}

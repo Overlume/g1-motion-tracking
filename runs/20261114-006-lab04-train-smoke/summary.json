@@ -1,0 +1,69 @@
+{
+  "purpose": "LAB04 smoke training: mechanics check (iteration time / VRAM / checkpoint reload), NOT a learning run",
+  "run_dir": "runs/20261114-006-lab04-train-smoke",
+  "num_envs": 512,
+  "iterations_requested": 100,
+  "iterations_captured": 100,
+  "samples_per_iter": 12288,
+  "seed": 0,
+  "motion_file": "data/processed/lafan_dance1_subject1.npz",
+  "train_exit_code": 0,
+  "iter_time_s": {
+    "first": 11.84,
+    "median": 0.89,
+    "p95": 0.9709999999999999,
+    "min": -1.65,
+    "max": 11.84,
+    "n": 100
+  },
+  "vram_mib": {
+    "peak": 505,
+    "median": 505,
+    "samples": 227
+  },
+  "checkpoints": [
+    "logs/g1_tracking/2026-11-14_16-23-22_lab04/model_0.pt",
+    "logs/g1_tracking/2026-11-14_16-23-22_lab04/model_50.pt",
+    "logs/g1_tracking/2026-11-14_16-23-22_lab04/model_99.pt"
+  ],
+  "checkpoint_bytes": [
+    6768575,
+    6769105,
+    6769105
+  ],
+  "onnx": [
+    "logs/g1_tracking/2026-11-14_16-23-22_lab04/2026-11-14_16-23-22_lab04.onnx"
+  ],
+  "actor_delta": {
+    "mean_abs_delta": 0.007368223879654579,
+    "tensors": 13,
+    "tensors_changed": 10,
+    "iter_from": 0,
+    "iter_to": 99
+  },
+  "mean_reward": {
+    "first": -2.26,
+    "last": -0.33
+  },
+  "mean_episode_length": {
+    "first": 14.25,
+    "last": 6.98
+  },
+  "mean_action_std": {
+    "first": 1.0,
+    "last": 0.89
+  },
+  "log_error_lines": [
+    "Metrics/motion/error_anchor_pos: 0.0947",
+    "Metrics/motion/error_anchor_rot: 0.4689",
+    "Metrics/motion/error_anchor_lin_vel: 1.1426",
+    "Metrics/motion/error_anchor_ang_vel: 6.2400",
+    "Metrics/motion/error_body_pos: 0.1341",
+    "Metrics/motion/error_body_rot: 0.7323",
+    "Metrics/motion/error_joint_pos: 2.5356",
+    "Metrics/motion/error_joint_vel: 30.5505",
+    "Metrics/motion/error_body_lin_vel: 1.6763",
+    "Metrics/motion/error_body_ang_vel: 9.0919"
+  ],
+  "summarized_at": "2026-11-14 16:25:18 +0800"
+}
