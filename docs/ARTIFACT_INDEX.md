@@ -85,7 +85,7 @@
 
 ## 2026-11-14 15:20 交接
 
-- docs/handoffs/20261114-1520-handoff.md：完整交接资料；仅本地保留，`.gitignore` 已排除，不随仓库分发（2026-11-18 用户确认）
+- docs/handoffs/（仅本地，`.gitignore` 已排除，不随仓库分发）：最新 `20261118-2055-handoff.md`（M0–M6 收口、M5 三段、D21、下一步恢复实验）；历史 `20261114-1520-handoff.md`
 - outputs/videos/model_49999/960x540/cam_default_dance1/：相机定稿证据（follow，4 env）
 
 ## 2026-11-17
