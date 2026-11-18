@@ -86,3 +86,4 @@
        - [x] **M6 报告与提交**（2026-11-18 完成）：`docs/REPORT.md`、`configs/perturb_protocol_v1.json`、`outputs/figures/`、README 结果表与结果图、`LICENSE` + `THIRD_PARTY_NOTICES.md`、8 次提交并已 push 到 Overlume/g1-motion-tracking（2026-11-18）
        - [x] **上传**（2026-11-18）：public 仓库 https://github.com/Overlume/g1-motion-tracking ，分支 `main`，作者 Overlume <overlume@qq.com>
 - 完整交接：`docs/handoffs/20261118-2055-handoff.md`（**仅本地**，不入库；2026-11-18 更新）；当前事实以 `docs/STATE.md` + `docs/DECISIONS.md` 为准
+- [x] **LAB11 姿态审计复现**（2026-11-18 完成）：用户 `scratch/lab11-repro/posture_audit.csv` 与 canonical 逐字节一致；80 次 rollout 三类 39/10/31，collapse 全在 +y；四道预测仅 Q1 的 survived 命中，判分见 `docs/learning/LAB11-prediction.md`
