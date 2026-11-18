@@ -99,4 +99,4 @@
 - configs/perturb_protocol_v1.json — M5 扰动协议 v1
 - outputs/figures/{m5_perturbation,weight_sweep_lab07,m4_scale_300_vs_3000}.png + evidence/ — 报告用图与证据
 - docs/REPORT.md — 项目报告 v1.0
-- LICENSE — MIT + 第三方声明
+- LICENSE — 纯 MIT；THIRD_PARTY_NOTICES.md — 第三方组件与数据许可

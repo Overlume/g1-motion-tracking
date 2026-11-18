@@ -323,7 +323,7 @@
 - `configs/perturb_protocol_v1.json`：M5 协议（body=torso_link、世界系、0.2 s 窗口、30/60/120 N·s、4 方向、种子 101–105、评估口径）。
 - `outputs/figures/`：`m5_perturbation.png`、`weight_sweep_lab07.png`、`m4_scale_300_vs_3000.png`；`evidence/` 内 2 个 gif（≤1.7 MB）+ 3 张关键帧 png。
 - `README.md`：新增一屏结果表（基线 / 调参 / 规模 / 泛化 / 扰动）+ 结论一句话。
-- `LICENSE`（MIT）+ 第三方声明（LAFAN1 CC BY-NC-ND 不分发、mjlab Apache-2.0、GMR MIT）。
+- `LICENSE`（纯 MIT，copyright 2026 Overlume）+ `THIRD_PARTY_NOTICES.md`（LAFAN1 CC BY-NC-ND 不分发、mjlab Apache-2.0、GMR MIT、权重不入库）。
 - `.gitignore`：`environment/*` 只放行 requirements.txt；`runs/*` 白名单放行 md/json/csv/png（不含 metrics.csv、logs、ckpt）；`outputs/videos/` 整体排除。
 - 8 次提交（分支 main，已推送 origin）：60f2d86 chore → b26960b feat(eval) → 8e5c6c2 feat(retarget) → 3c1ee54 docs(lab) → 4e9fe32 feat(train) → 4e19846 feat(m4) → fd38cbe feat(m5) → 9fa1f3c docs(report)。
 - 入库自检：140 个文件、`.git` 4.8 MB、无 `*.pt/*.npz/*.onnx/*.mp4`、无 metrics.csv、无 `/home/<user>`（runs 内绝对路径已改相对；文档内改为 `<workspace>`）。

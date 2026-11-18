@@ -156,7 +156,7 @@ bash scripts/m5_perturb.sh run && bash scripts/m5_perturb.sh report
 - **LAFAN1**（Ubisoft）为 CC BY-NC-ND 4.0：原始 BVH 与重定向产物**均不分发**，本仓库只提供生成脚本与校验和。
 - **mjlab**（Apache-2.0）、**GMR**（MIT）以依赖形式使用，不复制进仓库；版本/commit 见 `docs/SOURCES.md`。
 - **BONES-SEED** 未使用（专有学术许可，D4）。
-- 本仓库自己的代码与文档：MIT（见 `LICENSE`）。
+- 本仓库自己的代码与文档：MIT（见 `LICENSE`）；第三方组件与数据见 `THIRD_PARTY_NOTICES.md`。
 
 ## 7. 未来工作
 
