@@ -32,4 +32,6 @@
 ## 交接
 
 - 用户说"准备交接/换窗口/收尾"时：到安全停顿点 → 更新 `docs/STATE.md`、`docs/PLAN.md`、`docs/ARTIFACT_INDEX.md` → 生成 `docs/handoffs/YYYYMMDD-HHMM.md`。
+
+- `docs/handoffs/` 只保留在本地，不提交；`.gitignore` 已排除该目录（2026-11-18 用户确认）。写完交接后不要 `git add` 它。
 - 新窗口先读 AGENTS / README / PROJECT_BRIEF / STATE / PLAN + 最近交接，做最小只读核对；发现不一致先指出再动手。

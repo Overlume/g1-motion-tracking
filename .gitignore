@@ -47,3 +47,6 @@ Thumbs.db
 .env
 *.key
 wandb/
+
+# 本地交接记录：只在本地使用，不上传（2026-11-18 用户要求）
+docs/handoffs/

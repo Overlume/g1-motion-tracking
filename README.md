@@ -90,4 +90,4 @@ MUJOCO_GL=egl environment/.venv/bin/python scripts/eval_tracking.py \
 - `docs/COMPLETION_CRITERIA.md` — 项目「完成」的判定条件、必跑实验、不在范围内的事项
 - `docs/GITHUB_UPLOAD_PLAN.md` — 上传清单、`.gitignore`、提交划分、上传前检查
 - `docs/learning/` — 带练 LAB（用户亲手做的实验记录）
-- `docs/STATE.md` / `docs/PLAN.md` — 交接入口（`docs/handoffs/` 已移出公开仓库）
+- `docs/handoffs/` — 交接记录（**仅本地**，已写入 `.gitignore`，不随仓库分发）

@@ -85,7 +85,7 @@
 
 ## 2026-11-14 15:20 交接
 
-- docs/handoffs/20261114-1520-handoff.md：完整交接资料；**2026-11-18 随 commit 8cf98b1 从仓库删除**（本地同步清理），其结论已并入 STATE / PLAN / DECISIONS
+- docs/handoffs/20261114-1520-handoff.md：完整交接资料；仅本地保留，`.gitignore` 已排除，不随仓库分发（2026-11-18 用户确认）
 - outputs/videos/model_49999/960x540/cam_default_dance1/：相机定稿证据（follow，4 env）
 
 ## 2026-11-17
