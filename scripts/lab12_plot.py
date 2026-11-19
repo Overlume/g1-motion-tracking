@@ -16,14 +16,14 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-ORDER = ["px_j120", "nx_j120", "py_j120", "ny_j120", "nx_j60", "ny_j60"]
+ORDER = ["px_j120", "py_j120", "nx_j120", "ny_j120", "nx_j60", "ny_j60"]
 LABELS = {
-    "px_j120": "+x 600 N",
-    "nx_j120": "-x 600 N",
-    "py_j120": "+y 600 N",
-    "ny_j120": "-y 600 N",
-    "nx_j60": "-x 300 N",
-    "ny_j60": "-y 300 N",
+    "px_j120": "+x 120 N·s",
+    "nx_j120": "-x 120 N·s",
+    "py_j120": "+y 120 N·s",
+    "ny_j120": "-y 120 N·s",
+    "nx_j60": "-x 60 N·s",
+    "ny_j60": "-y 60 N·s",
 }
 COLORS = {"stable": "#4c9f70", "transient": "#e2b33c", "down": "#c0392b"}
 NAMES = {"stable": "stayed up", "transient": "wobbled, recovered", "down": "ended on the floor"}
