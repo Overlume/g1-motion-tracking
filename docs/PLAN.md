@@ -88,3 +88,4 @@
 - 完整交接：`docs/handoffs/20261118-2055-handoff.md`（**仅本地**，不入库；2026-11-18 更新）；当前事实以 `docs/STATE.md` + `docs/DECISIONS.md` 为准
 - [x] **LAB11 姿态审计复现**（2026-11-18 完成）：用户 `scratch/lab11-repro/posture_audit.csv` 与 canonical 逐字节一致；80 次 rollout 三类 39/10/31，collapse 全在 +y；四道预测仅 Q1 的 survived 命中，判分见 `docs/learning/LAB11-prediction.md`
 - [x] **LAB12 恢复实验**（2026-11-19 完成，`runs/20261119-001-lab12-recovery`）：6 格 × 5 种子 = 30 次，`--ignore-terminations` 跑推后 3 s → **2 稳 / 5 摔后恢复 / 23 倒地**（22 次 fall 命中）；31 次 upright_trip 里 74% 是延迟倒地。+x 600 N 2 稳 + 2 倒 + 1 临界，其余三方向 600 N 全倒；300 N 时 −x 4/5 恢复 vs −y 4/5 倒地 → “被判罚快”≠“站不住”（D22）。合并后 80 次扰动最终 46 没倒 / 33 倒。
+- [ ] **LAB13 冲量中点扫描**（讲义与脚本已就绪，待用户跑）：−x / −y 在 300 与 600 N·s 之间补 400（j40）/450（j45）N·s × 5 种子 = 20 次，复用 LAB12 的评估与判分（`scripts/lab13_mid_impulse.sh` → `lab12_recovery.sh`，tag `lab13-mid-impulse`），约 12 min；目的：把「300 能恢复、600 全倒」的拐点夹到 1/6 区间。自测 ny_j40/s101 = transient（最长偏离 0.80 s、骨盆最低 0.444 m、末尾 root 10.6 cm）。

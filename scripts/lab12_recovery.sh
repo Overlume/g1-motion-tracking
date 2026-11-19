@@ -7,7 +7,9 @@
 #   bash scripts/lab12_recovery.sh report  # 只重跑判分
 #   bash scripts/lab12_recovery.sh show    # 打印已有报告的汇总表
 #
-# 覆盖变量：LAB12_RUN_DIR / LAB12_CELLS / LAB12_SEEDS / LAB12_CKPT / LAB12_MOTION
+# 覆盖变量：LAB12_RUN_DIR / LAB12_TAG / LAB12_CELLS / LAB12_SEEDS / LAB12_CKPT / LAB12_MOTION /
+#           LAB12_PUSH_S / LAB12_PUSH_DUR
+#   LAB12_TAG 决定 run 目录后缀（默认 lab12-recovery；LAB13 用 lab13-mid-impulse）
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
@@ -21,6 +23,7 @@ CKPT=${LAB12_CKPT:-runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17
 MOTION=${LAB12_MOTION:-data/processed/fight1_s3_000s_20s.npz}
 CELLS=${LAB12_CELLS:-px_j120 nx_j60 nx_j120 py_j120 ny_j60 ny_j120}
 SEEDS=${LAB12_SEEDS:-101 102 103 104 105}
+TAG=${LAB12_TAG:-lab12-recovery}
 PUSH_S=${LAB12_PUSH_S:-8.0}
 PUSH_DUR=${LAB12_PUSH_DUR:-0.2}
 
@@ -46,15 +49,15 @@ new_run_dir() {
   local stamp n
   stamp=$(date +%Y%m%d)
   n=1
-  while [[ -d runs/$(printf '%s-%03d-lab12-recovery' "$stamp" "$n") ]]; do n=$((n+1)); done
-  printf 'runs/%s-%03d-lab12-recovery' "$stamp" "$n"
+  while [[ -d runs/$(printf '%s-%03d-%s' "$stamp" "$n" "$TAG") ]]; do n=$((n+1)); done
+  printf 'runs/%s-%03d-%s' "$stamp" "$n" "$TAG"
 }
 
 write_meta() {
   local run=$1
   mkdir -p "$run"
-  printf 'ckpt: %s\nsha256: %s\nmotion: %s\ncells: %s\nseeds: %s\npush: %s s +%s s\ntermination: OFF\n' \
-    "$CKPT" "$(sha256sum "$CKPT" | cut -d' ' -f1)" "$MOTION" "$CELLS" "$SEEDS" "$PUSH_S" "$PUSH_DUR" > "$run/params.txt"
+  printf 'tag: %s\nckpt: %s\nsha256: %s\nmotion: %s\ncells: %s\nseeds: %s\npush: %s s +%s s\ntermination: OFF\n' \
+    "$TAG" "$CKPT" "$(sha256sum "$CKPT" | cut -d' ' -f1)" "$MOTION" "$CELLS" "$SEEDS" "$PUSH_S" "$PUSH_DUR" > "$run/params.txt"
   {
     printf 'python: '; $PY -c 'import sys; print(sys.version.split()[0])'
     $PY -c 'import torch, mujoco; print("torch", torch.__version__); print("mujoco", mujoco.__version__)'
@@ -112,14 +115,14 @@ do_run() {
 
 do_report() {
   local run
-  run=${LAB12_RUN_DIR:-$(ls -dt runs/*-lab12-recovery 2>/dev/null | head -1)}
-  [[ -n $run && -d $run ]] || die "找不到 LAB12 run 目录（可用 LAB12_RUN_DIR 指定）"
+  run=${LAB12_RUN_DIR:-$(ls -dt "runs/"*"-${TAG}" 2>/dev/null | head -1)}
+  [[ -n $run && -d $run ]] || die "找不到 run 目录（标签 ${TAG}；可用 LAB12_RUN_DIR 指定）"
   $PY "$REPORT" --dir "$run"
 }
 
 do_show() {
   local run
-  run=${LAB12_RUN_DIR:-$(ls -dt runs/*-lab12-recovery 2>/dev/null | head -1)}
+  run=${LAB12_RUN_DIR:-$(ls -dt "runs/"*"-${TAG}" 2>/dev/null | head -1)}
   [[ -n $run && -f $run/recovery.md ]] || die "还没有报告（先跑 run）"
   sed -n '1,40p' "$run/recovery.md"
 }

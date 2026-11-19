@@ -114,4 +114,6 @@
 - scripts/lab12_plot.py — LAB12 分类堆叠图（outputs/figures/lab12_recovery.png）
 - outputs/figures/lab12_recovery.png — 报告用图：每格 5 种子的结局构成
 - docs/learning/LAB12-prediction.md — 用户四题 + 实测答案 + 判分（0.5/5）与错误模式
+- scripts/lab13_mid_impulse.sh — LAB13 薄封装（LAB12 评估+判分，tag lab13-mid-impulse，格 nx_j40/nx_j45/ny_j40/ny_j45）
+- docs/learning/LAB13-mid-impulse.md — LAB13 讲义（为什么选 400/450、5 道预测题、读数顺序、坑表）
 

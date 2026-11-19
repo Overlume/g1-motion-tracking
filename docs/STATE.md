@@ -382,3 +382,13 @@
 - 产物：`recovery.md`/`recovery.json`/`README.md`（含判分与 5 条局限）、`scripts/lab12_recovery.sh`、`scripts/lab12_recovery_report.py`、`scripts/lab12_plot.py`、`outputs/figures/lab12_recovery.png`；REPORT 新增 §2.5.3，README 结果表同步。
 - 用户预测 0.5/5（Q4 半分），判分与错误模式已写入 `docs/learning/LAB12-prediction.md`。
 - 下一步二选一：① 补 −x/−y 的 400/450 N·s 定位“必倒”边界；② 扫施加时刻 × 步态相位（同一冲量换 7.6–8.4 s，看阈值是否随相位摆动）；之后才做训练期 DR。
+
+## LAB13 就绪：冲量中点扫描（2026-11-19）
+
+- 目的：LAB12 给出两点（300 N·s 有恢复、600 N·s 全倒），中间空缺；补 400（j40 = 200 N×0.2 s）/ 450（j45 = 225 N×0.2 s）N·s 两档，把拐点夹到 1/6 区间。
+- 范围：仅 −x 与 −y（+x 在 600 N·s 仍有 2/5 稳住，−x/−y 才是分界所在），4 格 × 种子 101–105 = 20 次，约 12 min。
+- 复用：与 LAB12 完全相同的 ckpt（`model_52998`）、动作、推力窗口（8.0 s + 0.2 s）、终止关、判据；只改冲量与 run tag。
+- 脚本：新增 `scripts/lab13_mid_impulse.sh`（薄封装，设 `LAB12_TAG=lab13-mid-impulse` 与格列表后 exec `lab12_recovery.sh`）；`lab12_recovery.sh` 新增 `LAB12_TAG`（run 目录后缀、params.txt 记 tag、report/show 按 tag 找最新目录），默认值不变。
+- 自测：`ny_j40`/s101 → transient（数据结束 19.98 s、最长偏离 0.80 s、骨盆最低 0.444 m、最大倾角差 58.6°、末尾 root 10.6 cm）；证明 400 N·s 时 −y 仍可恢复，且力映射 j40→200 N 正确。自测目录已删。
+- 讲义：`docs/learning/LAB13-mid-impulse.md`（含 5 道预测题：−x/−y 在 400/450 各倒几次、50 N·s 的差别能否看出、5 种子分辨率、结论表述）。
+- 下一步：用户跑完判分；据 −x 与 −y 的 4 点曲线决定是否再补 500 N·s，或转去扫施加时刻 × 步态相位。
