@@ -110,3 +110,8 @@
 - scripts/lab12_recovery.sh — LAB12 恢复实验（run/report/show；6 格 × 5 种子，--ignore-terminations，推后 3 s）
 - scripts/lab12_recovery_report.py — LAB12 判分器（stable / transient / down，输出 recovery.md/json）
 - docs/learning/LAB12-recovery.md — LAB12 讲义（缺口、判据、四道预测题、读数顺序、坑表）
+- runs/20261119-001-lab12-recovery/ — LAB12 恢复实验（6 格 × 5 种子，termination 关，推后 3 s；2 稳 / 5 恢复 / 23 倒地）
+- scripts/lab12_plot.py — LAB12 分类堆叠图（outputs/figures/lab12_recovery.png）
+- outputs/figures/lab12_recovery.png — 报告用图：每格 5 种子的结局构成
+- docs/learning/LAB12-prediction.md — 用户四题 + 实测答案 + 判分（0.5/5）与错误模式
+

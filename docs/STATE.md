@@ -370,3 +370,15 @@
 - 自测（`scratch/lab12-selftest`，gitignored，2 次）：`py_j120`/s101 → down（t_end 8.96 s、pelvis_min 0.094、tilt_max 172.5°、fall=True）；`nx_j120`/s101 → down（t_end 9.18 s、pelvis_min 0.089、tilt_max 149.7°、fall=True）。2 个样本不足以当结论，但提示多数 `upright_trip` 会在放宽终止后倒下。
 - 产物：`docs/learning/LAB12-recovery.md`、`scripts/lab12_recovery.sh`（run/report/show，自动编号 runs/YYYYMMDD-NNN-lab12-recovery）、`scripts/lab12_recovery_report.py`（recovery.md/json）。
 - 成本：30 次约 20 min。下一步：用户跑完判分，据结果决定 M5 的“抗扰”表述如何收紧（D21 可能再修订）。
+
+## LAB12 结果：关掉终止后的 30 次（2026-11-19）
+
+- run：`runs/20261119-001-lab12-recovery`（6 格 × 5 种子 = 30 次，`--ignore-terminations`，推后看 3 s，墙钟约 15 min；ckpt `model_52998` sha `fc8f975b…ceed9`）。
+- 结果：**2 `stable` / 5 `transient` / 23 `down`**（22 次 fall 命中 + 1 次临界 +x 600 N 种子 104）。
+- 分格：+x 600 N 2 稳 / 2 倒 / 1 临界；−x 600 N、+y 600 N、−y 600 N 全 5/5 倒；−x 300 N 4 恢复 + 1 倒；−y 300 N 4 倒 + 1 恢复。
+- 倒地时刻中位：+y 8.94 < −y 9.06 < −x 9.20 ≪ +x（10.26/10.60 或跑满）；首次偏离 8.06–8.26 s（推后 0.06–0.26 s）。
+- 关键：31 次 `upright_trip` 里 23 次是延迟倒地（74%）；M5 里 −x 60 与 −y 60 终止时刻几乎相同但恢复能力 4/5 vs 1/5，**“多快被判罚”≠“能不能站住”**（D22）。
+- 合并 LAB11：80 次扰动评估最终 46 没倒 / 33 倒（倒地率 41%）。
+- 产物：`recovery.md`/`recovery.json`/`README.md`（含判分与 5 条局限）、`scripts/lab12_recovery.sh`、`scripts/lab12_recovery_report.py`、`scripts/lab12_plot.py`、`outputs/figures/lab12_recovery.png`；REPORT 新增 §2.5.3，README 结果表同步。
+- 用户预测 0.5/5（Q4 半分），判分与错误模式已写入 `docs/learning/LAB12-prediction.md`。
+- 下一步二选一：① 补 −x/−y 的 400/450 N·s 定位“必倒”边界；② 扫施加时刻 × 步态相位（同一冲量换 7.6–8.4 s，看阈值是否随相位摆动）；之后才做训练期 DR。

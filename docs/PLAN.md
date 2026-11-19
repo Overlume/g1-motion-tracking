@@ -87,4 +87,4 @@
        - [x] **上传**（2026-11-18）：public 仓库 https://github.com/Overlume/g1-motion-tracking ，分支 `main`，作者 Overlume <overlume@qq.com>
 - 完整交接：`docs/handoffs/20261118-2055-handoff.md`（**仅本地**，不入库；2026-11-18 更新）；当前事实以 `docs/STATE.md` + `docs/DECISIONS.md` 为准
 - [x] **LAB11 姿态审计复现**（2026-11-18 完成）：用户 `scratch/lab11-repro/posture_audit.csv` 与 canonical 逐字节一致；80 次 rollout 三类 39/10/31，collapse 全在 +y；四道预测仅 Q1 的 survived 命中，判分见 `docs/learning/LAB11-prediction.md`
-- [ ] **LAB12 恢复实验**（讲义与脚本已就绪，待用户跑）：6 个 upright_trip 格（px_j120 / nx_j60 / nx_j120 / py_j120 / ny_j60 / ny_j120）× 5 种子，--ignore-terminations 跑推后 3 s，判分 stable / transient / down（`scripts/lab12_recovery.sh` + `scripts/lab12_recovery_report.py`）。自测 2 次均 down（py_j120/s101 8.96 s、nx_j120/s101 9.18 s）。
+- [x] **LAB12 恢复实验**（2026-11-19 完成，`runs/20261119-001-lab12-recovery`）：6 格 × 5 种子 = 30 次，`--ignore-terminations` 跑推后 3 s → **2 稳 / 5 摔后恢复 / 23 倒地**（22 次 fall 命中）；31 次 upright_trip 里 74% 是延迟倒地。+x 600 N 2 稳 + 2 倒 + 1 临界，其余三方向 600 N 全倒；300 N 时 −x 4/5 恢复 vs −y 4/5 倒地 → “被判罚快”≠“站不住”（D22）。合并后 80 次扰动最终 46 没倒 / 33 倒。
