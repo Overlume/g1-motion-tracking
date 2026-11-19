@@ -116,4 +116,7 @@
 - docs/learning/LAB12-prediction.md — 用户四题 + 实测答案 + 判分（0.5/5）与错误模式
 - scripts/lab13_mid_impulse.sh — LAB13 薄封装（LAB12 评估+判分，tag lab13-mid-impulse，格 nx_j40/nx_j45/ny_j40/ny_j45）
 - docs/learning/LAB13-mid-impulse.md — LAB13 讲义（为什么选 400/450、5 道预测题、读数顺序、坑表）
+- runs/20261119-002-lab13-mid-impulse/ — LAB13 冲量中点扫描（−x/−y × 400/450 N·s × 5 种子；证明非单调，D23）
+- docs/learning/LAB13-prediction.md — 用户五题 + 判分（1.5/5）与“默认单调”错误模式
+- docs/handoffs/20261119-1500-handoff.md — 交接（LAB13 之后，指向 LAB14）
 
