@@ -358,4 +358,15 @@
 - `upright_trip` 覆盖 +x 120、−x 60、−x 120、+y 120、−y 60、−y 120 各 5/5；复位都在推后 0.14–0.30 s，末段姿态仍在参考附近。
 - 影响：REPORT/README 的“高推力全部失稳”已改为“高推力全部被误差判罚，只有 +y 的终止是真倒地”（D21）。
 - 产物：`scripts/m5_posture_audit.py`（含 4 例视频自检）、`docs/learning/LAB11-posture-audit.md`、run README。
-- 下一步：6 个 `upright_trip` 格用 `--ignore-terminations` 跑推后 3 s 恢复段（LAB12，待写）。
+- 下一步：6 个 `upright_trip` 格用 `--ignore-terminations` 跑推后 3 s 恢复段（LAB12，讲义与脚本已就绪，待用户跑）。
+
+
+## LAB12 就绪：恢复实验（2026-11-19）
+
+- 目的：补 LAB11 的缺口——姿态审计只能看复位前 0.4 s，31 次 `upright_trip` 的“后来”没有数据。
+- 设置：6 格（+x 120、−x 60、−x 120、+y 120、−y 60、−y 120）× 种子 101–105 = 30 次，`--ignore-terminations`，推后看 3 s（窗口 8.0–11.2 s），ckpt `model_52998`、动作 S3。
+- 判分：偏离 = 骨盆比参考低 ≥0.08 m 或倾角歪 ≥13°；连续 ≥10 帧（0.2 s）记崩溃；数据最后 0.5 s 回到参考附近记恢复 → `stable` / `transient` / `down`。
+- 关键源码事实：`scripts/eval_tracking.py` 的 fall 判据（骨盆 <0.15 m 连续 5 步）**独立于 termination manager**，所以关掉 termination 后真倒地仍会 break，`t_end` 就是摔倒时刻（这是好事，给了“确定倒了”的硬证据）。
+- 自测（`scratch/lab12-selftest`，gitignored，2 次）：`py_j120`/s101 → down（t_end 8.96 s、pelvis_min 0.094、tilt_max 172.5°、fall=True）；`nx_j120`/s101 → down（t_end 9.18 s、pelvis_min 0.089、tilt_max 149.7°、fall=True）。2 个样本不足以当结论，但提示多数 `upright_trip` 会在放宽终止后倒下。
+- 产物：`docs/learning/LAB12-recovery.md`、`scripts/lab12_recovery.sh`（run/report/show，自动编号 runs/YYYYMMDD-NNN-lab12-recovery）、`scripts/lab12_recovery_report.py`（recovery.md/json）。
+- 成本：30 次约 20 min。下一步：用户跑完判分，据结果决定 M5 的“抗扰”表述如何收紧（D21 可能再修订）。

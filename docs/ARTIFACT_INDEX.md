@@ -107,3 +107,6 @@
 - runs/20261118-003-posture-audit/ — 零 GPU 姿态审计：80 次 rollout 三分法（39/10/31）、posture_audit.csv 逐次明细
 - scripts/m5_posture_audit.py — 姿态审计脚本（复位前 0.4 s 判据 + 4 例视频自检）
 - docs/learning/LAB11-posture-audit.md — LAB11 讲义（终止 ≠ 倒地，零 GPU 统计）
+- scripts/lab12_recovery.sh — LAB12 恢复实验（run/report/show；6 格 × 5 种子，--ignore-terminations，推后 3 s）
+- scripts/lab12_recovery_report.py — LAB12 判分器（stable / transient / down，输出 recovery.md/json）
+- docs/learning/LAB12-recovery.md — LAB12 讲义（缺口、判据、四道预测题、读数顺序、坑表）
