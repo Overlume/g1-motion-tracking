@@ -1,8 +1,9 @@
-# LAB12 恢复实验判分
+# 恢复实验判分：runs/20261119-002-lab13-mid-impulse
 
 - 输入：runs/20261119-002-lab13-mid-impulse 下 4 个格、20 次 rollout
 - 判据：偏离 = 骨盆比参考低 >= 0.08 m 或倾角比参考歪 >= 13.0 deg；窗口 8.0–11.2 s；连续 >= 10 帧（0.2 s）偏离记崩溃；数据最后 0.5 s 回到参考附近（平均下移 < 0.05 m 且倾角差 < 8 deg）记恢复
 - down 包括 eval 的 fall 判据命中（骨盆 <0.15 m 连续 5 步，脚本在此 break，t_end 就是倒下时刻）
+- transient 只在**未触发 fall 判据**的 rollout 里出现；fall_detected 为真时 eval 已在倒下处 break，之后即使站回来也记 down（这是设计，不是漏判）
 
 ## 汇总
 

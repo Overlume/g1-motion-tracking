@@ -130,13 +130,14 @@ def main() -> int:
 
     L = []
     add = L.append
-    add("# LAB12 恢复实验判分")
+    add("# 恢复实验判分：%s" % run)
     add("")
     add("- 输入：%s 下 %d 个格、%d 次 rollout" % (run, len(cells), len(rows)))
     add("- 判据：偏离 = 骨盆比参考低 >= %.2f m 或倾角比参考歪 >= %.1f deg；窗口 %.1f–%.1f s；"
         "连续 >= %d 帧（%.1f s）偏离记崩溃；数据最后 %.1f s 回到参考附近（平均下移 < %.2f m 且倾角差 < %.0f deg）记恢复"
         % (DROP_M, TILT_DEG, PUSH_S, WINDOW_END_S, RUN_FRAMES, RUN_FRAMES * 0.02, TAIL_S, RECOVER_DROP_M, RECOVER_TILT_DEG))
     add("- down 包括 eval 的 fall 判据命中（骨盆 <0.15 m 连续 5 步，脚本在此 break，t_end 就是倒下时刻）")
+    add("- transient 只在**未触发 fall 判据**的 rollout 里出现；fall_detected 为真时 eval 已在倒下处 break，之后即使站回来也记 down（这是设计，不是漏判）")
     add("")
     add("## 汇总")
     add("")
