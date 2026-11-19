@@ -402,3 +402,13 @@
 - 用户预测 1.5/5（Q3/Q4/Q5 各半分），共同错误是“默认单调”，判分已写入 `docs/learning/LAB13-prediction.md`。
 - 产物：run README（含关键表、机制讨论、5 条局限）、REPORT §2.5.4、README 结果表、D23、ARTIFACT_INDEX。
 - 下一步：**LAB14 重复实验**（−y 300 与 −y 400 各重跑 3 次，同种子）= 30 次约 15 min，判断凹坑是真实效应还是重采样噪声；之后才考虑加种子（≥20/格）给二项置信区间，再谈相位扫描与 DR。
+
+## LAB14 就绪：重复实验测噪声底（2026-11-19）
+
+- 目的：同种子、同配置重跑 3 遍，量出"重跑噪声底"，判断 LAB13 的 −y 4→0 凹坑是否只是重采样/位级抖动（D11）。
+- 设置：`ny_j60`（300 N × 0.2 s = 60 N·s）与 `ny_j40`（200 N × 0.2 s = 40 N·s），种子 101–105，各 3 遍，共 30 次，约 15 min；ckpt / 动作 / 推力窗口 / 判据与 LAB12 完全一致。
+- 产物：`docs/learning/LAB14-replication.md`（5 道预测题、读数顺序、判读规则、通过标准）、`docs/learning/LAB14-prediction.md`（模板，待用户填写）、`scripts/lab14_replicate.sh`（run/report/show，每遍写 `<run>/rep<N>/`）、`scripts/lab14_compare.py`（顶层 `replication.md/json`：每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）。
+- 判读规则（写死）：倒地数完全一致 → 凹坑候选真实，进 LAB15；差 1 个种子（20%）→ 正好在 5 种子分辨率上，不能判；摆动 ≥2 个种子 → 噪声主导，改"概率 + 二项置信区间"，种子补到 ≥20/格。
+- 口径不一致（回填时修）：旧文档把这两档写成 "300 / 400 N·s"；按脚本与 `configs/perturb_protocol_v1.json`，实际是 300 N / 200 N 各持续 0.2 s = 60 / 40 N·s。格名 `j<N>` 才是冲量 N·s。
+- 自测（`scratch/lab14-selftest`，已删）：`ny_j40`/seed101 走完整链路 → transient、最长偏离 0.80 s，与 LAB13 同格同种子一致；汇总脚本另用复制目录 + 人工改动验证了"差 1 个种子"分支。1 个 rollout 不构成结论。
+- 待用户执行：先写预测，再 `bash scripts/lab14_replicate.sh run`。

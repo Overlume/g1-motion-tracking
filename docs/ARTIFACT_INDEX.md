@@ -120,3 +120,10 @@
 - docs/learning/LAB13-prediction.md — 用户五题 + 判分（1.5/5）与“默认单调”错误模式
 - docs/handoffs/20261119-1500-handoff.md — 交接（LAB13 之后，指向 LAB14）
 
+
+## 2026-11-19（LAB14 就绪）
+
+- docs/learning/LAB14-replication.md — LAB14 讲义（同配置重跑 3 遍测噪声底；5 道预测题、读数顺序、判读规则、通过标准）
+- docs/learning/LAB14-prediction.md — LAB14 预测模板（待用户填写）
+- scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
+- scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
