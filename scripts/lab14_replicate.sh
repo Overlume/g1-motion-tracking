@@ -6,7 +6,7 @@
 #   bash scripts/lab14_replicate.sh report  # 只重跑每遍判分 + 顶层汇总
 #   bash scripts/lab14_replicate.sh show    # 打印顶层汇总
 #
-# 格：ny_j60（300 N 持续 0.2 s = 60 N*s）与 ny_j40（200 N 持续 0.2 s = 40 N*s）
+# 格：ny_j60（300 N 持续 0.2 s = 60 N*s）与 ny_j80（400 N 持续 0.2 s = 80 N*s）
 # 完全复用 LAB12 的评估与判分（同 ckpt / 动作 / 推力窗口 / 判据），
 # 每一遍写进 <run>/rep<N>/，顶层再写 replication.md/json。
 #
@@ -19,7 +19,7 @@ cd "$ROOT"
 
 PY=environment/.venv/bin/python
 TAG=${LAB14_TAG:-lab14-replicate}
-CELLS=${LAB14_CELLS:-ny_j60 ny_j40}
+CELLS=${LAB14_CELLS:-ny_j60 ny_j80}
 SEEDS=${LAB14_SEEDS:-101 102 103 104 105}
 REPS=${LAB14_REPS:-3}
 

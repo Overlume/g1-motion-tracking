@@ -6,7 +6,7 @@
 - <dir>/replication.json 同一内容的机器可读版
 
 判读规则（与 docs/learning/LAB14-replication.md 一致）：
-- 倒地数极差 0 且种子集合不变 -> 各遍完全一致（凹坑候选真实，进 LAB15）
+- 倒地数极差 0 且种子集合不变 -> 各遍完全一致（60/80 两端可重复，进 LAB15）
 - 极差 0 但种子互换 -> 倒地数一致、边界摆动
 - 极差 1 -> 差 1 个种子（20%），正好在 5 种子分辨率上，不能判定
 - 极差 >= 2 -> 重跑噪声主导，改概率叙事并补种子到 >= 20/格
@@ -24,7 +24,10 @@ BASELINE = {
                    label="300 N x 0.2 s = 60 N*s"),
     "ny_j40": dict(down=0, seeds=[],
                    source="runs/20261119-002-lab13-mid-impulse",
-                   label="200 N x 0.2 s = 40 N*s"),
+                   label="200 N x 0.2 s = 40 N*s (legacy)"),
+    "ny_j80": dict(down=5, seeds=[101, 102, 103, 104, 105],
+                   source="runs/20261119-001-lab13b-true-mid",
+                   label="400 N x 0.2 s = 80 N*s"),
 }
 SHORT = {"stable": "S", "transient": "T", "down": "D"}
 

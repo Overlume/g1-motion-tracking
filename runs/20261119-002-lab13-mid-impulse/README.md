@@ -1,5 +1,9 @@
 # LAB13 冲量中点扫描：−x / −y 在 400 与 450 N·s
 
+> **2026-11-19 更正（必读）**：本文所有"400/450 N·s"是**力值**；实际冲量是 40/45 N·s（`force_of()`：`F = j/0.2`）。
+> 按冲量重排后曲线单调，本文的"非单调/凹坑"结论作废。真·80/90 N·s（400/450 N 力）补测见
+> `runs/20261119-001-lab13b-true-mid/`，结论以那份 README 与 REPORT §2.5.4 为准。
+
 **日期**：2026-11-19 ｜ **策略**：model_52998（M4，weight 1.5，sha256 `fc8f975b…ceed9`）｜ **动作**：fight1_s3_000s_20s.npz
 **规模**：4 格 × 5 种子 = 20 次；termination 关，推后看 3 s；与 LAB12 同一 ckpt / 动作 / 窗口 / 判据
 **命令**：`bash scripts/lab13_mid_impulse.sh run`（薄封装 → `lab12_recovery.sh`，tag `lab13-mid-impulse`）

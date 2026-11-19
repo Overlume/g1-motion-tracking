@@ -127,3 +127,13 @@
 - docs/learning/LAB14-prediction.md — LAB14 预测模板（待用户填写）
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
+
+## 2026-11-19（LAB13 更正 + LAB13b 补测）
+
+- runs/20261119-001-lab13b-true-mid/ — LAB13b 补测：80/90 N·s（400/450 N）× −x/−y × 5 种子 = 20 次，20/20 倒（README + recovery）
+- docs/DECISIONS.md — D23 追加更正 + 新增 D24：扰动一律写“冲量 N·s（力 N × 0.2 s）”；旧“非单调/凹坑”作废
+- docs/REPORT.md — §2.5.4 重写（六点单调表；5/5 从 80 N·s 起，边界 60–80 N·s）；§3 发现 5 更新
+- README.md — 扰动结果行改为冲量口径 + 单调结论
+- docs/learning/LAB13-mid-impulse.md — 顶部更正注 + §9 补测读数
+- docs/learning/LAB13-prediction.md — 按 80/90 N·s 重判 2.5/5（旧 1.5/5 作废）
+- docs/learning/LAB14-*.md / scripts/lab14_*.* — 重跑格改为 −y 60 / 80 N·s
