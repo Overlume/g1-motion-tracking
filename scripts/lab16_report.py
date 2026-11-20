@@ -78,6 +78,10 @@ def main() -> int:
                     help="label=path，按顺序；第 1 个是参照遍（通常是 LAB15）")
     ap.add_argument("--cells", default="nx_j60,ny_j60")
     ap.add_argument("--figure", default=None)
+    ap.add_argument("--title", default="LAB16 边界格判定翻转率",
+                    help="md 一级标题；新实验请显式传入")
+    ap.add_argument("--figure-title", default=None,
+                    help="图标题（matplotlib 默认字体没有中文字形，建议传 ASCII）；缺省用 --title")
     args = ap.parse_args()
 
     run = Path(args.dir)
@@ -132,7 +136,7 @@ def main() -> int:
 
     L = []
     a = L.append
-    a("# LAB16 边界格判定翻转率")
+    a("# " + args.title)
     a("")
     a("- 输入：%s" % run)
     a("- 参照遍：" + "；".join("%s = %s" % (l, p) for l, p in reps))
@@ -275,7 +279,7 @@ def main() -> int:
                                        encoding="utf-8")
 
     if args.figure:
-        plot(run, reps, tables, cells, per_cell, args.figure)
+        plot(run, reps, tables, cells, per_cell, args.figure, args.figure_title or args.title)
 
     print("\n".join(L[:26]))
     print("")
@@ -290,7 +294,7 @@ def main() -> int:
     return 0
 
 
-def plot(run, reps, tables, cells, per_cell, figure):
+def plot(run, reps, tables, cells, per_cell, figure, title="LAB16 边界格判定翻转率"):
     cmap = ListedColormap(["#d9d9d9", "#ffb347", "#d62728"])
     ncell = len(cells)
     fig, axes = plt.subplots(ncell, 1, figsize=(9.0, 1.5 + 1.5 * ncell), dpi=160, squeeze=False)
@@ -319,7 +323,7 @@ def plot(run, reps, tables, cells, per_cell, figure):
     handles = [plt.Rectangle((0, 0), 1, 1, color=c) for c in ["#d9d9d9", "#ffb347", "#d62728"]]
     fig.legend(handles, ["stable", "transient", "down"], loc="lower center",
                ncol=3, fontsize=8, frameon=False)
-    fig.suptitle("LAB16: per-seed verdict across repeated runs (same seeds, same config)", fontsize=9)
+    fig.suptitle(title + ": per-seed verdict across repeated runs (same seeds, same config)", fontsize=9)
     fig.tight_layout(rect=(0, 0.05, 1, 0.97))
     Path(figure).parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(figure)

@@ -72,6 +72,9 @@ do_run() {
   [[ -f $MOTION ]] || die "找不到动作: $MOTION"
 
   if [[ -n ${LAB12_RUN_DIR:-} ]]; then run=$LAB12_RUN_DIR; else run=$(new_run_dir); fi
+  case $run in
+    runs|runs/|.|./) die "$run 会直接把产物摊在 runs/ 根目录：请先建 runs/<YYYYMMDD>-NNN-<tag>/ 再用它的子目录" ;;
+  esac
   write_meta "$run"
 
   say "run 目录：$run"

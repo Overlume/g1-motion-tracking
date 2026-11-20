@@ -71,6 +71,11 @@ sha256sum runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17
 run 目录名 = `runs/<今天 YYYYMMDD>-<当天第几个>-lab17-y-transition`。
 把下面的 `<YYYYMMDD>-00N` 换成你步骤 0 里看到的实际编号（LAB16 是 20261120-002，所以今天用 003 起）。
 
+> **⚠ 最容易错的一步：RUN 必须是那个带日期编号的子目录，绝不能是 `runs` 本身。**
+> 2026-11-20 第一次跑这个 lab 时把 `RUN=runs`，结果 3 个 rep 直接摊在 `runs/rep1..3`、
+> `fliprate.md` 也写进了 `runs/` 根目录，和 50 多个历史 run 混在一起，只能事后手工搬。
+> 开工前自检：`ls runs/*.md runs/*.json` 必须无输出。
+
 ```bash
 RUN=runs/<YYYYMMDD>-00N-lab17-y-transition
 mkdir -p "$RUN"
@@ -115,7 +120,11 @@ grep -h -E '^(sha256|push|termination)' "$RUN"/rep*/params.txt | sort | uniq -c
 ### 步骤 4：合三遍，算翻转率与图
 
 ```bash
-environment/.venv/bin/python scripts/lab16_report.py --dir "$RUN"   --rep rep1="$RUN/rep1" --rep rep2="$RUN/rep2" --rep rep3="$RUN/rep3"   --cells ny_j45,ny_j50 --figure outputs/figures/lab17_ythmids.png
+environment/.venv/bin/python scripts/lab16_report.py --dir "$RUN" \
+  --rep rep1="$RUN/rep1" --rep rep2="$RUN/rep2" --rep rep3="$RUN/rep3" \
+  --cells ny_j45,ny_j50 --figure outputs/figures/lab17_ythmids.png \
+  --title "LAB17 −y 45/50 N·s 过渡区" \
+  --figure-title "LAB17: -y 45/50 N s transition (20 seeds x 3 reps)"
 ```
 
 **预期输出**（最后 4 行）：「ny_j45: k=<a> / <b> / <c>  二进制翻转 <n>/20  三分类翻转 <m>/20 种子 [...]」，
@@ -176,6 +185,7 @@ GIT_TERMINAL_PROMPT=0 git -c 'credential.helper=!"/mnt/c/Program Files/Git/mingw
 | 某格某个种子没有 eval.log | 那一次进程被杀 | 单独补：LAB12_TAG=lab17-y-transition LAB12_CELLS="ny_j45" LAB12_SEEDS="115" LAB12_RUN_DIR="$RUN/rep2" bash scripts/lab12_recovery.sh run（会重判整个目录，已有数据不受影响） |
 | 判分全是 transient | 崩了又恢复且末尾回到参考附近 | 正常结果，不是 bug；看 max_drop / end_drop 再下结论 |
 | 单次远超 32 s | GPU 被抢 / 温度降频 | nvidia-smi 看利用率；不要并行跑第二个 lab |
+| fliprate.md / README 出现在 `runs/» 根目录 | RUN 被设成了 `runs»（或 LAB12_RUN_DIR=runs/rep1） | 把 rep1..3 与 md/json 一起搬进 `runs/<日期>-00N-lab17-y-transition/»，再用 `--dir» 指向新目录重跑统计；脚本已加「拒绝 runs 根目录」的保护 |
 | fliprate.md 里 101–105 表显示 — | lab16_report.py 的 LAB12_BASE 没有 ny_j45/j50 | 正常，不影响其它表；别去改脚本 |
 
 ## 5. 五个坑（每个都有人踩过）

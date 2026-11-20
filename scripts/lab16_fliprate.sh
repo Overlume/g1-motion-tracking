@@ -61,6 +61,9 @@ do_run() {
   total=$(( ncell * nseed * new_reps ))
 
   if [[ -n "${LAB16_RUN_DIR:-}" ]]; then run="${LAB16_RUN_DIR}"; else run=$(new_run_dir); fi
+  case $run in
+    runs|runs/|.|./) die "LAB16_RUN_DIR=$run 会污染 runs 根目录：先建 runs/<YYYYMMDD>-NNN-<tag>/" ;;
+  esac
   mkdir -p "$run"
   printf 'tag: %s\ncells: %s\nseeds: %s\nreps: %s（rep1 引用 %s，本次新跑 rep2..rep%s）\ngrid: <run>/rep<N>/<cell>/seed<S>\nnote: 同一组种子重复；每遍是新进程；判分与 LAB12 完全一致\n' \
     "$TAG" "$CELLS" "$SEEDS" "$REPS" "$BASE" "$REPS" > "$run/params.txt"
