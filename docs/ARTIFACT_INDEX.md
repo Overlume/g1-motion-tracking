@@ -128,6 +128,17 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-20（LAB17 −y 过渡区）
+
+- runs/20261120-003-lab17-y-transition/ — 2 格 × 20 种子 × 3 遍 = 120 次；`ny_j45` 三遍 11/11/12（58%，[32%,81%]，翻转 3/20：102/109/115）、`ny_j50` 15/15/15（75%，[51%,91%]，0/20）→ −y 的 50% 交点在 40–45 N·s（README + fliprate.md/json + rep1..3）
+- outputs/figures/lab17_ythmids.png — 种子 × 遍判定矩阵（可见 `ny_j45` 的 102/109/115 竖条纹）
+- docs/DECISIONS.md — D30：−y 50% 交点 40–45；过渡区中心翻转 3/20，把「≥3 遍」扩到过渡区全部格；40 N·s 的 0/5 必须带 5 种子上界
+- docs/REPORT.md — §2.5.8 −y 过渡区；§2.5.6 结论 1、§2.5.4 更正块、§3 发现 5 补 LAB17 收窄
+- docs/learning/LAB17-prediction.md — 判分 2.2/5
+- docs/learning/LAB17-y-transition.md — 讲义（含「RUN 不能是 runs 本身」警告与 runs 根目录自检）
+- scripts/lab12_recovery.sh、scripts/lab16_fliprate.sh — 加「拒绝 runs 根目录」护栏（LAB17 事故后）
+- scripts/lab16_report.py — 新增 `--title` / `--figure-title`（图标题用 ASCII，避免中文字形缺失）
+
 ## 2026-11-20（LAB16 判定翻转率）
 
 - runs/20261120-002-lab16-fliprate/ — 2 格 × 20 种子 × 3 遍 = 120 次判定（新跑 80 次，42.8 min）；`nx_j60` 翻转 4/20、`ny_j60` 1/20（README + fliprate.md/json + rep2/rep3 + run.log）
