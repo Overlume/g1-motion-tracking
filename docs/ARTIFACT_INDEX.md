@@ -128,6 +128,14 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-20（LAB15 结果）
+
+- runs/20261120-001-lab15-boundary20/ — 4 格 × 20 种子 = 80 次；60 N·s 时 −x 6/20 vs −y 19/20（p=3.9e-5）；80 档两向 20/20（README + boundary20.md/json + recovery）
+- docs/DECISIONS.md — D26：两向边界不同（−y 过渡 45→60，−x 60→80）；D27：判据附近的判定会翻转，边界格 k/N 带 ±1 种子
+- docs/REPORT.md — §2.5.6 新增；§2.5.4 结论 2/3 更正
+- docs/learning/LAB15-prediction.md — 判分 2.0/5
+- outputs/figures/m5_impulse_sweep.png — 60/80 换成 20 种子点
+
 ## 2026-11-20（LAB15 就绪 + lab13b 补跑）
 
 - scripts/lab15_boundary20.sh — LAB15 薄封装（run/report/show；4 格 × 20 种子 = 80 次）

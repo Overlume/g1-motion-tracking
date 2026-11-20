@@ -1,0 +1,8 @@
+tag: lab15-boundary20
+ckpt: runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17_m4-w15/model_52998.pt
+sha256: fc8f975b7f6cbb223bccaa27a4edd63901a91518e69d2df9e94710d0fe8ceed9
+motion: data/processed/fight1_s3_000s_20s.npz
+cells: nx_j60 nx_j80 ny_j60 ny_j80
+seeds: 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120
+push: 8.0 s +0.2 s
+termination: OFF

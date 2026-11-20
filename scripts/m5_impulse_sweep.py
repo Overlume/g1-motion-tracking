@@ -32,15 +32,20 @@ def load(runs):
         f = Path(run) / "recovery.json"
         if not f.exists():
             raise SystemExit("找不到 %s" % f)
+        local = {}
         for r in json.loads(f.read_text(encoding="utf-8")):
             m = CELL_RE.match(r["cell"])
             if not m:
                 continue
             d = DIR_LABEL[(m.group(1), m.group(2))]
             imp = int(m.group(3))
-            c = cells.setdefault((d, imp), {"n": 0, "down": 0, "transient": 0, "stable": 0})
+            c = local.setdefault((d, imp), {"n": 0, "down": 0, "transient": 0, "stable": 0})
             c["n"] += 1
             c[r["cls"]] += 1
+        # 同一 (方向, 冲量) 出现在多个 run 时，保留种子数更多的那个
+        for key, c in local.items():
+            if key not in cells or c["n"] > cells[key]["n"]:
+                cells[key] = c
     return cells
 
 
@@ -87,9 +92,14 @@ def main() -> int:
     ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1.0])
     ax.grid(alpha=0.25)
     ax.set_axisbelow(True)
-    ax.set_title("M5/LAB12/LAB13: outcome with termination off (5 seeds per point)", fontsize=10)
+    ns = sorted({c["n"] for c in cells.values()})
+    ax.set_title("M5/LAB12/LAB13/LAB15: outcome with termination off (N = %s seeds per point)"
+                 % "/".join(str(n) for n in ns), fontsize=10)
     ax.legend(fontsize=8, frameon=False, loc="upper left")
-    ax.text(0.99, 0.02, "1 seed = 20%", transform=ax.transAxes, ha="right", fontsize=7, color="0.4")
+    big = [n for n in sorted({c["n"] for c in cells.values()}) if n > 5]
+    note = ("60/80 N\u00b7s: N=%d (1 seed = %.0f%%); others: N=5 (1 seed = 20%%)"
+            % (big[0], 100.0 / big[0]) if big else "1 seed = 20%")
+    ax.text(0.99, 0.02, note, transform=ax.transAxes, ha="right", fontsize=7, color="0.4")
     fig.tight_layout()
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
