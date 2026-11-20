@@ -128,6 +128,17 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-20（LAB16 判定翻转率）
+
+- runs/20261120-002-lab16-fliprate/ — 2 格 × 20 种子 × 3 遍 = 120 次判定（新跑 80 次，42.8 min）；`nx_j60` 翻转 4/20、`ny_j60` 1/20（README + fliprate.md/json + rep2/rep3 + run.log）
+- scripts/lab16_fliprate.sh — LAB16 run/report/show（rep1 引用 LAB15；新跑 rep2/rep3，复用 LAB12 的评估与判分）
+- scripts/lab16_report.py — 翻转率统计（每格×每遍、逐种子矩阵、二进制/三分类翻转 + Clopper–Pearson CI、判定规则、种子×遍矩阵图）
+- docs/learning/LAB16-fliprate.md — LAB16 讲义（三档判定规则、读数顺序、通过标准、五个坑）
+- docs/learning/LAB16-prediction.md — LAB16 预测模板（待用户填写）
+- docs/DECISIONS.md — D28：边界格写区间 + 核心集；翻转分「判据擦边」与「rollout 双稳态」；边界格默认 ≥3 遍
+- docs/REPORT.md — §2.5.7 边界判定翻转率
+- outputs/figures/lab16_flipmatrix.png — 种子 × 遍判定矩阵
+
 ## 2026-11-20（LAB15 结果）
 
 - runs/20261120-001-lab15-boundary20/ — 4 格 × 20 种子 = 80 次；60 N·s 时 −x 6/20 vs −y 19/20（p=3.9e-5）；80 档两向 20/20（README + boundary20.md/json + recovery）
