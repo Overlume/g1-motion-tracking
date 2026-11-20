@@ -128,6 +128,13 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-19（LAB14 可重复性）
+
+- runs/20261119-001-lab14-replicate/ — 2 格 × 5 种子 × 3 遍 = 30 次重复评估；判定层零变化，数值层有位级抖动（README + replication.md/json + rep<N>/）
+- docs/DECISIONS.md — D25：重跑噪声判定层为 0；“再跑一遍”不能替代加种子；边界写成倒地率 + N
+- docs/REPORT.md — §2.5.5 可重复性节
+- docs/learning/LAB14-prediction.md — 判分 3.0/5
+
 ## 2026-11-19（LAB13 更正 + LAB13b 补测）
 
 - runs/20261119-001-lab13b-true-mid/ — LAB13b 补测：80/90 N·s（400/450 N）× −x/−y × 5 种子 = 20 次，20/20 倒（README + recovery）

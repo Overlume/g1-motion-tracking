@@ -1,0 +1,6 @@
+tag: lab14-replicate
+cells: ny_j60 ny_j80
+seeds: 101 102 103 104 105
+reps: 3
+grid: <run>/rep<N>/<cell>/seed<S>
+note: 同一组种子重复；每遍是新进程
