@@ -128,6 +128,11 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-20（LAB18 就绪）
+
+- docs/learning/LAB18-x70.md — LAB18 讲义（`nx_j70`，60 次 ≈32 min；为什么是 70 不是 55/65/75、三种结果的判读、分支预案）
+- docs/learning/LAB18-prediction.md — LAB18 预测模板（5 题，待用户填写）
+
 ## 2026-11-20（LAB17 −y 过渡区）
 
 - runs/20261120-003-lab17-y-transition/ — 2 格 × 20 种子 × 3 遍 = 120 次；`ny_j45` 三遍 11/11/12（58%，[32%,81%]，翻转 3/20：102/109/115）、`ny_j50` 15/15/15（75%，[51%,91%]，0/20）→ −y 的 50% 交点在 40–45 N·s（README + fliprate.md/json + rep1..3）

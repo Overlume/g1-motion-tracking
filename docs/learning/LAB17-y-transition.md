@@ -185,7 +185,7 @@ GIT_TERMINAL_PROMPT=0 git -c 'credential.helper=!"/mnt/c/Program Files/Git/mingw
 | 某格某个种子没有 eval.log | 那一次进程被杀 | 单独补：LAB12_TAG=lab17-y-transition LAB12_CELLS="ny_j45" LAB12_SEEDS="115" LAB12_RUN_DIR="$RUN/rep2" bash scripts/lab12_recovery.sh run（会重判整个目录，已有数据不受影响） |
 | 判分全是 transient | 崩了又恢复且末尾回到参考附近 | 正常结果，不是 bug；看 max_drop / end_drop 再下结论 |
 | 单次远超 32 s | GPU 被抢 / 温度降频 | nvidia-smi 看利用率；不要并行跑第二个 lab |
-| fliprate.md / README 出现在 `runs/» 根目录 | RUN 被设成了 `runs»（或 LAB12_RUN_DIR=runs/rep1） | 把 rep1..3 与 md/json 一起搬进 `runs/<日期>-00N-lab17-y-transition/»，再用 `--dir» 指向新目录重跑统计；脚本已加「拒绝 runs 根目录」的保护 |
+| fliprate.md / README 出现在 `runs/` 根目录 | RUN 被设成了 `runs`（或 LAB12_RUN_DIR=runs/rep1） | 把 rep1..3 与 md/json 一起搬进 `runs/<日期>-00N-lab17-y-transition/`，再用 `--dir` 指向新目录重跑统计；脚本已加「拒绝 runs 根目录」的保护 |
 | fliprate.md 里 101–105 表显示 — | lab16_report.py 的 LAB12_BASE 没有 ny_j45/j50 | 正常，不影响其它表；别去改脚本 |
 
 ## 5. 五个坑（每个都有人踩过）
