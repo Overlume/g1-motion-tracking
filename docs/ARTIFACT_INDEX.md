@@ -128,6 +128,15 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-20（LAB15 就绪 + lab13b 补跑）
+
+- scripts/lab15_boundary20.sh — LAB15 薄封装（run/report/show；4 格 × 20 种子 = 80 次）
+- scripts/lab15_report.py — LAB15 统计（k/N + Clopper–Pearson 95% CI + Fisher 精确检验 + 图）
+- docs/learning/LAB15-boundary20.md — LAB15 讲义（为什么 20 种子、读数顺序、通过标准、五个坑）
+- docs/learning/LAB15-prediction.md — LAB15 预测模板（待用户填写）
+- runs/20261119-001-lab13b-true-mid/ — 补跑 20 次（20/20 down；原始逐次文件仅本地，1.7 MB）+ README §6 数值漂移表
+- docs/DECISIONS.md — D25 补充条：倒地/翻滚类样本的单次数值不可复现，引用时报 3 遍中位数
+
 ## 2026-11-19（LAB14 可重复性）
 
 - runs/20261119-001-lab14-replicate/ — 2 格 × 5 种子 × 3 遍 = 30 次重复评估；判定层零变化，数值层有位级抖动（README + replication.md/json + rep<N>/）

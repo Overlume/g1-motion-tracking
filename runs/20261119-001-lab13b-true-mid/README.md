@@ -75,3 +75,24 @@ transient 需要"崩过、但没触发 fall 判据、末尾回到参考"；在 4
 | `recovery.md` / `recovery.json` | 判分（4 格 × 5 种子，含逐次表） |
 | `<cell>/seedNNN/{metrics.csv,summary.json,eval.log}` | 逐帧数据与评估日志 |
 | `params.txt` / `wallclock_s.txt` / `env_versions.txt` | 参数、墙钟、环境快照 |
+
+## 6. 2026-11-20 补跑：原始逐次数据已补齐（用户执行）
+
+**命令**：`LAB12_CELLS="nx_j80 nx_j90 ny_j80 ny_j90" LAB12_RUN_DIR=runs/20261119-001-lab13b-true-mid LAB12_TAG=lab13b-true-mid bash scripts/lab12_recovery.sh run`
+
+- 20 次重跑 → **20/20 down**，与入库的 `recovery.json` 逐条比对：20 条分类完全一致。
+- 补回 20 个 `<cell>/seedNNN/` 子目录（`metrics.csv` / `eval.log` / `summary.json`，共约 1.7 MB）。
+  这些文件受 `.gitignore:24 runs/*/*` 排除，**只在本地**；入库的仍是 README + recovery.{md,json}。
+- 数值漂移（同 seed 同配置重跑 vs 原记录，20 条逐项比较）：
+
+| 量 | mean abs diff | max abs diff |
+| --- | --- | --- |
+| `pelvis_z_min` (m) | 0.0079 | **0.059** |
+| `root_err_end_cm` | 5.2 | **36.5** |
+| `end_tiltex` (deg) | 0.66 | 6.7 |
+| `longest_dev_s` (s) | 0.072 | **0.72** |
+| `max_tiltex` (deg) | 1.2 | 16.0 |
+
+**解读**：判定层零变化（与 D25 一致），但**倒地/翻滚类样本的数值不可复现**——轨迹一旦翻倒，微小的浮点差异会被放大。
+所以本仓库里「倒地时刻 9.04 s」「骨盆最低 0.100 m」「末尾 root 339 cm」这类单次数值，一律视为**单次取值**，不是可复现常数；
+需要写进结论时应报 3 遍中位数（D25 补充条）。

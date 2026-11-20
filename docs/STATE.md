@@ -420,3 +420,12 @@
   产物：run README、`replication.md/json`、REPORT §2.5.5、D25、判分 3.0/5。
 - 已知缺口：lab13b 与 lab14 的逐次原始文件（`<cell>/seed<S>/{metrics.csv,eval.log}`）受 `.gitignore:24 runs/*/*` 排除，只在本地；
   lab13b 的子目录在 2026-11-19 被清掉，可用 `LAB12_RUN_DIR=runs/20261119-001-lab13b-true-mid ...` 重跑 20 次补齐（约 12 min）。
+
+## LAB15 就绪：边界两格 20 种子（2026-11-20）
+
+- 目的：LAB14 已证重跑噪声（判定层）= 0，故 4/5 与 1/5 的差别是抽样；但 5 种子的 95% CI 大面积重叠（4/5 = [28%, 99%]，1/5 = [0.5%, 72%]），「−y 更脆」说不清。加种子到 20 才把分辨率压到 5%。
+- 设置：`nx_j60 ny_j60 nx_j80 ny_j80` × 种子 101–120 = 80 次，约 40–50 min；终止关、推后 3 s、判据同 LAB12。
+- 命令：`bash scripts/lab15_boundary20.sh run`（run/report/show）；统计 `scripts/lab15_report.py` 写 `<run>/boundary20.{md,json}` + `outputs/figures/lab15_boundary20.png`。
+- 读数顺序（写死）：① N 列必须全 20；② 101–105 子集必须复现旧值（nx_j60 1/5、ny_j60 4/5、两个 80 档 5/5），否则先查环境；③ 每格 k/20 + CP 95% CI；④ Fisher 精确检验（60 档两向、80 档两向、同向 60 vs 80）；⑤ 图。
+- 通过标准：80 次完成、四格 CI 写出、两个关键 Fisher p 给出、结论句带 N/CI/协议限定。
+- 自测：`scratch/lab15-selftest`（已删）`ny_j80` × seed101/102 = 2/2 down，report 输出 `[16%, 100%]`、图正常 → 链路通。
