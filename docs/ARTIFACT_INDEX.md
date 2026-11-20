@@ -83,9 +83,9 @@
 - docs/GITHUB_UPLOAD_PLAN.md：GitHub 上传清单与提交计划
 - environment/requirements.txt：uv pip freeze（142 行）
 
-## 2026-11-14 15:20 交接
+## 2026-11-14 15:20 交接（历史）
 
-- docs/handoffs/（仅本地，`.gitignore` 已排除，不随仓库分发）：最新 `20261118-2055-handoff.md`（M0–M6 收口、M5 三段、D21、下一步恢复实验）；历史 `20261114-1520-handoff.md`
+- `docs/handoffs/HANDOFF.md`（仅本地，`.gitignore` 已排除，不随仓库分发）— **唯一**交接文档；2026-11-20 把 `20261114-1520` / `20261118-2055` / `20261119-1500` / `20261120-1120` 四份旧交接合并成这一份并删除旧文件（D29）
 - outputs/videos/model_49999/960x540/cam_default_dance1/：相机定稿证据（follow，4 env）
 
 ## 2026-11-17
@@ -118,7 +118,7 @@
 - docs/learning/LAB13-mid-impulse.md — LAB13 讲义（为什么选 400/450、5 道预测题、读数顺序、坑表）
 - runs/20261119-002-lab13-mid-impulse/ — LAB13 冲量中点扫描（−x/−y × 400/450 N·s × 5 种子；证明非单调，D23）
 - docs/learning/LAB13-prediction.md — 用户五题 + 判分（1.5/5）与“默认单调”错误模式
-- docs/handoffs/20261119-1500-handoff.md — 交接（LAB13 之后，指向 LAB14）
+- docs/handoffs/HANDOFF.md — 交接（唯一文件；含 LAB16 结论与 D28，2026-11-20 合并）
 
 
 ## 2026-11-19（LAB14 就绪）

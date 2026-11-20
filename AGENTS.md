@@ -29,9 +29,9 @@
 - 不编造指标；保留失败案例。
 - 结论必须给证据路径（文件行号、日志、URL）。
 
-## 交接
+## 交接与文档同步
 
-- 用户说"准备交接/换窗口/收尾"时：到安全停顿点 → 更新 `docs/STATE.md`、`docs/PLAN.md`、`docs/ARTIFACT_INDEX.md` → 生成 `docs/handoffs/YYYYMMDD-HHMM.md`。
-
+- **交接只有一份**：`docs/handoffs/HANDOFF.md`（唯一）。到安全停顿点、或每次任务有实质进展，就在原地更新它（头部时间 + 相关小节），不再新建日期命名的交接文件。（2026-11-20 用户要求；D29）
+- 每次实质进展后按 `HANDOFF.md` §8 清单同步：run README → `docs/REPORT.md` → `README.md` 结果表 → `docs/DECISIONS.md` → `docs/STATE.md` → `docs/PLAN.md` → `docs/ARTIFACT_INDEX.md` → `docs/learning/` → 交接 → 图 → commit/push。不留与代码或 runs 实际状态不符的描述。
 - `docs/handoffs/` 只保留在本地，不提交；`.gitignore` 已排除该目录（2026-11-18 用户确认）。写完交接后不要 `git add` 它。
-- 新窗口先读 AGENTS / README / PROJECT_BRIEF / STATE / PLAN + 最近交接，做最小只读核对；发现不一致先指出再动手。
+- 新窗口只拿 `docs/handoffs/HANDOFF.md` 一份即可接手（它自带目标/现状/待办/路径/命令/坑/阅读顺序）；仍按其中 §1.3 读工作区文档、按 §1.4 做只读核对，发现不一致先指出再动手。

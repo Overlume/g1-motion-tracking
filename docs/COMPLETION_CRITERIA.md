@@ -76,16 +76,22 @@
 
 ## 6. 结束时的交付物清单（打勾即完成）
 
-- [ ] `README.md`：一页结论 + 快速开始（3 条命令内跑起回放）
-- [ ] `docs/REPORT.md`：目标、方法、指标表、图、失败案例、局限
-- [ ] `docs/STATE.md` / `PLAN.md` / `DECISIONS.md` / `SOURCES.md` / `ARTIFACT_INDEX.md` 与最终状态一致
-- [ ] `docs/learning/*.md`：至少 5 个 LAB 记录（含用户预测与实测对比）
-- [ ] `runs/`：M3–M5 每次运行都有 `README.md` + `summary.json`
-- [ ] `outputs/videos/`：≥1 个 960x540 完整动作视频、≥1 个扰动对比视频
-- [ ] `outputs/figures/`：≥2 张图（跟踪误差曲线、扰动恢复对比）
-- [ ] `configs/`：扰动协议 JSON、训练配置快照
-- [ ] GitHub 仓库 public，`git clone` 后按 README 能跑通回放
-- [x] 交接记录：`docs/handoffs/` 最后一篇（**仅本地保留，不入库**）
+- [x] `README.md`：一页结论 + 快速开始（3 条命令内跑起回放）——已交付（2026-11-20 结果表更新到 LAB16）
+- [x] `docs/REPORT.md`：目标、方法、指标表、图、失败案例、局限——已交付（含 §2.5.5–§2.5.7）
+- [x] `docs/STATE.md` / `PLAN.md` / `DECISIONS.md` / `SOURCES.md` / `ARTIFACT_INDEX.md` 与最终状态一致——2026-11-20 同步（D29 起每次任务后按 HANDOFF §8 走）
+- [x] `docs/learning/*.md`：至少 5 个 LAB 记录（含用户预测与实测对比）——现有 LAB01–LAB16
+- [ ] `runs/`：M3–M5 每次运行都有 `README.md` + `summary.json`——**部分**：50 个 run 目录 / 38 份 README / 21 份 summary.json；缺 README 的 12 个是 2026-11-13/14 的 S3 分布评估（D11 的 N=5，数据在 summary.json）
+- [ ] `outputs/videos/`：≥1 个 960x540 完整动作视频、≥1 个扰动对比视频——**部分**：动作/取景视频有（`outputs/videos/model_49999/960x540/`），**扰动对比视频缺**
+- [x] `outputs/figures/`：≥2 张图（跟踪误差曲线、扰动恢复对比）——7 张（含 m5_perturbation、lab16_flipmatrix）
+- [ ] `configs/`：扰动协议 JSON、训练配置快照——**部分**：只有 `perturb_protocol_v1.json`，**训练配置快照缺**
+- [ ] GitHub 仓库 public，`git clone` 后按 README 能跑通回放——仓库已 public；**clone 复验未做**（§7 第 3 条，待用户）
+- [x] 交接记录：`docs/handoffs/HANDOFF.md` 唯一一份（**仅本地保留，不入库**；2026-11-20 起原地持续更新，D29）
+
+### 6.1 现状核对（2026-11-20）
+
+- 上面 4 个未打勾项是**已知缺口**，不是文档遗漏；补法：给 12 个旧 run 补 README（或注明数据在 summary.json）、录一段扰动前后对比视频、存一份训练配置快照、由用户在新目录 `git clone` 复验回放。
+- 另有一项**必跑实验的缺口**：§2 的 M5 要求"至少 1 次改进并同协议复测"，目前**未做**（REPORT §7 未来工作 1 = 训练期 DR，对应 HANDOFF §4 的 P6）；M5 只完成了评估侧。
+- 结论：对外交付（报告 + README + 公开仓库）已完成；"完成定义"里仍缺 M5 改进实验与 4 个小交付物。
 
 ---
 

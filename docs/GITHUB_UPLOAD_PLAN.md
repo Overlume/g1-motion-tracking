@@ -1,5 +1,7 @@
 # GitHub 上传计划
 
+> **历史计划**：本文是 2026-11-14 制定的上传计划。仓库已于 2026-11-18 上传（public），当前 `main` 已有 31 次提交；实际提交划分与本文"8 次提交"计划的对应关系未逐条核对（见 HANDOFF §3.3 B）。
+
 版本：v1，2026-11-14。目标：项目结束后把`supermimic-dsh`上传到一个 **public** 仓库，
 用来证明"我独立做过 G1 动作模仿 + 受控扰动"，并让别人能按 README 重跑。
 
@@ -31,7 +33,7 @@
 | `README.md` | 一页结论 + 快速开始 + 结果表 | <20 KB |
 | `AGENTS.md` | 长期规则（可选，展示工程规范） | <10 KB |
 | `.gitignore` | 见第 3 节 | <2 KB |
-| `docs/` | PROJECT_BRIEF、STATE、PLAN、DECISIONS、SOURCES、ARTIFACT_INDEX、REPORT、COMPLETION_CRITERIA、GITHUB_UPLOAD_PLAN、`learning/*.md`（`handoffs/` 仅本地，不入库） | <1 MB |
+| `docs/` | PROJECT_BRIEF、STATE、PLAN、DECISIONS、SOURCES、ARTIFACT_INDEX、REPORT、COMPLETION_CRITERIA、GITHUB_UPLOAD_PLAN、`learning/*.md`（`handoffs/HANDOFF.md` 仅本地，不入库） | <1 MB |
 | `scripts/` | 全部 .py/.sh（回放、评估、重定向、取景、统计） | <200 KB |
 | `configs/` | 扰动协议 JSON、训练配置快照 | <100 KB |
 | `runs/*/README.md`、`runs/*/summary.json` | 每次运行的命令 + 指标（**不含** metrics.csv 全量、不含 ckpt） | <2 MB |

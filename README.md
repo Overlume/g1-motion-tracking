@@ -7,7 +7,7 @@
 > 项目指令来源：`<外部 brief 文档>`（用户 brief，2026-11-11 读入）。
 > 第一轮核验结论见 `docs/DECISIONS.md` 与 `docs/STATE.md`。
 
-## 结果（截至 2026-11-19，完整版见 [docs/REPORT.md](docs/REPORT.md)）
+## 结果（截至 2026-11-20，完整版见 [docs/REPORT.md](docs/REPORT.md)）
 
 | 阶段 | 内容 | 关键数字 |
 | --- | --- | --- |
@@ -91,4 +91,4 @@ MUJOCO_GL=egl environment/.venv/bin/python scripts/eval_tracking.py \
 - `docs/COMPLETION_CRITERIA.md` — 项目「完成」的判定条件、必跑实验、不在范围内的事项
 - `docs/GITHUB_UPLOAD_PLAN.md` — 上传清单、`.gitignore`、提交划分、上传前检查
 - `docs/learning/` — 带练 LAB（用户亲手做的实验记录）
-- `docs/handoffs/` — 交接记录（**仅本地**，已写入 `.gitignore`，不随仓库分发）
+- `docs/handoffs/HANDOFF.md` — **唯一**交接文档（**仅本地**，已写入 `.gitignore`；换会话只带这一份即可接手）
