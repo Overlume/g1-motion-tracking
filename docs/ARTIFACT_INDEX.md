@@ -128,6 +128,15 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-21（LAB19 结果）
+
+- `runs/20261121-001-lab19-symmetry/`：+x/+y 60/80 × 种子 101–120 × 3 遍 = 240 次判定（2 h 4 min）；README + `run.log` + `fliprate.md/json`
+- `outputs/figures/lab19_symmetry.png`：四向 4 面板判定矩阵（三遍全同，无竖条纹）
+- `docs/REPORT.md` §2.5.10：四向边界顺序 +y < −y < −x < +x
+- `docs/DECISIONS.md` D32：四向排序、「80 起全倒」对 +x 作废、翻转 0/80 的对照
+- `docs/learning/LAB19-symmetry.md`（讲义 §7）、`docs/learning/LAB19-prediction.md`（判分 2.2/5 + 参考回答）
+- `README.md` 结果表、`docs/STATE.md`、`docs/PLAN.md` 已同步
+
 ## 2026-11-21（LAB18 结果）
 
 - `runs/20261120-004-lab18-x70/`：−x 70 N·s × 种子 101–120 × 3 遍 = 60 次判定（三遍 14/11/10，翻转 4/20）；README + `fliprate.md/json`

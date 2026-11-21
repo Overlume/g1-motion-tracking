@@ -1,0 +1,568 @@
+{
+  "dir": "runs/20261121-001-lab19-symmetry",
+  "reps": [
+    {
+      "label": "rep1",
+      "path": "runs/20261121-001-lab19-symmetry/rep1",
+      "ckpt": "runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17_m4-w15/model_52998.pt"
+    },
+    {
+      "label": "rep2",
+      "path": "runs/20261121-001-lab19-symmetry/rep2",
+      "ckpt": "runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17_m4-w15/model_52998.pt"
+    },
+    {
+      "label": "rep3",
+      "path": "runs/20261121-001-lab19-symmetry/rep3",
+      "ckpt": "runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17_m4-w15/model_52998.pt"
+    }
+  ],
+  "cells": {
+    "px_j60": {
+      "seeds": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "k_by_rep": {
+        "rep1": 0,
+        "rep2": 0,
+        "rep3": 0
+      },
+      "k_range": 0,
+      "flip_binary": [],
+      "flip_three_way": [],
+      "classes": {
+        "101": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "102": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "103": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "104": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "105": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "106": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "107": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "108": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "109": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "110": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "111": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "112": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "113": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "114": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "115": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "116": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "117": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "118": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "119": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "120": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        }
+      }
+    },
+    "px_j80": {
+      "seeds": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "k_by_rep": {
+        "rep1": 0,
+        "rep2": 0,
+        "rep3": 0
+      },
+      "k_range": 0,
+      "flip_binary": [],
+      "flip_three_way": [],
+      "classes": {
+        "101": {
+          "rep1": "stable",
+          "rep2": "stable",
+          "rep3": "stable"
+        },
+        "102": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "103": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "104": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "105": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "106": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "107": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "108": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "109": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "110": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "111": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "112": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "113": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "114": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "115": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "116": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "117": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "118": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "119": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "120": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        }
+      }
+    },
+    "py_j60": {
+      "seeds": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "k_by_rep": {
+        "rep1": 20,
+        "rep2": 20,
+        "rep3": 20
+      },
+      "k_range": 0,
+      "flip_binary": [],
+      "flip_three_way": [],
+      "classes": {
+        "101": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "102": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "103": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "104": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "105": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "106": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "107": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "108": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "109": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "110": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "111": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "112": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "113": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "114": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "115": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "116": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "117": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "118": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "119": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "120": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        }
+      }
+    },
+    "py_j80": {
+      "seeds": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "k_by_rep": {
+        "rep1": 20,
+        "rep2": 20,
+        "rep3": 20
+      },
+      "k_range": 0,
+      "flip_binary": [],
+      "flip_three_way": [],
+      "classes": {
+        "101": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "102": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "103": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "104": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "105": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "106": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "107": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "108": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "109": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "110": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "111": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "112": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "113": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "114": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "115": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "116": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "117": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "118": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "119": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "120": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        }
+      }
+    }
+  },
+  "pooled": {
+    "seeds": 80,
+    "flip_binary": 0,
+    "flip_three_way": 0,
+    "ci": [
+      0.0,
+      0.045064035067692285
+    ]
+  },
+  "warning": null
+}
