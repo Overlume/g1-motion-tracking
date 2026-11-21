@@ -277,6 +277,7 @@ bash /tmp/push_kam.sh
 | CUDA out of memory | 6 GB 显存被占 | `nvidia-smi` 看占用；关掉占显存的程序；必要时 `--envs 2048` 但要在 README 写明「口径变了，不可与 M4 直接比」 |
 | 跑完没有 model_52998.pt | 迭代数或 save_interval 不对 | `--iters 3000`；看 params/agent.yaml 里 save_interval |
 | 评估报「找不到 LAB20 ckpt」 | 训练还没出 ckpt 或 RUN 写错 | `ls "$RUN"/logs/g1_tracking/*/model_*.pt` |
+| 迭代时间显示负数（如 -16.89s） | resume 后计时基准取自 checkpoint 里的 iteration，不从 0 计 | 忽略，只看 Time elapsed 与 ETA |
 | 评估中断 | 正常 | 重跑同一条命令，已有 summary.json 会跳过 |
 | 表里某行还是「—」 | 那一格缺种子 | `find "$RUN/eval" -name summary.json | wc -l` 查缺哪个策略/窗口 |
 
