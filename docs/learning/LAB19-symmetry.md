@@ -115,7 +115,8 @@ CELLS="px_j60 px_j80 py_j60 py_j80"
 SEEDS="101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120"
 for rep in 1 2 3; do
   echo "=== rep$rep 开始 $(date '+%F %T') ==="
-  LAB12_TAG=lab19-symmetry LAB12_CELLS="$CELLS" LAB12_SEEDS="$SEEDS" LAB12_RUN_DIR="$RUN/rep$rep"     bash scripts/lab12_recovery.sh run
+  LAB12_TAG=lab19-symmetry LAB12_CELLS="$CELLS" LAB12_SEEDS="$SEEDS" LAB12_RUN_DIR="$RUN/rep$rep" \
+    bash scripts/lab12_recovery.sh run
   echo "=== rep$rep 结束 $(date '+%F %T') ==="
 done
 echo "=== 全部完成 $(date '+%F %T') ==="
@@ -148,7 +149,12 @@ grep -c '判分' "$RUN/run.log"
 
 ```bash
 RUN=runs/20261121-001-lab19-symmetry
-environment/.venv/bin/python scripts/lab16_report.py --dir "$RUN"   --rep rep1="$RUN/rep1" --rep rep2="$RUN/rep2" --rep rep3="$RUN/rep3"   --cells px_j60,px_j80,py_j60,py_j80   --title "LAB19 四向对称性：+x/+y 60/80 N·s"   --figure outputs/figures/lab19_symmetry.png   --figure-title "LAB19: +x/+y 60/80 N s (20 seeds x 3 reps)"
+environment/.venv/bin/python scripts/lab16_report.py --dir "$RUN" \
+  --rep rep1="$RUN/rep1" --rep rep2="$RUN/rep2" --rep rep3="$RUN/rep3" \
+  --cells px_j60,px_j80,py_j60,py_j80 \
+  --title "LAB19 四向对称性：+x/+y 60/80 N·s" \
+  --figure outputs/figures/lab19_symmetry.png \
+  --figure-title "LAB19: +x/+y 60/80 N s (20 seeds x 3 reps)"
 ```
 
 **预期**：终端按格打印 4 行「k=a / b / c  二进制翻转 n/20  三分类翻转 m/20 种子 [...]」，写盘 `$RUN/fliprate.md` / `fliprate.json`，图 `outputs/figures/lab19_symmetry.png`（4 个面板，每面板 3 行 × 20 列）。
