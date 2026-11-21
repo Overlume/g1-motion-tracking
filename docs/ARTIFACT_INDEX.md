@@ -128,6 +128,15 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-21（LAB18 结果）
+
+- `runs/20261120-004-lab18-x70/`：−x 70 N·s × 种子 101–120 × 3 遍 = 60 次判定（三遍 14/11/10，翻转 4/20）；README + `fliprate.md/json`
+- `outputs/figures/lab18_x70.png`：种子 × 遍判定矩阵（可见 102/104/112/113 的 rep1 竖条纹）
+- `docs/REPORT.md` §2.5.9：−x 第二分点与交点 65–70（≈68）
+- `docs/DECISIONS.md` D31：交点定位、两向差 ≈23–24、翻转单向化记入局限
+- `docs/learning/LAB18-x70.md`（讲义）、`docs/learning/LAB18-prediction.md`（判分 2.5/5）
+- 脚本沿用 `scripts/lab16_fliprate.sh` + `scripts/lab16_report.py`（--title / --figure-title）
+
 ## 2026-11-20（LAB18 就绪）
 
 - docs/learning/LAB18-x70.md — LAB18 讲义（`nx_j70`，60 次 ≈32 min；为什么是 70 不是 55/65/75、三种结果的判读、分支预案）

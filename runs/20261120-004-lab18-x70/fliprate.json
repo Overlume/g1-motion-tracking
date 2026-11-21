@@ -1,0 +1,176 @@
+{
+  "dir": "runs/20261120-004-lab18-x70",
+  "reps": [
+    {
+      "label": "rep1",
+      "path": "runs/20261120-004-lab18-x70/rep1",
+      "ckpt": "runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17_m4-w15/model_52998.pt"
+    },
+    {
+      "label": "rep2",
+      "path": "runs/20261120-004-lab18-x70/rep2",
+      "ckpt": "runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17_m4-w15/model_52998.pt"
+    },
+    {
+      "label": "rep3",
+      "path": "runs/20261120-004-lab18-x70/rep3",
+      "ckpt": "runs/20261117-001-m4-w15-finetune/logs/g1_tracking/2026-11-17_09-25-17_m4-w15/model_52998.pt"
+    }
+  ],
+  "cells": {
+    "nx_j70": {
+      "seeds": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "k_by_rep": {
+        "rep1": 14,
+        "rep2": 11,
+        "rep3": 10
+      },
+      "k_range": 4,
+      "flip_binary": [
+        102,
+        104,
+        112,
+        113
+      ],
+      "flip_three_way": [
+        102,
+        104,
+        112,
+        113
+      ],
+      "classes": {
+        "101": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "102": {
+          "rep1": "down",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "103": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "104": {
+          "rep1": "down",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "105": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "106": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "107": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "108": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "109": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "110": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "111": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "112": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "transient"
+        },
+        "113": {
+          "rep1": "down",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "114": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "115": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "116": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "117": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "118": {
+          "rep1": "down",
+          "rep2": "down",
+          "rep3": "down"
+        },
+        "119": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        },
+        "120": {
+          "rep1": "transient",
+          "rep2": "transient",
+          "rep3": "transient"
+        }
+      }
+    }
+  },
+  "pooled": {
+    "seeds": 20,
+    "flip_binary": 4,
+    "flip_three_way": 4,
+    "ci": [
+      0.05733399705003277,
+      0.4366140029966683
+    ]
+  },
+  "warning": null
+}
