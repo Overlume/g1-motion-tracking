@@ -128,6 +128,15 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-21（LAB19b 结果）
+
+- `runs/20261121-002-lab19b-px100/`：+x 100 N·s（`px_j100` = 500 N × 0.2 s）× 种子 101–120 × 3 遍 = 60 次判定（37 min 23 s）；README + `run.log` + `fliprate.md/json`
+- `outputs/figures/lab19b_px100.png`：单格 3 行 × 20 列判定矩阵（无 down，104/107/109/110/112/113 有 S↔T 条纹）
+- `docs/REPORT.md` §2.5.11：+x 边界收窄到 100–120、stable 份额非单调、三分类翻转 6/20
+- `docs/DECISIONS.md` D33：边界区间写法、不补 px_j110、新观察只作记录、down 与 S/T 两种翻转都要报
+- `docs/learning/LAB19b-px100.md`（讲义 §7）、`docs/learning/LAB19b-prediction.md`（参考回答；本次未判分）
+- `README.md` 结果表、`docs/STATE.md`、`docs/PLAN.md` 已同步
+
 ## 2026-11-21（LAB19 结果）
 
 - `runs/20261121-001-lab19-symmetry/`：+x/+y 60/80 × 种子 101–120 × 3 遍 = 240 次判定（2 h 4 min）；README + `run.log` + `fliprate.md/json`
