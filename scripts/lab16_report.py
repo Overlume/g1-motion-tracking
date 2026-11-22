@@ -82,6 +82,8 @@ def main() -> int:
                     help="md 一级标题；新实验请显式传入")
     ap.add_argument("--figure-title", default=None,
                     help="图标题（matplotlib 默认字体没有中文字形，建议传 ASCII）；缺省用 --title")
+    ap.add_argument("--intro", default=None,
+                    help="md 开头「目的」段落的文字；缺省用 LAB16 的说明，新实验应显式传入")
     args = ap.parse_args()
 
     run = Path(args.dir)
@@ -141,8 +143,9 @@ def main() -> int:
     a("- 输入：%s" % run)
     a("- 参照遍：" + "；".join("%s = %s" % (l, p) for l, p in reps))
     a("- 判分：与 LAB12 相同（scripts/lab12_recovery_report.py；stable / transient / down）")
-    a("- 目的：LAB14 测的是「远离阈值」的重跑噪声（=0），LAB15 在边界格观测到 1 例翻转（D27）。"
-      "这里量清楚：20 个种子里一般有几个分类会翻，从而决定边界格 k/N 该带多宽的不确定度。")
+    a("- 目的：" + (args.intro or (
+        "LAB14 测的是「远离阈值」的重跑噪声（=0），LAB15 在边界格观测到 1 例翻转（D27）。"
+        "这里量清楚：20 个种子里一般有几个分类会翻，从而决定边界格 k/N 该带多宽的不确定度。")))
     if len(set(ckpts.values())) > 1:
         a("- **警告：各遍 ckpt 不一致**：%s（结论无效，先查 params.txt）" % ckpts)
     if missing:
