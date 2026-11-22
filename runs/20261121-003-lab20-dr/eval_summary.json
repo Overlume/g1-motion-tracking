@@ -1,0 +1,424 @@
+{
+  "run": "/home/overlume/embodiedAI/supermimic-replica/ai-ws/supermimic-dsh/runs/20261121-003-lab20-dr",
+  "windows": [
+    "train",
+    "heldout",
+    "unseen"
+  ],
+  "policies": {
+    "m4": {
+      "train": {
+        "seeds": {
+          "101": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "102": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "103": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "104": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "105": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "106": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "107": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "108": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "109": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "110": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          }
+        },
+        "stats": {
+          "n": 10,
+          "mean": 0.999,
+          "sd": 0.0,
+          "min": 0.999,
+          "max": 0.999
+        },
+        "falls": 0
+      },
+      "heldout": {
+        "seeds": {
+          "101": {
+            "completion": 0.1011,
+            "fall": false,
+            "resets": 24
+          },
+          "102": {
+            "completion": 0.1001,
+            "fall": false,
+            "resets": 23
+          },
+          "103": {
+            "completion": 0.1011,
+            "fall": false,
+            "resets": 19
+          },
+          "104": {
+            "completion": 0.0991,
+            "fall": false,
+            "resets": 20
+          },
+          "105": {
+            "completion": 0.1021,
+            "fall": false,
+            "resets": 32
+          },
+          "106": {
+            "completion": 0.1001,
+            "fall": false,
+            "resets": 28
+          },
+          "107": {
+            "completion": 0.0991,
+            "fall": false,
+            "resets": 18
+          },
+          "108": {
+            "completion": 0.0991,
+            "fall": false,
+            "resets": 22
+          },
+          "109": {
+            "completion": 0.0961,
+            "fall": false,
+            "resets": 28
+          },
+          "110": {
+            "completion": 0.0971,
+            "fall": false,
+            "resets": 21
+          }
+        },
+        "stats": {
+          "n": 10,
+          "mean": 0.0995,
+          "sd": 0.0018378731669453597,
+          "min": 0.0961,
+          "max": 0.1021
+        },
+        "falls": 0
+      },
+      "unseen": {
+        "seeds": {
+          "101": {
+            "completion": 0.024,
+            "fall": false,
+            "resets": 50
+          },
+          "102": {
+            "completion": 0.023,
+            "fall": false,
+            "resets": 50
+          },
+          "103": {
+            "completion": 0.026,
+            "fall": false,
+            "resets": 48
+          },
+          "104": {
+            "completion": 0.025,
+            "fall": false,
+            "resets": 49
+          },
+          "105": {
+            "completion": 0.025,
+            "fall": false,
+            "resets": 49
+          },
+          "106": {
+            "completion": 0.025,
+            "fall": false,
+            "resets": 48
+          },
+          "107": {
+            "completion": 0.025,
+            "fall": false,
+            "resets": 48
+          },
+          "108": {
+            "completion": 0.024,
+            "fall": false,
+            "resets": 48
+          },
+          "109": {
+            "completion": 0.025,
+            "fall": false,
+            "resets": 48
+          },
+          "110": {
+            "completion": 0.025,
+            "fall": false,
+            "resets": 48
+          }
+        },
+        "stats": {
+          "n": 10,
+          "mean": 0.0247,
+          "sd": 0.0008232726023485647,
+          "min": 0.023,
+          "max": 0.026
+        },
+        "falls": 0
+      }
+    },
+    "dr": {
+      "train": {
+        "seeds": {
+          "101": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "102": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "103": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "104": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "105": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "106": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "107": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "108": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "109": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          },
+          "110": {
+            "completion": 0.999,
+            "fall": false,
+            "resets": 1
+          }
+        },
+        "stats": {
+          "n": 10,
+          "mean": 0.999,
+          "sd": 0.0,
+          "min": 0.999,
+          "max": 0.999
+        },
+        "falls": 0
+      },
+      "heldout": {
+        "seeds": {
+          "101": {
+            "completion": 0.019,
+            "fall": false,
+            "resets": 59
+          },
+          "102": {
+            "completion": 0.019,
+            "fall": false,
+            "resets": 59
+          },
+          "103": {
+            "completion": 0.018,
+            "fall": false,
+            "resets": 60
+          },
+          "104": {
+            "completion": 0.018,
+            "fall": false,
+            "resets": 59
+          },
+          "105": {
+            "completion": 0.018,
+            "fall": false,
+            "resets": 59
+          },
+          "106": {
+            "completion": 0.018,
+            "fall": false,
+            "resets": 59
+          },
+          "107": {
+            "completion": 0.018,
+            "fall": false,
+            "resets": 59
+          },
+          "108": {
+            "completion": 0.018,
+            "fall": false,
+            "resets": 60
+          },
+          "109": {
+            "completion": 0.019,
+            "fall": false,
+            "resets": 59
+          },
+          "110": {
+            "completion": 0.018,
+            "fall": false,
+            "resets": 59
+          }
+        },
+        "stats": {
+          "n": 10,
+          "mean": 0.0183,
+          "sd": 0.00048304589153964835,
+          "min": 0.018,
+          "max": 0.019
+        },
+        "falls": 0
+      },
+      "unseen": {
+        "seeds": {
+          "101": {
+            "completion": 0.019,
+            "fall": false,
+            "resets": 63
+          },
+          "102": {
+            "completion": 0.03,
+            "fall": false,
+            "resets": 60
+          },
+          "103": {
+            "completion": 0.02,
+            "fall": false,
+            "resets": 62
+          },
+          "104": {
+            "completion": 0.031,
+            "fall": false,
+            "resets": 61
+          },
+          "105": {
+            "completion": 0.018,
+            "fall": false,
+            "resets": 63
+          },
+          "106": {
+            "completion": 0.024,
+            "fall": false,
+            "resets": 61
+          },
+          "107": {
+            "completion": 0.031,
+            "fall": false,
+            "resets": 61
+          },
+          "108": {
+            "completion": 0.019,
+            "fall": false,
+            "resets": 63
+          },
+          "109": {
+            "completion": 0.019,
+            "fall": false,
+            "resets": 62
+          },
+          "110": {
+            "completion": 0.029,
+            "fall": false,
+            "resets": 60
+          }
+        },
+        "stats": {
+          "n": 10,
+          "mean": 0.024,
+          "sd": 0.005637178175095921,
+          "min": 0.018,
+          "max": 0.031
+        },
+        "falls": 0
+      }
+    }
+  },
+  "paired": {
+    "train": {
+      "101": 0.0,
+      "102": 0.0,
+      "103": 0.0,
+      "104": 0.0,
+      "105": 0.0,
+      "106": 0.0,
+      "107": 0.0,
+      "108": 0.0,
+      "109": 0.0,
+      "110": 0.0
+    },
+    "heldout": {
+      "101": -0.08209999999999999,
+      "102": -0.08109999999999999,
+      "103": -0.0831,
+      "104": -0.08109999999999999,
+      "105": -0.0841,
+      "106": -0.08209999999999999,
+      "107": -0.08109999999999999,
+      "108": -0.08109999999999999,
+      "109": -0.0771,
+      "110": -0.0791
+    },
+    "unseen": {
+      "101": -0.005000000000000001,
+      "102": 0.006999999999999999,
+      "103": -0.005999999999999998,
+      "104": 0.005999999999999998,
+      "105": -0.007000000000000003,
+      "106": -0.0010000000000000009,
+      "107": 0.005999999999999998,
+      "108": -0.005000000000000001,
+      "109": -0.006000000000000002,
+      "110": 0.004
+    }
+  }
+}

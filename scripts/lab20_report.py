@@ -137,6 +137,9 @@ def main() -> int:
 
   md = run / "eval" / "lab20_eval.md"
   md.write_text("\n".join(lines) + "\n")
+  # run 根目录再放一份：.gitignore 只放行 runs/<run>/*.md|json，eval/ 子目录不入库
+  (run / "eval_summary.md").write_text("\n".join(lines) + "\n")
+  (run / "eval_summary.json").write_text(out_json.read_text())
 
   if args.figure:
     try:

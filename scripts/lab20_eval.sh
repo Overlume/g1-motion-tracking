@@ -39,7 +39,8 @@ m4_ckpt() {
 
 dr_ckpt() {
   local ck
-  ck="$(ls "$RUN"/logs/g1_tracking/*/model_*.pt 2>/dev/null | sort -V | tail -1 || true)"
+  # 必须排除 pretrained/（那是热启动权重副本，不是训练产物）；2026-11-22 踩过：sort -V 把 pretrained/ 排在最后
+  ck="$(ls "$RUN"/logs/g1_tracking/*/model_*.pt 2>/dev/null | grep -v "/pretrained/" | sort -V | tail -1 || true)"
   [ -n "$ck" ] || die "找不到 LAB20 ckpt（$RUN/logs/g1_tracking/*/model_*.pt）；训练是否跑完？"
   echo "$ck"
 }

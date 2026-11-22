@@ -199,6 +199,8 @@ tail -5 "$RUN/eval.log"
 ```
 
 自检：eval.log 里先打印两条 `[lab20] ... ckpt`（M4 与 DR 各一条，带 sha256），然后是 `m4 train seed 101` 这样的行。
+**必看的一行**：`[lab20] DR  ckpt:` 必须指向 logs/g1_tracking/2026-..._lab20-dr/model_52998.pt（sha256 以 e3747012 开头，2026-11-22 实测），**不是** pretrained/model_49999.pt（sha f1bc404f…，那是热启动副本）。指向 pretrained 就等于拿官方权重去比 M4，全表会显示「全面变差」。
+
 
 中途断掉也没关系：脚本会跳过已有 summary.json 的格子。跑完自动生成表与图。
 
@@ -208,6 +210,7 @@ tail -5 "$RUN/eval.log"
 cd ~/embodiedAI/supermimic-replica/ai-ws/supermimic-dsh
 RUN=runs/20261121-003-lab20-dr
 cat "$RUN/eval/lab20_eval.md"
+# 同一份表也写在 run 根目录（仓库里跟踪的就是它）：cat "$RUN/eval_summary.md"
 ```
 
 按这个顺序读：
@@ -278,6 +281,7 @@ bash /tmp/push_kam.sh
 | 跑完没有 model_52998.pt | 迭代数或 save_interval 不对 | `--iters 3000`；看 params/agent.yaml 里 save_interval |
 | 评估报「找不到 LAB20 ckpt」 | 训练还没出 ckpt 或 RUN 写错 | `ls "$RUN"/logs/g1_tracking/*/model_*.pt` |
 | 迭代时间显示负数（如 -16.89s） | resume 后计时基准取自 checkpoint 里的 iteration，不从 0 计 | 忽略，只看 Time elapsed 与 ETA |
+| eval.log 里 DR ckpt 指向 pretrained/model_49999.pt | 旧版脚本用 ls -V 取最大值，pretrained/ 按字典序排在最后 | 2026-11-22 已修（排除 /pretrained/）；旧结果一律作废重跑 |
 | 评估中断 | 正常 | 重跑同一条命令，已有 summary.json 会跳过 |
 | 表里某行还是「—」 | 那一格缺种子 | `find "$RUN/eval" -name summary.json | wc -l` 查缺哪个策略/窗口 |
 
@@ -304,6 +308,20 @@ bash /tmp/push_kam.sh
 
 ---
 
-## 7. 结果（跑完填）
+## 7. 结果（2026-11-22 实测）
 
-（留空：三窗口完成度、配对差、训练代价、结论一句话、证据路径）
+run：`runs/20261121-003-lab20-dr`；训练 **1:35:01（5701 s）**，49999 → 52998，产物 `model_52998.pt`（sha `e3747012…25b287`）。
+
+| 窗口 | M4（默认 DR） | LAB20（DR 加强） | 差 |
+| --- | --- | --- | --- |
+| train（S3 0–20 s） | 0.999 ± 0.000 | 0.999 ± 0.000 | **+0.000**（10/10 相同） |
+| heldout（S3 120–140 s） | 0.100 ± 0.002 | **0.018 ± 0.000** | **−0.081**（10/10 更差） |
+| unseen（S2 134 s） | 0.025 ± 0.001 | 0.024 ± 0.006 | −0.001（8 差 2 好，全在 ±0.007 内） |
+
+**结论一句话**：三档 startup DR 同时加强**没有换来泛化，反而把 held-out 的残余分抹掉了**——而且抹到的正好是官方预训练权重的水平（0.016），所以 M4 的 0.101 应读作「训练窗口邻近帧的记忆外溢」而不是泛化能力（D34）。
+
+- 训练代价：train 完成度不掉（0.999，10/10 相同）；但训练条件锚点误差 0.114 → **0.212**、root 位置奖励 0.701 → **0.172** → 学会「别摔、把动作跑完」，跟踪变粗。
+- 事故：第一版评估把 pretrained/model_49999.pt 当成训练产物（表显示 train 0.381 / heldout 0.016 / unseen 0.014 = 官方权重成绩），修正 scripts/lab20_eval.sh 后重跑 30 次。**评估表第一眼要看 ckpt 的 sha。**
+- 判定：§3 的 8 条全部满足（DR 值已核、60 份 summary 齐全、结论带配对差、区分 heldout/unseen、写了训练代价、文档同步）。
+- 预测判分：3/8 ≈ **1.9/5**（参考回答见 docs/learning/LAB20-prediction.md 每题下方）。
+- 下一步：①用 LAB12 协议在 LAB20 ckpt 上测 60 N·s 两向（40 min，检验「抗推收益」是否存在）；②DR 单档消融（摩擦/质心/编码器分开）；③或转 LAB21（观测加世界系根位置/速度）。

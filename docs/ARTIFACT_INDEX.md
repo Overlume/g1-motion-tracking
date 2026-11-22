@@ -128,6 +128,17 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-22（LAB20 训练期 DR 结果）
+
+- runs/20261121-003-lab20-dr/ — 训练期 DR 加强（摩擦 0.2–1.4 / 质心 ±4,±6,±6 cm / 编码器 ±0.02 rad，其余同 M4）+ 三窗口配对评估；README §5 记录「ckpt 选错」事故
+- runs/20261121-003-lab20-dr/eval/lab20_eval.md|json|png — M4 vs LAB20 × 3 窗口 × 10 种子（60 次）表、机读、分组柱图
+- scripts/lab20_dr_train.py — 训练入口（改 cfg 后走 launch_training；--mode smoke|full、--default-dr 对照臂）
+- scripts/lab20_eval.sh — 2 策略 × 3 窗口 × N 种子评估封装（dr ckpt 排除 pretrained/）
+- scripts/lab20_report.py — 完成度配对表 + 图（--figure）
+- docs/learning/LAB20-dr.md — LAB20 讲义（含 ckpt sha 核对与「pretrained 陷阱」FAQ）
+- docs/learning/LAB20-prediction.md — 5 题 + 结果 + 判分 3/8（1.9/5）与参考回答
+- docs/DECISIONS.md — D34：DR 加强负结果、held-out 降级为「窗口记忆」指标、评估必须核对 ckpt sha
+
 ## 2026-11-21（LAB19b 结果）
 
 - `runs/20261121-002-lab19b-px100/`：+x 100 N·s（`px_j100` = 500 N × 0.2 s）× 种子 101–120 × 3 遍 = 60 次判定（37 min 23 s）；README + `run.log` + `fliprate.md/json`
