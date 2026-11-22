@@ -1,7 +1,7 @@
 # STATE
 
 最后更新：2026-11-22 (+08:00)
-当前阶段：M0–M6 全部完成并已公开；扰动结论已闭环（LAB12–LAB19b）；训练期 DR 路线已闭环（LAB20 负结果 + LAB20b 抗推对比）：held-out 0.100 → 0.018、-x 60 N·s 失败率 30% → 0% 但扰动后 root 误差 18.7 → 92.9 cm、-y 无收益（D34/D35）。
+当前阶段：M0–M6 全部完成并已公开；扰动结论已闭环（LAB12–LAB19b）；训练期 DR 路线已闭环（LAB20 负结果 + LAB20b 抗推对比）：held-out 0.100 → 0.018、-x 60 N·s 失败率 30% → 0% 但扰动后 root 误差 18.7 → 92.9 cm、-y 无收益（D34/D35）；判定层已审计（A1，D36）：k=0 分「擦边型」与「退让型」，+x 80 N·s 属擦边（偏离 0.2 s、root 4.5 cm），DR 的 −x 60 N·s 是 60/60 全退让（偏离 0.76 s、root 93 cm）。
 入口提示：本文件后面的小节按时间累积；**当前事实以本文件末尾最新小节 + `docs/handoffs/HANDOFF.md`（唯一交接，仅本地）为准**。
 
 ## 当前阶段完成标准
@@ -522,3 +522,18 @@
 - 产物：run README、`fliprate.md|json`、`vs_m4.md`、`outputs/figures/lab20b_robust.png`、REPORT §2.5.13、D35、
   讲义 `docs/learning/LAB20b-robust.md` §7、`LAB20b-prediction.md`（判分 2.5/8 ≈ 1.6/5）。
 - 下一步：① DR 单档消融（必须同时报失败率与扰动后误差）；② LAB21 观测加世界系根位置/速度；③ P8 脚底接触校验。
+
+## A1 判定口径审计结果（2026-11-22，当前事实以此为准）
+
+- 跑什么：把 LAB16/17/19/19b/20b 的 `recovery.json` 回算派生指标（只读，不跑仿真），区分「擦边型」与「退让型」transient。
+- 产物：`runs/20261122-002-transient-audit/`（README + audit.md/json）、`outputs/figures/lab_transient_audit.png`、
+  `scripts/lab_transient_audit.py`、`scripts/lab_transient_audit_plot.py`；REPORT §2.5.14、D36。
+- 关键数：
+  - +x 80 N·s（M4）：0 down、57 transient，偏离帧数 10–13（31 次恰好 10 帧）、root 中位 **4.5 cm** → 擦边，**真稳**；
+    +x 60：60/60 stable、root 2.9 cm；+x 100：37 transient、root 中位 20.7 cm（最大 28.4），中间态。
+  - DR 加强的 −x 60 N·s：**60/60 退让**（偏离 0.72–0.90 s、root 86.8–108.7 cm、骨盆从未触地）；
+    M4 同格 transient 只有 18.2 cm（13.8–25.8）→ 同一个 k=0 在两种策略上差 5 倍 root 误差。
+  - y 方向偏退让：−y 60 的 4 次 transient 全退让（root 92.3）；−y 45 的 26 次里 8 次退让（7.0–65.9 很散）。
+- 结论：D32「+x 最稳」维持（补擦边限定）；D35 的「−x 收益」补量化 60/60 退让；今后报鲁棒性必须给三个数：
+  倒地数、扰动后 root 误差、退让型占比（D36）。
+- 局限：0.5 s / 30 cm 是事后阈值；x 方向两簇有空洞（+x ≤28 cm、DR −x ≥87 cm）故不敏感，y 方向连续分布，退让占比随阈值移动。

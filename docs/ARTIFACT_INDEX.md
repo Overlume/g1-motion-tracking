@@ -128,6 +128,14 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-22（A1 判定口径审计）
+
+- runs/20261122-002-transient-audit/ — 回算 LAB16/17/19/19b/20b 的 recovery.json：audit.md/json（每格 k、transient 偏离/root 中位、退让型/擦边型计数）+ README（方法、阈值理由、结论、局限、复现）
+- outputs/figures/lab_transient_audit.png — 非倒地 rollout 的散点（x = 最长连续偏离 s，y = 末尾 root 误差 cm，虚线 = 退让判据 0.5 s / 30 cm）
+- scripts/lab_transient_audit.py、scripts/lab_transient_audit_plot.py — 派生指标审计 + 配图；REGISTRY 里登记了 5 个 run 与 10 个格
+- docs/DECISIONS.md — D36（transient 分两型；报鲁棒性必须三数齐全）
+- docs/REPORT.md — §2.5.14 + §2.5.10/§2.5.13 补注 + §3 第 10 条 + §4 第 4 条改写 / 第 10 条扩写
+
 ## 2026-11-22（LAB20b 抗推对比结果）
 
 - runs/20261122-001-lab20b-perturb/ — LAB20 权重 × LAB12 协议：2 格 × 20 种子 × 3 遍 = 120 次，**1 h 13 min 31 s**；
