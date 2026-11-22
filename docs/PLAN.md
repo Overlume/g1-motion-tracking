@@ -110,5 +110,6 @@
 - [ ] **LAB21 观测加世界系根位置/速度**：改 mjlab 观测配置 + 重训 + held-out 评估。目标：缓解「窗口专家」，与 LAB20 可组合，但要一次只改一个因素（先各自单跑，再组合）。
 - [x] **A1 判定口径审计（2026-11-22 完成，`runs/20261122-002-transient-audit`，D36）**：把已有 recovery.json 回算「偏离时长 + 末尾 root 误差」，把 transient 分擦边型/退让型。实测：+x 80 的 57 次 transient 全是擦边（偏离 0.2 s、root 4.5 cm）→ D32 维持；DR 的 −x 60 是 **60/60 全退让**（root 93.4 cm vs M4 18.2 cm）→ D35 补量化；+x 100 为中间态（20.7 cm）。工具 `scripts/lab_transient_audit.py` + `scripts/lab_transient_audit_plot.py`。
 - [ ] **LAB22 重定向脚底接触/穿地校验**：M2 遗留（PLAN M2 未勾项）。用 npz 做 FK，扫素材片段脚底高度与接触时长，输出每段的穿地帧数与接触占比。目标：补上「重定向物理可行性」的证据，≈1 h。
+- [ ] **LAB23 DR 单档消融（讲义已就绪 2026-11-22，等用户跑）**：把 LAB20 的三档加强拆成三个单因素臂（`fric` 摩擦 0.2–1.4 / `com` 质心 ±4/6/6 cm / `bias` 编码器 ±0.02 rad，其余两项回默认），训练口径同 M4/LAB20（热启动 model_49999、3000 iter、4096 envs、seed 0）。评估按 D35/D36 的三数口径：nx_j60 × 20 种子 × 3 遍 + ny_j60 × 1 遍 + held-out S3 120 s × 10 种子。工具 `scripts/lab23_ablate.sh`（run/report/show，可中断续跑）+ `scripts/lab23_report.py`。成本：3 臂 ≈7 h 30 min（训练 4 h 45 + 扰动 2 h 27 + held-out 21 min）；两臂版 ≈5 h。讲义 `docs/learning/LAB23-dr-ablation.md`、预测 `LAB23-prediction.md`。目标：回答「哪一档造成 held-out 崩塌」「哪一档换来退让式不倒地」。
 
 顺序理由：先把评估类（17–19）做完闭环扰动结论，再动训练侧（20–21，贵且会换 ckpt），最后补 M2 的验证缺口（22）。
