@@ -128,6 +128,16 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-22（LAB20b 抗推对比结果）
+
+- runs/20261122-001-lab20b-perturb/ — LAB20 权重 × LAB12 协议：2 格 × 20 种子 × 3 遍 = 120 次，**1 h 13 min 31 s**；
+  -x 三遍 k = 0/0/0（p=0.0202，6 个失败种子配对转为站住）、-y = 20/19/20（p=1，seed102 系统性变差）；机制见 D35（README + fliprate.md/json + vs_m4.md + rep<N>/）
+- outputs/figures/lab20b_robust.png — 逐种子 × 逐遍判定热图（nx_j60 全 transient、ny_j60 全 down 只剩 seed116 一格）
+- scripts/lab20b_perturb.sh、scripts/lab20b_compare.py — 三遍 + 判分 + 翻转 + 图；Fisher + 逐种子配对对比；scripts/lab16_report.py 新增 `--intro`
+- docs/DECISIONS.md — D35（DR 收益 = 退让式不倒地；鲁棒性拆成失败率 + 扰动后误差）；D34 补注
+- docs/REPORT.md — §2.5.13 + §3 第 9 条 + §4 第 9/10 条 + §7 第 1 条
+- docs/learning/LAB20b-robust.md（讲义 §7 实测）、docs/learning/LAB20b-prediction.md（判分 2.5/8 ≈ 1.6/5）
+
 ## 2026-11-22（LAB20 训练期 DR 结果）
 
 - runs/20261121-003-lab20-dr/ — 训练期 DR 加强（摩擦 0.2–1.4 / 质心 ±4,±6,±6 cm / 编码器 ±0.02 rad，其余同 M4）+ 三窗口配对评估；README §5 记录「ckpt 选错」事故
