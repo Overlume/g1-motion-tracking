@@ -128,6 +128,17 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-23（LAB23 DR 单档消融）
+
+- runs/20261122-003-lab23-dr-ablation/ — 三臂（fric/com/bias）× nx_j60 20 种子 × 3 遍 + ny_j60 × 1 遍 + held-out 10 种子；
+  lab23_ablation.md/json（三数表 + Fisher + 逐种子配对）、arm.log、train.log（0.9 GB/臂，不入库）
+- outputs/figures/lab23_dr_ablation.png — 倒地率 / 非倒地 root 误差 / held-out 三面板
+- scripts/lab23_ablate.sh — run/report/show；每臂训练 + 扰动 + held-out，幂等可续跑
+- scripts/lab23_report.py — 三数口径汇总（k、root 中位、擦边/漂移/退让计数）+ Fisher 逐遍 p + 基线对照（M4/LAB20）
+- docs/DECISIONS.md — D37（逐档报三数；held-out 崩塌与档位无关；三型扩展）；D36 补注
+- docs/REPORT.md — §2.5.15 + §3 第 11 条 + §4 第 4/9/10 条改写 + 第 11 条新增
+- docs/learning/LAB23-dr-ablation.md、docs/learning/LAB23-prediction.md（判分 1.5/8 ≈ 0.9/5）
+
 ## 2026-11-22（A1 判定口径审计）
 
 - runs/20261122-002-transient-audit/ — 回算 LAB16/17/19/19b/20b 的 recovery.json：audit.md/json（每格 k、transient 偏离/root 中位、退让型/擦边型计数）+ README（方法、阈值理由、结论、局限、复现）
