@@ -26,6 +26,7 @@ SEEDS=${LAB12_SEEDS:-101 102 103 104 105}
 TAG=${LAB12_TAG:-lab12-recovery}
 PUSH_S=${LAB12_PUSH_S:-8.0}
 PUSH_DUR=${LAB12_PUSH_DUR:-0.2}
+SKIP_EXISTING=${LAB12_SKIP_EXISTING:-0}
 
 say() { printf '\n== %s\n' "$*"; }
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
@@ -91,6 +92,10 @@ do_run() {
     for seed in "${seeds[@]}"; do
       i=$((i+1))
       local out="$run/$cell/seed$seed"
+      if [[ $SKIP_EXISTING = 1 && -f $out/summary.json ]]; then
+        say "[$i/$total] $cell seed $seed 已有 summary.json，跳过"
+        continue
+      fi
       say "[$i/$total] $cell seed $seed  force=$vec"
       mkdir -p "$out"
       t0=$(cut -d' ' -f1 /proc/uptime)
