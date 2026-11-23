@@ -190,6 +190,9 @@ do_status() {
 
 if [ "$CMD" = "run" ] || [ "$CMD" = "train" ]; then
   mkdir -p "$RUN"
+  if [ -f "$RUN/params.txt" ]; then
+    echo "resumed: $(date -Iseconds)（本次为续跑，原始参数见本文件开头）" >> "$RUN/params.txt"
+  else
   {
     echo "tag: lab24-fric-scan"
     echo "started: $(date -Iseconds)"
@@ -201,6 +204,7 @@ if [ "$CMD" = "run" ] || [ "$CMD" = "train" ]; then
     echo "robustness: nx_j60，S3 0-20 s，终止关，8.0 s 起推 0.2 s，推后看 3 s"
     echo "warm_sha256: $(sha256sum "$WARM" | cut -d' ' -f1)"
   } > "$RUN/params.txt"
+  fi
   for arm in $ARMS; do
     train_arm "$arm"
   done
