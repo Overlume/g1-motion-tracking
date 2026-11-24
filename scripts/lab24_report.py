@@ -200,7 +200,7 @@ def main() -> int:
         "",
     ]
     if sanity:
-        lines.append("自检：f14 池化 k = %d（LAB23 是 6）。" % sanity[0])
+        lines.append("自检：f14 池化 k = %d（LAB23 是 6；5–6 属 D28 可见翻转，差 ≥2 才排查）。" % sanity[0])
         lines.append("")
 
     (run / "lab24_scan.md").write_text("\n".join(lines), encoding="utf-8")

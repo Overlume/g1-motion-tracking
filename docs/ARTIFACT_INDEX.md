@@ -128,6 +128,13 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-24（LAB24 摩擦档扫描）
+
+- `runs/20261123-001-lab24-fric-scan/` — 三臂（f14 复用 LAB23 fric / f20 0.2–2.0 / f30 0.2–3.0）× nx_j60 20 种子 × 3 遍 = 180 次评估；README + `lab24_scan.md`（三数表、三型、Fisher p）+ `lab24_scan.json`；162 MB。
+- `outputs/figures/lab24_fric_scan.png` — 倒地率 / 非倒地 root 中位 / root-vs-偏离散点（三面板）。
+- `scripts/lab24_fric_scan.sh`（run/train/eval/report/status，断点续训）、`scripts/lab24_report.py`（三臂三数 + 基线对比 + 图）。
+- 结论：摩擦上界非单调（8% → 65% → 0%）；f30 同时满足 D37 判据（k 0/60、root 中位 18.7）但仍 21/60 漂 ≥30 cm。REPORT §2.5.16、D38。
+
 ## 2026-11-23（LAB23 DR 单档消融）
 
 - runs/20261122-003-lab23-dr-ablation/ — 三臂（fric/com/bias）× nx_j60 20 种子 × 3 遍 + ny_j60 × 1 遍 + held-out 10 种子；
