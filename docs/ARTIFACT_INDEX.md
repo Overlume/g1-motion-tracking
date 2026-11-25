@@ -128,6 +128,19 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-25（LAB25 摩擦上界收敛）
+
+- 目的：判定 LAB24 的「非单调 65%」与「f30 = 0/60」是否只是单训练 seed 的结果；并用 f30 ckpt 零训练扩测 −y。
+- 结果：f20 seed1 **5/5/4**（14/60，23%，CP 13.4–36.0%，p=1.000 vs M4 三遍）、root 71.4、非倒地 46/46 全漂移 →
+  65% 不复现；f30 seed1 **1/3/3**（7/60，12%，4.8–22.6%，p=0.091/0.451/0.695）、root 27.9 → 0/60 只部分复现；
+  −y：ny_j60 **20/20/20**（f30 也全倒）、ny_j45 **0/0/0**（M4 34/60，p=1.45e-4/1.45e-4/4.51e-5；49/60 退让、root 87.2、
+  骨盆 0.473–0.474 m 未触地）→ 「−y 无收益」「DR 只对 −x 有效」只在 60 N·s 饱和点成立（D39）。
+- run：`runs/20261124-001-lab25-converge`（README + `lab25_converge.md|json` + 4 个臂的 `perturb/summary.json`）。
+- 讲义/预测：`docs/learning/LAB25-converge.md`（§7 已填实测）、`LAB25-prediction.md`（判分 2.5/8 ≈ 1.6/5）。
+- 工具与修正：`scripts/lab25_dr_seed.sh`、`scripts/lab25_report.py`（root 中位改为三遍池化、图改池化倒地率）。
+- 图：`outputs/figures/lab25_converge.png`（左：nx_j60 跨 seed 池化；右：f30 的 −y 扩测）。
+- 决策：`docs/DECISIONS.md` D39（另见 D35 补注、D38 决定 3/6 的完成标注）。
+
 ## 2026-11-24（LAB24 摩擦档扫描）
 
 - `runs/20261123-001-lab24-fric-scan/` — 三臂（f14 复用 LAB23 fric / f20 0.2–2.0 / f30 0.2–3.0）× nx_j60 20 种子 × 3 遍 = 180 次评估；README + `lab24_scan.md`（三数表、三型、Fisher p）+ `lab24_scan.json`；162 MB。

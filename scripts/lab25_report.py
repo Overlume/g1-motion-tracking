@@ -59,6 +59,7 @@ def stats(rows):
     return out
   out["k"] = sum(1 for r in rows if r.get("cls") == "down")
   roots = [r["root_err_end_cm"] for r in rows if r.get("cls") != "down"]
+  out["roots"] = roots
   out["root"] = round(st.median(roots), 1) if roots else None
   for r in rows:
     if r.get("cls") == "down":
@@ -93,7 +94,9 @@ def fmt_pool(reps):
 
 
 def fmt_root(reps):
-  vals = [r["root"] for r in reps if r["root"] is not None]
+  vals = [v for r in reps for v in r.get("roots", [])]
+  if not vals:
+    vals = [r["root"] for r in reps if r["root"] is not None]
   return "%.1f" % st.median(vals) if vals else "—"
 
 
@@ -119,7 +122,8 @@ def main():
   run = Path(args.run)
   if not run.is_absolute():
     run = ROOT / run
-  md = [q("# %s") % args.title, "", "- run：%s" % run.relative_to(ROOT), ""]
+  md = [q("# %s") % args.title, "", "- run：%s" % run.relative_to(ROOT),
+        "- 口径：root 中位 = 三遍非倒地 rollouts 汇合后的中位（与 LAB23/LAB24 同口径）；漂移 = dev < 0.5 s 且 root ≥ 30 cm。", ""]
 
   new = {}
   for arm, cell in ARMS.items():
@@ -206,12 +210,8 @@ def main():
     fig, axes = plt.subplots(1, 2, figsize=(13, 5.2))
     ax = axes[0]
     labels = ["M4\nseed0", "f20\nseed0", "f20\nseed1", "f30\nseed0", "f30\nseed1"]
-    vals = [100.0 * r["k"] / r["n"] if r["n"] else 0 for r in
-            [stats(sum([load(BASELINE["M4_nx"][0], "nx_j60")], [])),
-             base["f20s0_nx"][0] if base["f20s0_nx"] else {"k": 0, "n": 0},
-             new["f20s1"][0] if new["f20s1"] else {"k": 0, "n": 0},
-             base["f30s0_nx"][0] if base["f30s0_nx"] else {"k": 0, "n": 0},
-             new["f30s1"][0] if new["f30s1"] else {"k": 0, "n": 0}]]
+    pooled = [base["M4_nx"], base["f20s0_nx"], new["f20s1"], base["f30s0_nx"], new["f30s1"]]
+    vals = [100.0 * sum(r["k"] for r in g) / max(1, sum(r["n"] for r in g)) for g in pooled]
     colors = ["#7f7f7f", "#1f77b4", "#1f77b4", "#d62728", "#d62728"]
     ax.bar(range(5), vals, color=colors)
     for i, v in enumerate(vals):
@@ -219,7 +219,7 @@ def main():
     ax.set_xticks(range(5))
     ax.set_xticklabels(labels, fontsize=9)
     ax.set_ylabel("nx_j60 down rate (%)")
-    ax.set_title("friction upper bound: seed0 vs seed1", fontsize=10)
+    ax.set_title("friction upper bound: seed0 vs seed1 (pooled over 3 reps)", fontsize=10)
     ax.set_ylim(0, 100)
     ax.grid(axis="y", alpha=0.3)
 
