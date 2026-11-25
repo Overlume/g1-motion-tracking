@@ -128,6 +128,18 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-25（LAB26 −y 50/55 N·s）
+
+- 目的：LAB25 只给 f30（摩擦 0.2–3.0）在 −y 的两个端点（45 = 0/60、60 = 60/60），补 50/55 定位 50% 交点；零训练，复用 LAB24 f30 ckpt（sha 1119f986…455ba0）。
+- 结果：ny_j50 **5/5/4**（14/60，23%，CP 13.4–36.0%；vs M4 75% p=0.00385/0.00385/0.00123）、ny_j55 **20/19/19**（58/60，97%，CP 88.5–99.6%）
+  → 交点 M4 ≈44.4（自检通过）→ f30 **≈51.8 N·s（+7.4）**；非倒地 root 中位 45/50/55 = 87.2 / 110.8 / 120.8 cm，退让占比 82% → 100%；
+  翻转 ny_j50 5/20（103 擦边、104/107/110/115 双稳态）、ny_j55 1/20（D40）。
+- run：`runs/20261125-001-lab26-y-f30-mid`（README 9 节 + `lab26_ymid.md|json` + rep1..3 各 40 个 summary.json；63.0 min，31.5 s/次）。
+- 讲义/预测：`docs/learning/LAB26-y-f30-mid.md`（§7 已填实测）、`LAB26-prediction.md`（本次未作答，直接给参考回答 + 实测对照）。
+- 工具：`scripts/lab26_ymid.sh`（run/report/status/show，断点续跑，启动校验 ckpt sha）、`scripts/lab26_report.py`（曲线 + 交点插值 + 三型 + 逐遍 Fisher）。
+- 图：`outputs/figures/lab26_ymid.png`（左：−y 倒地率曲线 M4 vs f30；右：非倒地 root 误差）。
+- 决策：`docs/DECISIONS.md` D40。
+
 ## 2026-11-25（LAB25 摩擦上界收敛）
 
 - 目的：判定 LAB24 的「非单调 65%」与「f30 = 0/60」是否只是单训练 seed 的结果；并用 f30 ckpt 零训练扩测 −y。
