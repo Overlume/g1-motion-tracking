@@ -219,6 +219,7 @@ git commit -m "feat(lab27): 多片段联合训练——S3 0 s + dance1 0 s，测
 | 现象 | 排查 |
 |---|---|
 | 训练一启动就报 ValueError「provide --registry-name / --env.commands.motion.motion-file」 | mjlab 的启动校验只接受「单个存在的路径字符串」，传 list 会被拦。本脚本已改成 packed 目录，若仍报就是 motion_packed 没生成——看 `ls $RUN/motion_packed` |
+| 自检 `ls runs/*.md runs/*.json` 输出了 `runs/README.md` | 不是本 lab 产生的：它是 2026-11-20 LAB17 那次「RUN 写成 runs」误写留下的空模板（2026-11-25 已删除）。删掉即可（`rm runs/README.md`）；runs/ 根目录平时不该有任何文件，有输出就说明有人写错了位置 |
 | 报「motion joints [...] are not the robot's [...]」 | npz 的 joint_names 顺序不对（多半是自己切片段时改过），重新用 lab27_ground_fix.py 生成 |
 | 训练很慢 / iteration time 为负 | resume 后 Iteration time 可能是负的（LAB20 记录过），看 Time elapsed / ETA |
 | 评估报缺数据 dance1_060s_20s_gfix.npz | 步骤 3 的第二条没跑 |
