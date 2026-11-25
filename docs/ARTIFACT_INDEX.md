@@ -128,6 +128,18 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-25（LAB22 脚底接触 / 穿地校验）
+
+- 目的：给 M2 补物理可行性证据——参考动作脚底穿地深度、接触比例、悬空时长；Part B 看策略骨盆是否比参考高。
+- 结果：**4 段里 3 段 FAIL**——s3_000s（训练）穿地 max **59.6 mm**、p99 38.6 mm、接触 **34%**、最长悬空 **3.82 s**、脚底 p50 +2.8 cm；
+  s2_134s 59.0 mm、dance1 53.3 mm（接触 90%）；只有 held-out 段 s3_120s 合格（16.7 mm）。
+  Part B（M4 5 种子）：骨盆比参考**低 1.70–1.76 cm**（均值 −1.62，|Δ|>2 cm 占 47–48%），同批 root_err 均值 3.79–4.12 cm。
+- run：runs/20261125-002-lab22-foot-contact（README 86 行 + foot_audit.md/json + policy_offset.md/json；Part A 82 s + Part B <1 s，纯 CPU）。
+- 讲义/预测：docs/learning/LAB22-foot-contact.md（§7 已填实测）、LAB22-prediction.md（判分 1.5/8）。
+- 工具：scripts/lab22_foot_audit.py（4 段逐帧 FK、脚底 7 块 box 的角点最低 z、接触/腾空/悬空/判定）、scripts/lab22_policy_offset.py（metrics.csv 的 pelvis_z − ref_pelvis_z）。
+- 图：outputs/figures/lab22_foot_audit.png（左：四段最低脚底曲线；右：各段最大穿地柱状 + 20/50 mm 参考线）。
+- 决策：docs/DECISIONS.md D41（重定向闸门：max ≤20 mm 且 p99 ≤20 mm；引用 root 误差必须带参考质量限定）。
+
 ## 2026-11-25（LAB26 −y 50/55 N·s）
 
 - 目的：LAB25 只给 f30（摩擦 0.2–3.0）在 −y 的两个端点（45 = 0/60、60 = 60/60），补 50/55 定位 50% 交点；零训练，复用 LAB24 f30 ckpt（sha 1119f986…455ba0）。
