@@ -128,6 +128,16 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-25（LAB21 世界系根位姿观测）
+
+- 目的：P7——actor 末尾追加 `root_pos_w` / `root_vel_w` 共 6 维（160 → 166），其余全同 M4，检验「相对位姿观测有盲点」。
+- 结果：**C（假设被否）**——held-out **0.100 → 0.018**、存活 1.98 s → **0.34 s**（`ee_body_pos` 终止 61 次、非摔倒）；unseen 0.025 → 0.038 但误差变差；train 0.999 不变。
+- 机制：位置 3 维权重范数 0.120 / 0.124 / 0.220 vs 老维度中位 1.677（排全 166 维最后三名）、速度 1.139 / 0.917 / 1.474 → 只用速度、丢弃绝对位置；新维度归一化 std 4.50（数据 0.31 / 0.58），count 继承 5.21e9。
+- run：runs/20261125-003-lab21-world-obs（README 132 行 + `eval/obs` 30 个 seed + `lab21_obs.md|json`；训练 1 h 44 + 评估 18.8 min）。
+- 工具：`scripts/obs_world.py`（观测项）、`scripts/lab21_obs_train.py`（ckpt 160 → 166 扩维 + 续训）、`scripts/lab21_eval.sh`、`scripts/lab21_report.py`；`scripts/eval_tracking.py` 的 `--obs-world-root` 开关。
+- 图：`outputs/figures/lab21_obs.png`。
+- 决策：`docs/DECISIONS.md` D42（跨策略比误差必须先对齐存活时长；扩维热启动必须预热归一化统计；绝对位姿方向须多片段 + 规范化坐标 + 单因素）。
+
 ## 2026-11-25（LAB22 脚底接触 / 穿地校验）
 
 - 目的：给 M2 补物理可行性证据——参考动作脚底穿地深度、接触比例、悬空时长；Part B 看策略骨盆是否比参考高。
