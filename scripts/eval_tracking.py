@@ -64,6 +64,8 @@ def main() -> None:
   ap.add_argument("--ignore-terminations", action="store_true")
   ap.add_argument("--keep-dr", action="store_true",
                   help="保留 play 模式的 startup 域随机化（默认关闭，保证同一 seed 可复现）")
+  ap.add_argument("--obs-world-root", action="store_true",
+                  help="LAB21：actor 观测追加世界系根位置/速度（必须与训练时一致，见 scripts/obs_world.py）")
   ap.add_argument("--out", required=True)
   # v2.1: 可选受控外力（默认全空 = 与 v2 完全相同）
   ap.add_argument("--perturb-body", default="", help="施加外力的 body 名（如 torso_link）；空=不施加")
@@ -78,6 +80,10 @@ def main() -> None:
   cfg = load_env_cfg(TASK, play=True)
   agent_cfg = load_rl_cfg(TASK)
   cfg.commands["motion"].motion_file = args.motion_file
+  if args.obs_world_root:
+    from obs_world import add_world_root_obs
+    add_world_root_obs(cfg)
+    print("!! actor observation: world-frame root pos/vel added (LAB21)")
   cfg.scene.num_envs = 1
   cfg.seed = args.seed
   if not args.keep_dr:
