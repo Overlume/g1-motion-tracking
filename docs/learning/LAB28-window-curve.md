@@ -117,7 +117,7 @@ EOF
 ls "$RUN"
 ```
 
-自检：`ls "$RUN"» 只应看到 README.md；`ls runs/*.md» 不应有输出（runs 根目录不能有文件）。
+自检：`ls "$RUN"` 只应看到 README.md；`ls runs/*.md` 不应有输出（runs 根目录不能有文件）。
 
 ### 步骤 3：Part A 生成 6 个窗口（≈1 min）
 
@@ -127,7 +127,7 @@ LAB28_RUN=runs/20261126-001-lab28-window-curve bash scripts/lab28_window_curve.s
 
 预期：
 - 0 s 与 60 s **已存在** → 打印「已有 … 跳过」。
-- 20/40/80/100 s 各打印一段 JSON + 一行 `[gate] PASS（max … mm / p99 … mm，阈值 20/20）»。
+- 20/40/80/100 s 各打印一段 JSON + 一行 `[gate] PASS（max … mm / p99 … mm，阈值 20/20）`。
 - dance1 的接触率极高（LAB22 实测 90%），所以穿地校正的幅度很小，预期 max 在 3–10 mm。
 
 自检：
@@ -151,7 +151,7 @@ LAB28_RUN=runs/20261126-001-lab28-window-curve bash scripts/lab28_window_curve.s
 ```
 
 - 这条命令会**先 build 再评估再出表**；已生成的窗口与已有 summary.json 都会跳过，所以中断后重跑同一条即可续。
-- 每次评估约 38 s，120 次 ≈75 min。日志里每行形如 `[lab28] m4 w020 seed101»。
+- 每次评估约 38 s，120 次 ≈75 min。日志里每行形如 `[lab28] m4 w020 seed101`。
 - 中途 Ctrl-C 不要紧：已完成的 seed 有 summary.json，重跑会 skip。
 
 自检（跑完）：
@@ -174,7 +174,7 @@ cat runs/20261126-001-lab28-window-curve/lab28_curve.md
 3. **看 LAB27 的 0 → 20 落差**：掉一半以上还是只掉一点？这是 (A)/(B) 的分水岭。
 4. **看最远窗口（100 s）**：LAB27 是否收敛到 M4 水平？还是仍明显高于 M4？
 5. **最后看逐种子配对差**：9–10/10 同向才算稳；5/5 分开说明该窗口的差是噪声。
-6. **自检行**：报告末尾会打印 `[lab28] 自检：LAB27 60 s 窗口 = …（上一轮 dance 60–80 s = 0.108）»。两个数应在 ±0.02 内一致；差得多说明这轮评估与 LAB27 那轮不可比（查 ckpt sha、窗口文件 sha）。
+6. **自检行**：报告末尾会打印 `[lab28] 自检：LAB27 60 s 窗口 = …（上一轮 dance 60–80 s = 0.108）`。两个数应在 ±0.02 内一致；差得多说明这轮评估与 LAB27 那轮不可比（查 ckpt sha、窗口文件 sha）。
 
 图：outputs/figures/lab28_window_curve.png（左：完成度曲线；右：存活帧）。
 

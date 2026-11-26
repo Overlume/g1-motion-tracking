@@ -640,7 +640,7 @@ ny_j55 = **20/19/19（58/60，97%）** → 交点从 ≈44.4 推到 **≈51.8 N�
 ## LAB27 结果（多片段联合训练，2026-11-26）
 
 - run：runs/20261125-004-lab27-multiclip；训练 **1 h 43 min 47 s**（18:15:01 → 19:58:48，单段无续训）、评估 80 次 ≈50 min。
-- 协议核对：ckpt `model_52998.pt» sha **8745f96e**…**125dac**；packed 目录 `motion_ends = [999 1999]»、env.yaml 的 `commands.motion.motion_file» 指向 `runs/…/motion_packed»；其余同 M4。
+- 协议核对：ckpt `model_52998.pt` sha **8745f96e**…**125dac**；packed 目录 `motion_ends = [999 1999]`、env.yaml 的 `commands.motion.motion_file` 指向 `runs/…/motion_packed`；其余同 M4。
 - 地面校正：dance1 0–20 s 穿地 32.9 → **3.5 mm**（p99 0.8）、60–80 s 9.9 → **5.9 mm**（p99 2.5），两次过 D41 闸。
 - 结果：train 0.999 → 0.999；held-out 0.099 → **0.097**（Δ −0.003，10/10 平）；unseen 0.025 → **0.026**（Δ +0.001）；dance1 60–80 s 0.061 → **0.108**（Δ +0.046，9/10 更好，存活 61 → 108 帧）。
 - 代价：train MPKPE 5.65 → 7.51 cm（+33%）、root 3.86 → 6.04 cm（+56%）；held-out 的误差「变好」是更快被终止的假象（reset 23.5 → 40.3）。
