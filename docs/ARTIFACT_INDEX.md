@@ -128,6 +128,16 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-26（LAB27 多片段联合训练）
+
+- runs/20261125-004-lab27-multiclip/ — README（协议核对 / 时间线 / 四窗口表 / 逐种子 / 判读 / 局限 / 复现）+ eval_summary.md|json + motion_packed/（motion_ends [999 1999]）+ logs/（model_50000…52998.pt，ckpt sha 8745f96e…125dac）
+- scripts/lab27_ground_fix.py — 参考动作地面高度校正（接触帧钳制 + 腾空帧线性插值，D41 闸门自检）
+- scripts/lab27_multiclip_train.py — 多片段打包 + 训练（packed 目录绕开 mjlab 单路径校验，可中断续训）
+- scripts/lab27_eval.sh、scripts/lab27_report.py — 4 窗口 × 10 种子 × 2 策略评估与出表
+- data/processed/dance1_000s_20s_gfix.npz、dance1_060s_20s_gfix.npz — 校正后片段（不入库，sha 见 run README）
+- docs/learning/LAB27-multiclip.md、LAB27-prediction.md — 讲义与参考回答
+- outputs/figures/lab27_multiclip.png — 完成度 + 存活帧双面板图
+
 ## 2026-11-25（LAB21 世界系根位姿观测）
 
 - 目的：P7——actor 末尾追加 `root_pos_w` / `root_vel_w` 共 6 维（160 → 166），其余全同 M4，检验「相对位姿观测有盲点」。
