@@ -15,7 +15,7 @@
 | 片段 2 | data/processed/dance1_000s_20s_gfix.npz sha a5961085…2bdc（1000 帧） | sha256sum |
 | 训练动作 | packed 目录 motion_packed：motion_ends = [999 1999]、joint_names 29 个、joint_pos (1999, 29) | np.load |
 | 训练配置 | 4096 envs、3000 iter、agent.seed 0、save_interval 500 | logs/…/params/env.yaml、agent.yaml |
-| ckpt | model_52998.pt sha **8745f96e2136e9187b8c2441812d72d95de125f846b147af14c76d680125dac** | sha256sum（已排除 pretrained/ 副本） |
+| ckpt | model_52998.pt sha **8745f96ee2136e9187b8c2441812d72d95de125f846b147af14c76d680125dac** | sha256sum（已排除 pretrained/ 副本） |
 | 评估 | scripts/eval_tracking.py，终止检测开、启动 DR 关、999 步；种子 101–110 | eval/<policy>/<window>/seed*/summary.json |
 
 地面校正（Part A，D41 闸门 max ≤20 mm 且 p99 ≤20 mm）：

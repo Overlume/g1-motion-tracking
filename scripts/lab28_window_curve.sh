@@ -33,7 +33,7 @@ L27_RUN="$LAB28_L27_RUN"
 
 SRC="data/processed/lafan_dance1_subject1.npz"
 PY="environment/.venv/bin/python"
-L27_SHA="8745f96e2136e9187b8c2441812d72d95de125f846b147af14c76d680125dac"
+L27_SHA="8745f96ee2136e9187b8c2441812d72d95de125f846b147af14c76d680125dac"
 
 say() { echo "[lab28] $*"; }
 die() { echo "[ERR] $*" >&2; exit 1; }
