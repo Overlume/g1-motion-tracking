@@ -128,6 +128,14 @@
 - scripts/lab14_replicate.sh — LAB14 重复实验（run/report/show；每遍写 <run>/rep<N>/，复用 LAB12 评估与判分）
 - scripts/lab14_compare.py — LAB14 汇总比较（每格×每遍计数、逐种子矩阵、噪声判定、与 LAB13 基线对照）
 
+## 2026-11-27（LAB28 窗口距离曲线）
+
+- run：`runs/20261126-001-lab28-window-curve/`（README、`lab28_curve.md|json`、`lab28_audit.md|json`、`eval.log`；eval/ 下 120 个 seed 目录不入库）
+- 脚本：`scripts/lab28_window_curve.sh`（build/run/report/show）、`scripts/lab28_report.py`（完成度/存活两张表 + 逐种子配对 + 形状描述 + 双面板图）、`scripts/lab28_audit.py`（零 GPU：参考难度 / 内容新颖度 / 首段对齐误差 + Spearman）
+- 图：`outputs/figures/lab28_window_curve.png`
+- 文档：`docs/learning/LAB28-window-curve.md`、`docs/learning/LAB28-prediction.md`
+- 数据（不入库，.gitignore 忽略 data/processed）：`data/processed/dance1_{000,020,040,060,080,100}s_20s_gfix.npz`（sha 前 8 位 a5961085 / 3d19b4ea / a4f0f34a / 5dbd4a04 / 6b34de8c / c17ed1fc）
+
 ## 2026-11-26（LAB27 多片段联合训练）
 
 - runs/20261125-004-lab27-multiclip/ — README（协议核对 / 时间线 / 四窗口表 / 逐种子 / 判读 / 局限 / 复现）+ eval_summary.md|json + motion_packed/（motion_ends [999 1999]）+ logs/（model_50000…52998.pt，ckpt sha 8745f96e…125dac）

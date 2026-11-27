@@ -115,7 +115,7 @@ run_stage() {
 
 report_stage() {
   "$PY" scripts/lab28_report.py --run "$RUN" --starts "$STARTS" --figure \
-    --title "LAB28 window distance curve (dance1, 20 seeds x 10)"
+    --title "LAB28 window distance curve (dance1, 6 windows x 10 seeds x 2 policies)"
 }
 
 case "$1" in
